@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DashedView">
+        <attr name="color" format="color" />
+        <attr name="dashLength" format="dimension" />
+        <attr name="dashGap" format="dimension" />
+        <attr name="dashThickness" format="dimension" />
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ScrollTextView">
+        <attr name="clickEnable" format="boolean" />
+        <attr name="isHorizontal" format="boolean" />
+        <attr name="speed" format="integer" />
+        <attr name="text" format="string" />
+        <attr name="text_color" format="color" />
+        <attr name="text_size" format="dimension" />
+        <attr name="times" format="integer" />
+
+        <attr name="isScrollForever" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SwipeLayout">
+        <attr name="swipeDirection" format="integer">
+            <flag name="left" value="1" />
+            <flag name="right" value="2" />
+        </attr>
+        <attr name="isEnabledSwipe" format="boolean" />
+        <attr name="isFreeDragAfterOpen" format="boolean" />
+        <attr name="isFreeHorizontalDrag" format="boolean" />
+        <attr name="isContinuousSwipe" format="boolean" />
+        <attr name="isTogether" format="boolean" />
+        <attr name="rightItem" format="reference" />
+        <attr name="leftItem" format="reference" />
+        <attr name="draggedItem" format="reference" />
+        <attr name="autoMovingSensitivity" format="integer" />
+        <attr name="rightDragViewPadding" format="dimension" />
+        <attr name="leftDragViewPadding" format="dimension" />
+    </declare-styleable>
+
+</resources>
