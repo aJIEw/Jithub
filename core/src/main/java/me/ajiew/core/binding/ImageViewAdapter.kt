@@ -1,13 +1,15 @@
 package me.ajiew.core.binding
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.databinding.BindingAdapter
-import java.util.*
+import coil.imageLoader
+import coil.request.ImageRequest
+import coil.transform.RoundedCornersTransformation
+import com.blankj.utilcode.util.ConvertUtils.dp2px
+import me.ajiew.core.widget.CircleCropStrokeTransformation
 
 
 @BindingAdapter("imageViewTint")
@@ -17,72 +19,44 @@ fun setImageViewTint(imageView: ImageView, @ColorInt tintColor: Int) {
     }
 }
 
-/*
+/**
+ * Load image from url and set image radius
+ *
+ * @param radiusUrl image url
+ * @param radius radius in dp
+ * @param radiusBorderColor border color, it will override [radius] if both supplied
+ * */
 @BindingAdapter(
-    value = ["radiusUrl", "radius", "radiusBorderColor", "layout_width", "layout_height"],
+    value = ["radiusUrl", "radius", "radiusBorderColor"],
     requireAll = false
 )
 fun setImageUrlWithRadius(
-    imageView: ImageView, url: String, radius: Int,
-    @ColorInt radiusBorderColor: Int,
-    imageWidth: Float, imageHeight: Float
+    imageView: ImageView, radiusUrl: String,
+    radius: Int, @ColorInt radiusBorderColor: Int,
 ) {
-    if (!TextUtils.isEmpty(url) && !url.contains("null") && !url.endsWith("aliyuncs.com")) {
+    if (!TextUtils.isEmpty(radiusUrl) && !radiusUrl.contains("null")) {
         imageView.visibility = View.VISIBLE
         val context = imageView.context
-        val builder: RequestBuilder<Drawable> = Glide.with(context).load(url)
-        if (radius > 0) {
-            setupImageWithRadius(
-                imageView,
-                builder,
-                radius,
-                radiusBorderColor,
-                imageWidth,
-                imageHeight
-            )
-        } else {
-            setupImageWithOriginal(imageView, builder, imageWidth, imageHeight)
-        }
+        val request = ImageRequest.Builder(context)
+            .data(radiusUrl).apply {
+                if (radius > 0) {
+                    transformations(RoundedCornersTransformation(dp2px(radius.toFloat()).toFloat()))
+                }
+
+                if (radiusBorderColor != 0) {
+                    transformations(
+                        CircleCropStrokeTransformation(
+                            CircleCropStrokeTransformation.Stroke(
+                                4f,
+                                radiusBorderColor
+                            )
+                        )
+                    )
+                }
+            }.target(imageView).build()
+
+        context.imageLoader.enqueue(request)
     } else {
         imageView.visibility = View.GONE
     }
 }
-
-private fun setupImageWithRadius(
-    imageView: ImageView, builder: RequestBuilder<Drawable>,
-    radius: Int, @ColorInt radiusBorderColor: Int,
-    imageWidth: Float, imageHeight: Float
-) {
-    val transformationList: MutableList<Transformation<Bitmap>> =
-        ArrayList<Transformation<Bitmap>>()
-    transformationList.add(RoundedCorners(dp2px(radius)))
-    if (radiusBorderColor != 0) {
-        transformationList.add(GlideCircleBorderTransform(4f, radiusBorderColor))
-    }
-    val options: RequestOptions = RequestOptions().transforms(
-        transformationList.toTypedArray()
-    )
-    if (imageWidth > 0 && imageHeight > 0) {
-        val layoutParams = imageView.layoutParams
-        layoutParams.width = dp2px(imageWidth)
-        layoutParams.height = dp2px(imageHeight)
-    }
-    builder.apply(options).into(imageView)
-}
-
-private fun setupImageWithOriginal(
-    imageView: ImageView, builder: RequestBuilder<Drawable>,
-    imageWidth: Float, imageHeight: Float
-) {
-    val options: RequestOptions = RequestOptions()
-        .fitCenter()
-        .format(DecodeFormat.PREFER_ARGB_8888)
-    if (imageWidth > 0 && imageHeight > 0) {
-        val layoutParams = imageView.layoutParams
-        layoutParams.width = dp2px(imageWidth)
-        layoutParams.height = dp2px(imageHeight)
-        builder.apply(options).into(imageView)
-    } else {
-        builder.apply(options.override(Target.SIZE_ORIGINAL)).into(imageView)
-    }
-}*/

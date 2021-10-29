@@ -3,11 +3,11 @@ package me.ajiew.core.binding
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.text.Layout
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import coil.imageLoader
 import coil.request.ImageRequest
@@ -49,7 +49,9 @@ fun drawableRightUrl(
 }
 
 @BindingAdapter(
-    value = ["drawableLeftUrl", "drawableLeftWidth", "drawableLeftHeight", "drawableLeftTint", "drawablePadding", "drawablePaddingTop"],
+    value = ["drawableLeftUrl", "drawableLeftTint",
+        "drawableLeftWidth", "drawableLeftHeight",
+        "drawablePadding", "drawablePaddingTop"],
     requireAll = false
 )
 fun drawableLeftUrl(
@@ -113,15 +115,16 @@ private fun setIntrinsicBounds(drawable: Drawable?, paddingTop: Int) {
     )
 }
 
-/*@BindingAdapter(value = ["htmlText"])
+@BindingAdapter(value = ["htmlText"])
 fun setHTMLText(textView: TextView, htmlText: String?) {
     if (htmlText == null) return
     textView.text = removeLineBreaks(
-        HtmlSpanner(
-            textView.currentTextColor, textView.textSize
-        ).fromHtml(htmlText)
+        HtmlCompat.fromHtml(
+            htmlText,
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
     )
-}*/
+}
 
 private fun removeLineBreaks(text: CharSequence): CharSequence {
     var copy = text
