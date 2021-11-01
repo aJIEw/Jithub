@@ -79,30 +79,40 @@ private fun loadImage(
             .target { drawable ->
                 setIntrinsicBounds(drawable, paddingTop.coerceAtLeast(0))
 
-                val wrapped = DrawableCompat.wrap(drawable)
-                if (tintColor != 0) {
-                    DrawableCompat.setTint(wrapped, tintColor)
-                }
                 textView.compoundDrawablePadding =
                     dp2px(padding.coerceAtLeast(0).toFloat())
-                val drawables = textView.compoundDrawables
-                when (direction) {
-                    0 -> textView.setCompoundDrawables(
-                        wrapped, drawables[1], drawables[2], drawables[3]
-                    )
-                    1 -> textView.setCompoundDrawables(
-                        drawables[0], wrapped, drawables[2], drawables[3]
-                    )
-                    2 -> textView.setCompoundDrawables(
-                        drawables[0], drawables[1], wrapped, drawables[3]
-                    )
-                    3 -> textView.setCompoundDrawables(
-                        drawables[0], drawables[1], drawables[2], wrapped
-                    )
-                }
+
+                val wrapped = DrawableCompat.wrap(drawable)
+                setTextViewDrawables(textView, wrapped, tintColor, direction)
             }.build()
 
         textView.context.imageLoader.enqueue(request)
+    }
+}
+
+private fun setTextViewDrawables(
+    textView: TextView, targetDrawable: Drawable?,
+    @ColorInt tintColor: Int, direction: Int
+) {
+    if (targetDrawable == null) return
+
+    if (tintColor != 0) {
+        DrawableCompat.setTint(targetDrawable, tintColor)
+    }
+    val drawables = textView.compoundDrawables
+    when (direction) {
+        0 -> textView.setCompoundDrawables(
+            targetDrawable, drawables[1], drawables[2], drawables[3]
+        )
+        1 -> textView.setCompoundDrawables(
+            drawables[0], targetDrawable, drawables[2], drawables[3]
+        )
+        2 -> textView.setCompoundDrawables(
+            drawables[0], drawables[1], targetDrawable, drawables[3]
+        )
+        3 -> textView.setCompoundDrawables(
+            drawables[0], drawables[1], drawables[2], targetDrawable
+        )
     }
 }
 
@@ -133,3 +143,28 @@ private fun removeLineBreaks(text: CharSequence): CharSequence {
     }
     return copy
 }
+
+@BindingAdapter(value = ["drawableTintLeft"])
+fun setDrawableLeftTint(textView: TextView, @ColorInt tintColor: Int) {
+    val drawables = textView.compoundDrawables
+    setTextViewDrawables(textView, drawables[0], tintColor, 0)
+}
+
+@BindingAdapter(value = ["drawableTintTop"])
+fun setDrawableTopTint(textView: TextView, @ColorInt tintColor: Int) {
+    val drawables = textView.compoundDrawables
+    setTextViewDrawables(textView, drawables[1], tintColor, 1)
+}
+
+@BindingAdapter(value = ["drawableTintRight"])
+fun setDrawableRightTint(textView: TextView, @ColorInt tintColor: Int) {
+    val drawables = textView.compoundDrawables
+    setTextViewDrawables(textView, drawables[2], tintColor, 2)
+}
+
+@BindingAdapter(value = ["drawableTintBottom"])
+fun setDrawableBottomTint(textView: TextView, @ColorInt tintColor: Int) {
+    val drawables = textView.compoundDrawables
+    setTextViewDrawables(textView, drawables[3], tintColor, 3)
+}
+

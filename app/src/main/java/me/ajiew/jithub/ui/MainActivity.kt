@@ -11,6 +11,7 @@ import com.qmuiteam.qmui.util.QMUIStatusBarHelper
 import me.ajiew.jithub.R
 import me.ajiew.jithub.ui.explore.ExploreFragment
 import me.ajiew.jithub.ui.home.HomeFragment
+import me.ajiew.jithub.ui.home.TestFragment
 import me.ajiew.jithub.ui.profile.ProfileFragment
 import java.util.*
 
