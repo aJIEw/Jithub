@@ -6,7 +6,4 @@
     <color name="secondary_color">#00ffe1</color>
     <color name="secondary_color_light">#6fffff</color>
     <color name="secondary_color_dark">#00cbaf</color>
-
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 </resources>

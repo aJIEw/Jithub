@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common Colors -->
+    <color name="black">#FF000000</color>
+    <color name="alpha_black">#99000000</color>
+    <color name="alpha_black_light">#4D000000</color>
+    <color name="alpha_black_dark">#80000000</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_transparent">#B3FFFFFF</color>
+    <color name="grey">#e6e6e6</color>
+    <color name="grey_light">#f2f2f2</color>
+    <color name="grey_dark">#bbb9bc</color>
+
+    <color name="content_background">#f7f7f7</color>
+    <color name="content_background_light">#fafafa</color>
+    <color name="content_background_dark">#f4f4f4</color>
+
+    <color name="color_disable">#cccccc</color>
+    <color name="color_disable_dark">#B3B3B3</color>
+
+    <color name="divider_line">#e6e6e6</color>
+    <color name="divider_grey">#ccc</color>
+
+    <color name="border_grey">#979797</color>
+
+    <color name="image_disable">#80f7f7f7</color>
+
+
+    <!-- Text Colors -->
+    <color name="text_content">#333</color>
+    <color name="text_content_light">#555</color>
+    <color name="text_grey">#666</color>
+    <color name="text_hint">#999</color>
+    <color name="text_disable">#ccc</color>
+</resources>
