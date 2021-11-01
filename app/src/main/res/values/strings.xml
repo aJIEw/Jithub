@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">JitHub</string>
+    <string name="app_name" translatable="false">JitHub</string>
 
-    <string name="tab_home">首页</string>
-    <string name="tab_explore">发现</string>
-    <string name="tab_profile">我的</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_explore">Explore</string>
+    <string name="tab_profile">Profile</string>
 </resources>

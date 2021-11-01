@@ -2,6 +2,8 @@ package me.ajiew.jithub.common
 
 import androidx.lifecycle.ViewModel
 import me.ajiew.core.base.viewmodel.BaseViewModelFactory
+import me.ajiew.jithub.data.repository.RepoResolver
+import me.ajiew.jithub.ui.explore.ExploreViewModel
 
 
 class ViewModelFactory : BaseViewModelFactory() {
@@ -10,9 +12,9 @@ class ViewModelFactory : BaseViewModelFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = with(modelClass) {
         try {
             return when {
-                /*isAssignableFrom(PagingViewModel::class.java) -> {
-                    PagingViewModel(RepoResolver.githubRepository) as T
-                }*/
+                isAssignableFrom(ExploreViewModel::class.java) -> {
+                    ExploreViewModel(RepoResolver.exploreRepository) as T
+                }
                 else -> throw IllegalArgumentException("Unknown ViewModel class: $name")
             }
         } catch (e: InstantiationException) {

@@ -2,10 +2,15 @@ package me.ajiew.jithub.ui.explore
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.github.nukc.stateview.StateView
+import com.hjq.toast.ToastUtils
+import me.ajiew.core.base.BaseFragment
+import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
+import me.ajiew.jithub.common.ViewModelFactory
+import me.ajiew.jithub.data.response.TrendingRepo
+import me.ajiew.jithub.databinding.FragmentExploreBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,12 +18,18 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
- * Use the [ExploreFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * Explore tab
  */
-class ExploreFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreViewModel>() {
+
+    override val layoutId: Int = R.layout.fragment_explore
+
+    override val viewModelId: Int = BR.vm
+
+    override val viewModel: ExploreViewModel by viewModels {
+        ViewModelFactory.instance
+    }
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -30,12 +41,33 @@ class ExploreFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+    @Suppress("UNCHECKED_CAST")
+    override fun onSuccess(data: Any, message: String) {
+        super.onSuccess(data, message)
+
+        val repos = data as List<TrendingRepo>
+    }
+
+    override fun onFailed(errorData: Any?, message: String) {
+        super.onFailed(errorData, message)
+
+        ToastUtils.show(message)
+        binding.stateView.showRetry()
+        binding.stateView.onRetryClickListener = object : StateView.OnRetryClickListener {
+            override fun onRetryClick() {
+                viewModel.fetchData()
+            }
+        }
+    }
+
+    override fun showLoading() {
+        super.showLoading()
+        binding.stateView.showLoading()
+    }
+
+    override fun hideLoading() {
+        super.hideLoading()
+        binding.stateView.showContent()
     }
 
     companion object {

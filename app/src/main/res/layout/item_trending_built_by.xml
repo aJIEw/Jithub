@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="item"
+            type="me.ajiew.jithub.data.response.BuiltBy" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_half">
+
+        <ImageView
+            radiusBorderColor="@{@color/grey}"
+            radiusUrl="@{item.avatar}"
+            tools:src="@tools:sample/avatars"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+    </FrameLayout>
+</layout>

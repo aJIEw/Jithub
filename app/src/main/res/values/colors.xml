@@ -3,7 +3,9 @@
     <color name="primary_color">#0076c9</color>
     <color name="primary_color_light">#5ba4fd</color>
     <color name="primary_color_dark">#004b98</color>
-    <color name="secondary_color">#00ffe1</color>
-    <color name="secondary_color_light">#6fffff</color>
-    <color name="secondary_color_dark">#00cbaf</color>
+    <color name="secondary_color">#7da7c4</color>
+    <color name="secondary_color_light">#aed8f7</color>
+    <color name="secondary_color_dark">#4e7893</color>
+
+    <color name="color_gold">#FFD300</color>
 </resources>

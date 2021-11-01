@@ -4,22 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2421875" />
+        <entry key="app/src/main/res/drawable/ic_circle_filled.xml" value="0.2421875" />
+        <entry key="app/src/main/res/drawable/ic_empty.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_explore_active.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_explore_inactive.xml" value="0.228125" />
+        <entry key="app/src/main/res/drawable/ic_fork.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_home_active.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_home_inactive.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_profile_active.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_profile_inactive.xml" value="0.228125" />
+        <entry key="app/src/main/res/drawable/ic_retry.xml" value="0.2421875" />
+        <entry key="app/src/main/res/drawable/ic_star.xml" value="0.2421875" />
+        <entry key="app/src/main/res/drawable/ic_star_filled.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_tab_explore.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_tab_home.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_tab_profile.xml" value="0.228125" />
+        <entry key="app/src/main/res/drawable/ic_user.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/launch_background.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/base_empty.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/layout/base_retry.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.2130637636080871" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.11145833333333334" />
+        <entry key="app/src/main/res/layout/item_trending_built_by.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/item_trending_repo.xml" value="0.335" />
         <entry key="app/src/main/res/layout/view_loading.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
