@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper
 import me.ajiew.jithub.R
 import me.ajiew.jithub.ui.explore.ExploreFragment
 import me.ajiew.jithub.ui.home.HomeFragment
@@ -32,10 +33,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setLightStatusBar() {
-        window.navigationBarColor = resources.getColor(android.R.color.background_dark)
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+        val root = findViewById<View>(android.R.id.content).rootView
+
+        window.navigationBarColor = ContextCompat.getColor(this, android.R.color.background_dark)
         window.statusBarColor = Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, root).isAppearanceLightStatusBars = true
     }
 
     private fun initFragment() {
@@ -73,19 +75,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigationBar() {
         navView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener { item: MenuItem ->
+        navView.setOnItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.nav_home -> {
                     commitAllowingStateLoss(0)
-                    return@setOnNavigationItemSelectedListener true
+                    return@setOnItemSelectedListener true
                 }
                 R.id.nav_mall -> {
                     commitAllowingStateLoss(1)
-                    return@setOnNavigationItemSelectedListener true
+                    return@setOnItemSelectedListener true
                 }
                 R.id.nav_mine -> {
                     commitAllowingStateLoss(2)
-                    return@setOnNavigationItemSelectedListener true
+                    return@setOnItemSelectedListener true
                 }
             }
             false

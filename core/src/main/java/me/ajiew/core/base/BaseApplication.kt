@@ -11,8 +11,10 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.util.CoilUtils
 import com.hjq.toast.ToastUtils
+import me.ajiew.core.BuildConfig
 import me.ajiew.core.util.AppManager
 import okhttp3.OkHttpClient
+import timber.log.Timber
 
 /**
  *
@@ -29,6 +31,10 @@ open class BaseApplication : Application(), ImageLoaderFactory {
         setApplication(this)
 
         ToastUtils.init(this)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     override fun newImageLoader(): ImageLoader {

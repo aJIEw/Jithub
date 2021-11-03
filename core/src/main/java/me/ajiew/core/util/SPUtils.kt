@@ -31,7 +31,7 @@ class SPUtils private constructor(spName: String) {
      * @param key 键
      * @return 存在返回对应值，不存在返回默认值`""`
      */
-    fun getString(key: String): String? {
+    fun getString(key: String): String {
         return getString(key, "")
     }
 
@@ -42,8 +42,8 @@ class SPUtils private constructor(spName: String) {
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值`defaultValue`
      */
-    fun getString(key: String, defaultValue: String): String? {
-        return sp.getString(key, defaultValue)
+    fun getString(key: String, defaultValue: String): String {
+        return sp.getString(key, defaultValue) ?: defaultValue
     }
 
     /**
@@ -176,7 +176,7 @@ class SPUtils private constructor(spName: String) {
      * @param key    键
      * @param values 值
      */
-    fun put(key: String, values: Set<String?>) {
+    fun put(key: String, values: Set<String>) {
         sp.edit().putStringSet(key, values).apply()
     }
 
@@ -186,8 +186,8 @@ class SPUtils private constructor(spName: String) {
      * @param key 键
      * @return 存在返回对应值，不存在返回默认值`Collections.<String>emptySet()`
      */
-    fun getStringSet(key: String): Set<String>? {
-        return getStringSet(key, emptySet<String>())
+    fun getStringSet(key: String): Set<String> {
+        return getStringSet(key, emptySet())
     }
 
     /**
@@ -197,8 +197,8 @@ class SPUtils private constructor(spName: String) {
      * @param defaultValue 默认值
      * @return 存在返回对应值，不存在返回默认值`defaultValue`
      */
-    fun getStringSet(key: String, defaultValue: Set<String?>): Set<String>? {
-        return sp.getStringSet(key, defaultValue)
+    fun getStringSet(key: String, defaultValue: Set<String>): Set<String> {
+        return sp.getStringSet(key, defaultValue) ?: emptySet()
     }
 
     /**
@@ -214,7 +214,7 @@ class SPUtils private constructor(spName: String) {
      * SP中是否存在该key
      *
      * @param key 键
-     * @return `true`: 存在<br></br>`false`: 不存在
+     * @return `true`: 存在; `false`: 不存在
      */
     operator fun contains(key: String): Boolean {
         return sp.contains(key)
