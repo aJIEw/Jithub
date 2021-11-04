@@ -11,4 +11,7 @@ object ServiceResolver {
         NetworkCreator.createBaseTrending(TrendingService::class.java)
     }
 
+    val userService by lazy {
+        NetworkCreator.createBaseGithub(UserService::class.java)
+    }
 }

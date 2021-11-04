@@ -36,7 +36,7 @@ class ExploreViewModel(private val repository: ExploreRepository) :
         uiState.value = UIState.Loading
 
         viewModelScope.launch {
-            val results = repository.fetchTrendingRepos("", "")
+            val results = repository.requestTrendingRepos("", "")
             uiState.value = when (results) {
                 is Results.Success -> {
                     if (results.data.isNotEmpty()) {

@@ -7,7 +7,7 @@ import me.ajiew.jithub.data.response.TrendingRepo
 
 interface ExploreRepository : IRepository {
 
-    suspend fun fetchTrendingRepos(
+    suspend fun requestTrendingRepos(
         language: String,
         spokenLanguageCode: String
     ): Results<List<TrendingRepo>>

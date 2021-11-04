@@ -1,11 +1,9 @@
 package me.ajiew.jithub.data.repository
 
-import kotlinx.coroutines.delay
 import me.ajiew.core.base.repository.BaseRepositoryRemote
 import me.ajiew.core.base.repository.IRemoteDataSource
 import me.ajiew.core.data.Results
 import me.ajiew.core.util.SingletonHolderSingleArg
-import me.ajiew.jithub.BuildConfig
 import me.ajiew.jithub.data.response.BuiltBy
 import me.ajiew.jithub.data.response.TrendingRepo
 import me.ajiew.jithub.data.service.TrendingService
@@ -19,13 +17,13 @@ import timber.log.Timber
 class ExploreRepositoryImpl(remoteDataSource: ExploreRemoteDataSource) : ExploreRepository,
     BaseRepositoryRemote<ExploreRemoteDataSource>(remoteDataSource) {
 
-    override suspend fun fetchTrendingRepos(
+    override suspend fun requestTrendingRepos(
         language: String,
         spokenLanguageCode: String
     ): Results<List<TrendingRepo>> {
         return try {
-            val articles = remoteDataSource.fetchRepos(language, spokenLanguageCode)
-            Results.Success(articles)
+            val result = remoteDataSource.fetchRepos(language, spokenLanguageCode)
+            Results.Success(result)
         } catch (e: Exception) {
             Timber.e(e)
             Results.Error(e)
@@ -39,10 +37,10 @@ class ExploreRepositoryImpl(remoteDataSource: ExploreRemoteDataSource) : Explore
 class ExploreRemoteDataSource(private val trendingService: TrendingService) : IRemoteDataSource {
 
     suspend fun fetchRepos(language: String, spokenLanguageCode: String): List<TrendingRepo> {
-        if (BuildConfig.DEBUG) {
+        /*if (BuildConfig.DEBUG) {
             delay(500)
             return getDummySuccessData()
-        }
+        }*/
 
         return trendingService.fetchRepos(
             language = language,

@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/drawable/ic_user.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/launch_background.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/activity_webview.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/base_empty.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/base_retry.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.2130637636080871" />

@@ -15,11 +15,11 @@ object RepoResolver {
         )
     }
 
-
-    /*val githubRepository by lazy {
-        GithubRepositoryImpl.getInstance(
-            GithubRemoteDataSource.getInstance(ServiceResolver.githubService)
+    val userRepository by lazy {
+        UserRepositoryImpl.getInstance(
+            UserRemoteDataSource.getInstance(ServiceResolver.userService),
+            UserLocalDataSource.instance
         )
-    }*/
+    }
 
 }

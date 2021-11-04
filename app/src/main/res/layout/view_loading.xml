@@ -18,7 +18,7 @@
         android:layout_margin="5dp"
         android:background="@color/alpha_black_light"
         android:padding="@dimen/dp_single"
-        android:visibility="gone"
+        app:gone="@{!visible}"
         app:qmui_radius="10dp"
         app:qmui_shadowElevation="5dp"
         tools:visibility="visible">
@@ -27,6 +27,7 @@
             style="?android:progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:indeterminate="true"
             android:indeterminateTint="@color/white"
             android:indeterminateTintMode="src_atop" />

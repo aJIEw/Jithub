@@ -11,7 +11,9 @@ import java.util.concurrent.TimeUnit
 
 object NetworkCreator {
 
-    private const val BASE_URL = "https://api.github.com/"
+    private const val BASE_GITHUB_URL = "https://github.com/"
+
+    private const val BASE_API_URL = "https://api.github.com/"
 
     private const val BASE_TRENDING_URL = "https://gtrend.yapie.me/"
 
@@ -32,12 +34,26 @@ object NetworkCreator {
         .connectionPool(ConnectionPool(MAX_IDLE_CONNECTION, KEEP_ALIVE_DURATION, TimeUnit.SECONDS))
         .build()
 
+    private val baseGithubRetrofit = Retrofit.Builder()
+        .baseUrl(BASE_GITHUB_URL)
+        .client(httpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val baseGithubApiRetrofit = Retrofit.Builder()
+        .baseUrl(BASE_API_URL)
+        .client(httpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
     private val baseTrendingRetrofit = Retrofit.Builder()
         .baseUrl(BASE_TRENDING_URL)
         .client(httpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
+
+    fun <T> createBaseGithub(serviceClass: Class<T>): T = baseGithubRetrofit.create(serviceClass)
 
     fun <T> createBaseTrending(serviceClass: Class<T>): T = baseTrendingRetrofit.create(serviceClass)
 }

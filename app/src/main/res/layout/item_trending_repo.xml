@@ -164,7 +164,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_star"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/material_button_height"
             android:layout_marginHorizontal="@dimen/dp_triple"
             android:layout_marginVertical="@dimen/dp_double"
             android:onClick="@{vm::onClickStar}"
