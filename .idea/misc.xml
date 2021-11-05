@@ -28,8 +28,11 @@
         <entry key="app/src/main/res/layout/base_retry.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.2130637636080871" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.11145833333333334" />
+        <entry key="app/src/main/res/layout/item_event_timeline.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/item_timeline_event.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/item_trending_built_by.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/item_trending_repo.xml" value="0.335" />
         <entry key="app/src/main/res/layout/view_loading.xml" value="0.22604166666666667" />

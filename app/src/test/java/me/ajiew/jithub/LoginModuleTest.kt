@@ -1,15 +1,14 @@
 package me.ajiew.jithub
 
 import android.net.Uri
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 class LoginModuleTest {
     @Test
     fun getQueryParams_isCorrect() {

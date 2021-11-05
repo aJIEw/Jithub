@@ -3,6 +3,8 @@ package me.ajiew.jithub.data.repository
 import me.ajiew.core.base.repository.IRepository
 import me.ajiew.core.data.Results
 import me.ajiew.jithub.data.response.AuthToken
+import me.ajiew.jithub.data.response.EventTimeline
+import me.ajiew.jithub.data.response.FeedsTemplate
 
 /**
  *
@@ -16,4 +18,12 @@ interface UserRepository : IRepository {
     fun getAccessToken(): String
 
     fun saveAccessToken(token: String)
+
+    suspend fun requestUserFeeds(): Results<FeedsTemplate>
+
+    fun getUserName(): String
+
+    fun saveUserName(name: String)
+
+    suspend fun requestUserTimeline(name: String): Results<List<EventTimeline>>
 }

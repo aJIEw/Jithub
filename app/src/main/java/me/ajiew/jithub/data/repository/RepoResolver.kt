@@ -17,7 +17,10 @@ object RepoResolver {
 
     val userRepository by lazy {
         UserRepositoryImpl.getInstance(
-            UserRemoteDataSource.getInstance(ServiceResolver.userService),
+            UserRemoteDataSource.getInstance(
+                ServiceResolver.loginService,
+                ServiceResolver.userService
+            ),
             UserLocalDataSource.instance
         )
     }
