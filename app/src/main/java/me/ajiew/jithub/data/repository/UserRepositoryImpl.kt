@@ -9,6 +9,8 @@ import me.ajiew.core.util.SPUtils
 import me.ajiew.core.util.SingletonHolderDoubleArg
 import me.ajiew.jithub.BuildConfig.GITHUB_CLIENT_ID
 import me.ajiew.jithub.BuildConfig.GITHUB_CLIENT_SECRET
+import me.ajiew.jithub.common.Constants
+import me.ajiew.jithub.data.model.UserProfile
 import me.ajiew.jithub.data.response.AuthToken
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.FeedsTemplate
@@ -41,10 +43,17 @@ class UserRepositoryImpl(
     }
 
     override fun getAccessToken(): String {
-        return localDataSource.accessToken
+        val token = localDataSource.accessToken
+        if (token.isNotEmpty()) {
+            UserProfile.accessToken = token
+            SPUtils.instance.put(Constants.SP_USER_LOGGED_IN, true)
+        }
+        return token
     }
 
     override fun saveAccessToken(token: String) {
+        UserProfile.accessToken = token
+        SPUtils.instance.put(Constants.SP_USER_LOGGED_IN, true)
         localDataSource.accessToken = token
     }
 
@@ -58,9 +67,16 @@ class UserRepositoryImpl(
         }
     }
 
-    override fun getUserName(): String = localDataSource.userName
+    override fun getUserName(): String {
+        val name = localDataSource.userName
+        if (name.isNotEmpty()) {
+            UserProfile.userName = name
+        }
+        return name
+    }
 
     override fun saveUserName(name: String) {
+        UserProfile.userName = name
         localDataSource.userName = name
     }
 

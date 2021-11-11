@@ -45,7 +45,7 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
                     val feedsTemplate = results.data
                     val userUrl = feedsTemplate.current_user_public_url
                     if (userUrl != null) {
-                        val name = userUrl.substring(userUrl.lastIndexOf("/"))
+                        val name = userUrl.substring(userUrl.lastIndexOf("/") + 1)
                         userName = name
                         repository.saveUserName(name)
                     }

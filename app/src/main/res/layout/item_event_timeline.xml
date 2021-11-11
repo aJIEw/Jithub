@@ -34,7 +34,7 @@
             android:id="@+id/tv_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_single"
+            android:layout_marginHorizontal="@dimen/dp_single"
             android:text='@{vm.actor.display_login + " " + vm.type + " " + vm.repo.name}'
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textSize="@dimen/sp_heading"

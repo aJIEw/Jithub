@@ -38,7 +38,7 @@ object NetworkCreator {
                     else HttpLoggingInterceptor.Level.NONE
                 ))
         .addInterceptor(GithubExpiredInterceptor())
-//        .addInterceptor(AuthHeaderInterceptor(RepoResolver.userRepository))
+        .addInterceptor(AuthHeaderInterceptor())
         .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
         .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
         .connectionPool(ConnectionPool(MAX_IDLE_CONNECTION, KEEP_ALIVE_DURATION, TimeUnit.SECONDS))

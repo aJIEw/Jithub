@@ -1,6 +1,9 @@
 package me.ajiew.jithub.data.service.interceptor
 
 import me.ajiew.core.base.http.BaseExpiredInterceptor
+import me.ajiew.core.util.SPUtils
+import me.ajiew.jithub.common.Constants
+import me.ajiew.jithub.data.model.UserProfile
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Response
@@ -25,10 +28,13 @@ class GithubExpiredInterceptor : BaseExpiredInterceptor() {
         chain: Interceptor.Chain,
         bodyString: String
     ): Response? {
-        val responseBuilder = Response.Builder()
-
         if (oldResponse?.code == CODE_TOKEN_EXCEPTION) {
-            return responseBuilder.body(
+
+            UserProfile.clearAll()
+            SPUtils.instance.put(Constants.SP_USER_LOGGED_IN, false)
+            // TODO: 2021/11/10 show login expired message and login page
+
+            return oldResponse.newBuilder().body(
                 bodyString.toResponseBody("application/json; charset=utf-8".toMediaTypeOrNull())
             ).build()
         }

@@ -6,9 +6,7 @@ import kotlinx.coroutines.launch
 import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
 import me.ajiew.core.data.Results
-import me.ajiew.core.util.SPUtils
 import me.ajiew.jithub.BuildConfig
-import me.ajiew.jithub.common.Constants
 import me.ajiew.jithub.data.repository.UserRepository
 
 /**
@@ -37,7 +35,6 @@ class MainViewModel(private val repository: UserRepository) : BaseViewModel<User
 
                     accessToken = authToken.access_token
                     repository.saveAccessToken(accessToken)
-                    SPUtils.instance.put(Constants.SP_USER_LOGGED_IN, true)
 
                     if (BuildConfig.DEBUG) {
                         ToastUtils.show(accessToken)
