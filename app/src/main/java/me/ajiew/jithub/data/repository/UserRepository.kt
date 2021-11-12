@@ -25,5 +25,5 @@ interface UserRepository : IRepository {
 
     fun saveUserName(name: String)
 
-    suspend fun requestUserTimeline(name: String): Results<List<EventTimeline>>
+    suspend fun requestUserTimeline(name: String, page: Int = 1): Results<List<EventTimeline>>
 }

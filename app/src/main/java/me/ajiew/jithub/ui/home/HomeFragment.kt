@@ -2,10 +2,15 @@ package me.ajiew.jithub.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.ConvertUtils.dp2px
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.common.ViewModelFactory
+import me.ajiew.jithub.data.response.EventTimeline
+import me.ajiew.jithub.data.response.FeedsTemplate
 import me.ajiew.jithub.databinding.FragmentHomeBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,6 +39,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+    }
+
+    override fun initView() {
+        super.initView()
+
+        binding.rvTimeline.adapter = viewModel.timelineAdapter
+        binding.refreshLayout.isRefreshing = true
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+        }
+    }
+
+    override fun onSuccess(data: Any, message: String) {
+        super.onSuccess(data, message)
+
+        if (data is FeedsTemplate) {
+
+        }
+    }
+
+    override fun hideLoading() {
+        super.hideLoading()
+
+        binding.refreshLayout.isRefreshing = false
     }
 
     companion object {

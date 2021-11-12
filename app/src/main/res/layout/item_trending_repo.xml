@@ -170,12 +170,11 @@
             android:onClick="@{vm::onClickStar}"
             android:text="Star"
             android:textAllCaps="false"
-            app:cornerRadius="4dp"
+            app:cornerRadius="@dimen/dp_half"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_build_by_label"
-            tools:background="@color/secondary_color"
             tools:gravity="center"
             tools:textColor="@color/white" />
     </com.qmuiteam.qmui.layout.QMUIConstraintLayout>

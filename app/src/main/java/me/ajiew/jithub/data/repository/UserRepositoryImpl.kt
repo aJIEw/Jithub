@@ -80,9 +80,9 @@ class UserRepositoryImpl(
         localDataSource.userName = name
     }
 
-    override suspend fun requestUserTimeline(name: String): Results<List<EventTimeline>> {
+    override suspend fun requestUserTimeline(name: String, page: Int): Results<List<EventTimeline>> {
         return try {
-            val result = remoteDataSource.getUserTimeline(name)
+            val result = remoteDataSource.getUserTimeline(name, page)
             Results.Success(result)
         } catch (e: Exception) {
             Timber.e(e)
@@ -111,8 +111,8 @@ class UserRemoteDataSource(
         return userService.getUserFeeds()
     }
 
-    suspend fun getUserTimeline(userName: String): List<EventTimeline> {
-        return userService.getUserTimeline(userName)
+    suspend fun getUserTimeline(userName: String, page: Int): List<EventTimeline> {
+        return userService.getUserTimeline(userName, page)
     }
 
     companion object :

@@ -5,6 +5,7 @@ import me.ajiew.jithub.data.response.FeedsTemplate
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  *
@@ -13,11 +14,21 @@ import retrofit2.http.Path
  */
 interface UserService {
 
-    // TODO: 2021/11/5 Add access_token
     @GET("feeds")
     suspend fun getUserFeeds(): FeedsTemplate
 
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("users/{name}/received_events")
-    suspend fun getUserTimeline(@Path("name") userName: String): List<EventTimeline>
+    suspend fun getUserTimeline(
+        @Path("name") userName: String,
+        @Query("page") page: Int = 1,
+    ): List<EventTimeline>
+
+    companion object {
+        /**
+         * User Timeline results, items per page.
+         * @see [getUserTimeline]
+         * */
+        const val RESULTS_PER_PAGE = 30
+    }
 }
