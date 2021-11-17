@@ -11,6 +11,7 @@ import me.ajiew.jithub.R
 import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.service.UserService
+import me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 
 /**
@@ -81,11 +82,15 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
 
             val data = filterRepos(results.data.toList())
             if (timelineFeeds.value!!.isEmpty()) {
-                timelineAdapter.setList(data)
+                timelineAdapter.setList(data.mapIndexed { index, event ->
+                    ItemTimelineViewModel(this, index, event)
+                })
                 timelineAdapter.loadMoreModule.isEnableLoadMore = true
                 timelineFeeds.value = data
             } else {
-                timelineAdapter.addData(data)
+                timelineAdapter.addData(data.mapIndexed { index, event ->
+                    ItemTimelineViewModel(this, index, event)
+                })
             }
 
             if (data.size < UserService.RESULTS_PER_PAGE) {
@@ -102,10 +107,21 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
         return list.filter { TIMELINE_EVENTS.contains(it.type) }
     }
 
+    fun fetchUserRepoInfo(index: Int, url: String) {
+        viewModelScope.launch {
+            val results = repository.requestUserRepo(url)
+            if (results is Results.Success) {
+                val data = results.data
+                timelineAdapter.getItem(index).repo.value = data
+                timelineAdapter.notifyItemChanged(index)
+            }
+        }
+    }
+
     companion object {
         /**
          * GitHub event types:
-         * https://docs.github.com/en/developers/webhooks-and-events/events/github-event-types
+         * @link https://docs.github.com/en/developers/webhooks-and-events/events/github-event-types
          * */
         val TIMELINE_EVENTS: List<String> =
             listOf("WatchEvent", "ForkEvent", "ReleaseEvent", "CreateEvent", "PublicEvent")

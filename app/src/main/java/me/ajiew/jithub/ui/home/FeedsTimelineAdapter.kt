@@ -5,10 +5,13 @@ import android.text.style.StyleSpan
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.hjq.toast.ToastUtils
+import me.ajiew.core.base.viewmodel.OnItemClickListener
 import me.ajiew.core.util.spanny.Spanny
 import me.ajiew.jithub.R
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.databinding.ItemFeedsTimelineBinding
+import me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel
 
 /**
  *
@@ -16,20 +19,26 @@ import me.ajiew.jithub.databinding.ItemFeedsTimelineBinding
  * Created on: 2021/11/11 14:38
  */
 class FeedsTimelineAdapter :
-    BaseQuickAdapter<EventTimeline, BaseDataBindingHolder<ItemFeedsTimelineBinding>>(R.layout.item_feeds_timeline),
+    BaseQuickAdapter<ItemTimelineViewModel, BaseDataBindingHolder<ItemFeedsTimelineBinding>>(R.layout.item_feeds_timeline),
     LoadMoreModule {
 
     override fun convert(
         holder: BaseDataBindingHolder<ItemFeedsTimelineBinding>,
-        item: EventTimeline
+        item: ItemTimelineViewModel
     ) {
         holder.dataBinding?.apply {
             vm = item
+            this.item = item.entity
+            this.onClickRepo = object : OnItemClickListener<EventTimeline> {
+                override fun onItemClick(item: EventTimeline) {
+                    ToastUtils.show("Clicked ${item.repo.name}")
+                }
+            }
             executePendingBindings()
         }
 
-        val event = Spanny(item.actor.login, StyleSpan(Typeface.BOLD)).append(" ")
-        setEventMessage(event, item)
+        val event = Spanny(item.entity.actor.login, StyleSpan(Typeface.BOLD)).append(" ")
+        setEventMessage(event, item.entity)
         holder.setText(R.id.tv_event, event)
     }
 

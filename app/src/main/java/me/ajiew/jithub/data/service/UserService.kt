@@ -2,10 +2,8 @@ package me.ajiew.jithub.data.service
 
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.FeedsTemplate
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
-import retrofit2.http.Query
+import me.ajiew.jithub.data.response.UserRepo
+import retrofit2.http.*
 
 /**
  *
@@ -23,6 +21,9 @@ interface UserService {
         @Path("name") userName: String,
         @Query("page") page: Int = 1,
     ): List<EventTimeline>
+
+    @GET
+    suspend fun getUserRepo(@Url url: String): UserRepo
 
     companion object {
         /**

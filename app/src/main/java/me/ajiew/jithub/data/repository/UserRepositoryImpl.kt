@@ -11,9 +11,7 @@ import me.ajiew.jithub.BuildConfig.GITHUB_CLIENT_ID
 import me.ajiew.jithub.BuildConfig.GITHUB_CLIENT_SECRET
 import me.ajiew.jithub.common.Constants
 import me.ajiew.jithub.data.model.UserProfile
-import me.ajiew.jithub.data.response.AuthToken
-import me.ajiew.jithub.data.response.EventTimeline
-import me.ajiew.jithub.data.response.FeedsTemplate
+import me.ajiew.jithub.data.response.*
 import me.ajiew.jithub.data.service.LoginService
 import me.ajiew.jithub.data.service.UserService
 import timber.log.Timber
@@ -90,6 +88,16 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun requestUserRepo(url: String): Results<UserRepo> {
+        return try {
+            val result = remoteDataSource.getUserRepoInfo(url)
+            Results.Success(result)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Results.Error(e)
+        }
+    }
+
     companion object :
         SingletonHolderDoubleArg<UserRepositoryImpl, UserRemoteDataSource, UserLocalDataSource>(::UserRepositoryImpl)
 }
@@ -113,6 +121,10 @@ class UserRemoteDataSource(
 
     suspend fun getUserTimeline(userName: String, page: Int): List<EventTimeline> {
         return userService.getUserTimeline(userName, page)
+    }
+
+    suspend fun getUserRepoInfo(url: String) : UserRepo {
+        return userService.getUserRepo(url)
     }
 
     companion object :

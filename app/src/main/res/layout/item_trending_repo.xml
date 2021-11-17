@@ -24,7 +24,7 @@
         android:onClick="@{vm::onClickItem}"
         app:qmui_radius="8dp"
         app:qmui_shadowAlpha="0.5"
-        app:qmui_shadowElevation="5dp">
+        app:qmui_shadowElevation="3dp">
 
         <ImageView
             android:id="@+id/iv_author"
@@ -41,25 +41,32 @@
 
         <TextView
             android:id="@+id/tv_repo_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_single"
+            android:layout_marginEnd="@dimen/dp_single"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{vm.entity.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textSize="@dimen/sp_heading"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tv_repo_author"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_author"
             app:layout_constraintTop_toTopOf="@id/iv_author"
             tools:text="Jithub" />
 
         <TextView
             android:id="@+id/tv_repo_author"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{vm.entity.author}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintBottom_toBottomOf="@id/iv_author"
+            app:layout_constraintEnd_toEndOf="@id/tv_repo_name"
             app:layout_constraintStart_toStartOf="@id/tv_repo_name"
             app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
             tools:text="aJIEw" />

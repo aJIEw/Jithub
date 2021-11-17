@@ -5,6 +5,7 @@ import me.ajiew.core.data.Results
 import me.ajiew.jithub.data.response.AuthToken
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.FeedsTemplate
+import me.ajiew.jithub.data.response.UserRepo
 
 /**
  *
@@ -26,4 +27,6 @@ interface UserRepository : IRepository {
     fun saveUserName(name: String)
 
     suspend fun requestUserTimeline(name: String, page: Int = 1): Results<List<EventTimeline>>
+
+    suspend fun requestUserRepo(url: String): Results<UserRepo>
 }

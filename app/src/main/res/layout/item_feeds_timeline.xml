@@ -8,9 +8,21 @@
 
         <import type="android.graphics.Color" />
 
+        <import type="me.ajiew.jithub.util.TimeUtilKt" />
+
+        <import type="me.ajiew.core.base.viewmodel.OnItemClickListener" />
+
         <variable
             name="vm"
+            type="me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel" />
+
+        <variable
+            name="item"
             type="me.ajiew.jithub.data.response.EventTimeline" />
+
+        <variable
+            name="onClickRepo"
+            type="OnItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +33,7 @@
             android:id="@+id/iv_user"
             radius="@{20}"
             radiusShowPlaceholder="@{true}"
-            radiusUrl="@{vm.actor.avatar_url}"
+            radiusUrl="@{item.actor.avatar_url}"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginVertical="@dimen/dp_double"
@@ -35,8 +47,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_double"
-            android:layout_marginBottom="@dimen/dp_half"
-            android:text='@{vm.actor.display_login + " " + vm.type + " " + vm.repo.name}'
+            android:layout_marginBottom="@dimen/dp_quarter"
+            android:maxLines="2"
+            android:text='@{item.actor.display_login + " " + item.type + " " + item.repo.name}'
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textSize="@dimen/sp_body_large"
             app:layout_constraintBottom_toTopOf="@+id/tv_time"
@@ -50,7 +63,7 @@
             android:id="@+id/tv_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{vm.created_at}"
+            android:text='@{TimeUtilKt.getFriendlyTime(item.created_at)}'
             android:textSize="@dimen/sp_body"
             app:layout_constraintBottom_toBottomOf="@id/iv_user"
             app:layout_constraintEnd_toEndOf="@id/tv_event"
@@ -62,9 +75,10 @@
             android:id="@+id/content_event"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_twelve"
+            android:layout_marginTop="@dimen/dp_double"
             android:layout_marginBottom="@dimen/dp_twelve"
             android:background="@color/white"
+            android:onClick="@{() -> onClickRepo.onItemClick(item)}"
             android:padding="@dimen/dp_twelve"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tv_event"
@@ -78,19 +92,22 @@
                 android:id="@+id/tv_repo_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="aJIEw / Jithub"
+                android:text="@{vm.repo.full_name}"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="aJIEw / Jithub" />
 
             <TextView
                 android:id="@+id/tv_repo_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_single"
-                android:text="This is a demo project to show you how to develop an android app with Jetpack Libraries."
+                android:text='@{vm.repo.description ?? ""}'
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_repo_name" />
+                app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
+                tools:text="This is a demo project to show you how to develop an android app with Jetpack Libraries." />
 
             <TextView
                 android:id="@+id/tv_repo_star"
@@ -98,38 +115,64 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_single"
                 android:drawablePadding="@dimen/dp_half"
-                android:text="101"
+                android:text='@{String.valueOf(vm.repo.stargazers_count)}'
                 app:drawableStartCompat="@drawable/ic_trending_star_filled"
                 app:layout_constraintBottom_toBottomOf="@id/btn_star"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/btn_star" />
+                app:layout_constraintTop_toTopOf="@id/btn_star"
+                tools:text="101" />
 
             <TextView
                 android:id="@+id/tv_repo_language"
+                visible="@{vm.repo.language != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_single"
+                android:layout_marginStart="@dimen/dp_twelve"
                 android:drawablePadding="@dimen/dp_half"
-                android:text="Kotlin"
+                android:text='@{vm.repo.language}'
                 app:drawableStartCompat="@drawable/ic_trending_circle_filled"
                 app:layout_constraintBottom_toBottomOf="@id/tv_repo_star"
                 app:layout_constraintStart_toEndOf="@id/tv_repo_star"
-                app:layout_constraintTop_toTopOf="@id/tv_repo_star" />
+                app:layout_constraintTop_toTopOf="@id/tv_repo_star"
+                tools:text="Kotlin" />
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/btn_star"
+                drawable_pressed_radius="@{8}"
+                drawable_pressed_solidColor='@{@color/grey_light}'
+                drawable_radius="@{8}"
+                drawable_solidColor='@{@color/white}'
+                drawable_strokeColor="@{@color/grey}"
+                drawable_strokeWidth="@{1}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/dp_double"
+                android:layout_marginTop="@dimen/dp_single"
+                android:drawablePadding="@dimen/dp_six"
+                android:onClick="@{() -> vm.onClickStar.onItemClick(vm.entity.repo)}"
+                android:paddingHorizontal="@dimen/dp_twenty"
                 android:paddingVertical="@dimen/dp_single"
                 android:text="Star"
                 android:textAllCaps="false"
                 app:cornerRadius="@dimen/dp_single"
+                app:drawableStartCompat="@drawable/ic_trending_star"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_repo_desc"
+                tools:background="@color/grey_light"
                 tools:gravity="center"
-                tools:textColor="@color/white" />
+                tools:textColor="@color/black" />
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/loading_repo"
+                style="?android:progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:gone="@{vm.repo != null}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
         </com.qmuiteam.qmui.layout.QMUIConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
