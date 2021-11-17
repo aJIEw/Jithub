@@ -46,4 +46,34 @@ class MainViewModel(private val repository: UserRepository) : BaseViewModel<User
             }
         }
     }
+
+    fun getUserName() {
+        val userName = repository.getUserName()
+        if (userName.isEmpty()) {
+            fetchUserFeeds()
+        }
+    }
+
+    private fun fetchUserFeeds() {
+        uiState.value = UIState.Loading
+
+        viewModelScope.launch {
+            val results = repository.requestUserFeeds()
+            uiState.value = when (results) {
+                is Results.Success -> {
+                    val feedsTemplate = results.data
+                    val userUrl = feedsTemplate.current_user_public_url
+                    if (userUrl != null) {
+                        val name = userUrl.substring(userUrl.lastIndexOf("/") + 1)
+                        repository.saveUserName(name)
+                    }
+
+                    UIState.Success(results.data, "Load Success")
+                }
+                is Results.Error -> UIState.Error(null, results.message)
+            }
+        }
+    }
+
+
 }

@@ -1,11 +1,12 @@
 package me.ajiew.jithub.ui.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import me.ajiew.core.base.BaseFragment
+import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
+import me.ajiew.jithub.common.ViewModelFactory
+import me.ajiew.jithub.databinding.FragmentProfileBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,11 +14,16 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * Profile tab: User info
  */
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
+
+    override val layoutId: Int = R.layout.fragment_profile
+    override val viewModelId: Int = BR.vm
+    override val viewModel: ProfileViewModel by viewModels {
+        ViewModelFactory.instance
+    }
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -30,12 +36,19 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+    override fun initView() {
+        super.initView()
+
+        binding.refreshLayout.isRefreshing = true
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+        }
+    }
+
+    override fun hideLoading() {
+        super.hideLoading()
+
+        binding.refreshLayout.isRefreshing = false
     }
 
     companion object {

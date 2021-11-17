@@ -2,6 +2,7 @@ package me.ajiew.jithub.data.service
 
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.FeedsTemplate
+import me.ajiew.jithub.data.response.User
 import me.ajiew.jithub.data.response.UserRepo
 import retrofit2.http.*
 
@@ -14,6 +15,9 @@ interface UserService {
 
     @GET("feeds")
     suspend fun getUserFeeds(): FeedsTemplate
+
+    @GET("users/{name}")
+    suspend fun getUserInfo(@Path("name") name: String): User
 
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("users/{name}/received_events")

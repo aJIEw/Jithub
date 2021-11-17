@@ -8,6 +8,7 @@ import me.ajiew.core.base.viewmodel.BaseViewModel
 import me.ajiew.core.data.Results
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
+import me.ajiew.jithub.data.model.UserProfile
 import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.service.UserService
@@ -31,6 +32,11 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
 
     private var userName: String = ""
     private var timelinePage = 1
+    private var isRefreshing = false
+
+    init {
+        userName = UserProfile.userName
+    }
 
     override fun initFetchData() {
         super.initFetchData()
@@ -39,67 +45,53 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
     }
 
     fun refresh() {
+        isRefreshing = true
+        timelinePage = 1
+
         fetchHomeData()
     }
 
     fun loadMore() {
-        viewModelScope.launch {
-            fetchUserFeeds()
-        }
+        fetchUserTimeline()
     }
 
     private fun fetchHomeData() {
-        fetchUserFeeds()
-    }
-
-    private fun fetchUserFeeds() {
         uiState.value = UIState.Loading
 
+        fetchUserTimeline()
+    }
+
+    private fun fetchUserTimeline() {
         viewModelScope.launch {
-            val results = repository.requestUserFeeds()
+            val results = repository.requestUserTimeline(userName, timelinePage)
             uiState.value = when (results) {
                 is Results.Success -> {
-                    val feedsTemplate = results.data
-                    val userUrl = feedsTemplate.current_user_public_url
-                    if (userUrl != null) {
-                        val name = userUrl.substring(userUrl.lastIndexOf("/") + 1)
-                        userName = name
-                        repository.saveUserName(name)
+                    val data = filterRepos(results.data.toList())
+                    if (timelineFeeds.value!!.isEmpty() || isRefreshing) {
+                        timelineAdapter.setList(data.mapIndexed { index, event ->
+                            ItemTimelineViewModel(this@HomeViewModel, index, event)
+                        })
+                        timelineAdapter.loadMoreModule.isEnableLoadMore = true
+                        timelineFeeds.value = data
+                        isRefreshing = false
+                    } else {
+                        timelineAdapter.addData(data.mapIndexed { index, event ->
+                            ItemTimelineViewModel(this@HomeViewModel, index, event)
+                        })
                     }
 
-                    fetchUserTimeline()
+                    if (data.size < UserService.RESULTS_PER_PAGE) {
+                        timelineAdapter.loadMoreModule.loadMoreEnd()
+                    } else {
+                        timelineAdapter.loadMoreModule.loadMoreComplete()
+                    }
+
+                    timelinePage++
 
                     UIState.Success(results.data, "Load Success")
                 }
                 is Results.Error -> UIState.Error(null, results.message)
             }
-        }
-    }
-
-    private suspend fun fetchUserTimeline() {
-        val results = repository.requestUserTimeline(userName, timelinePage)
-        if (results is Results.Success && results.data.isNotEmpty()) {
-
-            val data = filterRepos(results.data.toList())
-            if (timelineFeeds.value!!.isEmpty()) {
-                timelineAdapter.setList(data.mapIndexed { index, event ->
-                    ItemTimelineViewModel(this, index, event)
-                })
-                timelineAdapter.loadMoreModule.isEnableLoadMore = true
-                timelineFeeds.value = data
-            } else {
-                timelineAdapter.addData(data.mapIndexed { index, event ->
-                    ItemTimelineViewModel(this, index, event)
-                })
-            }
-
-            if (data.size < UserService.RESULTS_PER_PAGE) {
-                timelineAdapter.loadMoreModule.loadMoreEnd()
-            } else {
-                timelineAdapter.loadMoreModule.loadMoreComplete()
-            }
-
-            timelinePage++
         }
     }
 

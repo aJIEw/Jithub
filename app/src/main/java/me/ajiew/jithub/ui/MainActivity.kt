@@ -45,6 +45,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.initData()
 
         currentIndex = if (hasLoggedIn) 0 else 1
+        if (currentIndex == 0) {
+            viewModel.getUserName()
+        }
     }
 
     override fun initView() {

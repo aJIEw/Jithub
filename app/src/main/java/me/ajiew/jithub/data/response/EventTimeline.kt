@@ -37,7 +37,7 @@ data class Repo(
 )
 
 data class ReleaseRepo(
-    val author: Owner,
+    val author: User,
     val body: String,
     val id: Int,
     val name: String,

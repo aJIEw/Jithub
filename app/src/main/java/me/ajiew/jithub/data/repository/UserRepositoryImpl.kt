@@ -78,6 +78,17 @@ class UserRepositoryImpl(
         localDataSource.userName = name
     }
 
+    override suspend fun requestUserInfo(): Results<User> {
+        return try {
+            val userName = UserProfile.userName
+            val result = remoteDataSource.getUserInfo(userName)
+            Results.Success(result)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Results.Error(e)
+        }
+    }
+
     override suspend fun requestUserTimeline(name: String, page: Int): Results<List<EventTimeline>> {
         return try {
             val result = remoteDataSource.getUserTimeline(name, page)
@@ -113,6 +124,10 @@ class UserRemoteDataSource(
             clientSecret = GITHUB_CLIENT_SECRET,
             code = code
         )
+    }
+
+    suspend fun getUserInfo(name: String): User {
+        return userService.getUserInfo(name)
     }
 
     suspend fun getUserFeeds(): FeedsTemplate {

@@ -1,15 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+    <data>
 
-</FrameLayout>
+        <variable
+            name="vm"
+            type="me.ajiew.jithub.ui.profile.ProfileViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_user_avatar"
+                radius='@{40}'
+                radiusUrl='@{vm.userInfo.avatar_url ?? ""}'
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="@dimen/dp_triple"
+                android:layout_marginTop="@dimen/dp_triple"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_double"
+                android:text='@{vm.userInfo.login ?? ""}'
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintBottom_toTopOf="@+id/tv_user_email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_user_avatar"
+                app:layout_constraintTop_toTopOf="@id/iv_user_avatar"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="aJIEw" />
+
+            <TextView
+                android:id="@+id/tv_user_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_half"
+                android:text='@{vm.userInfo.email ?? ""}'
+                app:layout_constraintBottom_toBottomOf="@id/iv_user_avatar"
+                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                app:layout_constraintStart_toStartOf="@id/tv_user_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_name"
+                tools:text="ajiew42@gmail.com" />
+
+            <TextView
+                android:id="@+id/tv_user_desc"
+                gone="@{vm.userInfo.bio == null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_double"
+                android:text='@{vm.userInfo.bio ?? ""}'
+                android:textColor="@color/text_content"
+                android:textSize="@dimen/sp_subheading"
+                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                app:layout_constraintTop_toBottomOf="@id/iv_user_avatar"
+                tools:text='\"Do not go gentle into that good night.\" --Dylan Thomas'
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_user_company"
+                gone="@{vm.userInfo.company == null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_double"
+                android:drawablePadding="@dimen/dp_half"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{vm.userInfo.company ?? ""}'
+                android:textSize="@dimen/sp_body_large"
+                app:drawableStartCompat="@drawable/ic_profile_company"
+                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_desc"
+                app:layout_goneMarginTop="@dimen/dp_double"
+                tools:text="Google" />
+
+            <TextView
+                android:id="@+id/tv_user_location"
+                gone="@{vm.userInfo.location == null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_single"
+                android:drawablePadding="@dimen/dp_half"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{vm.userInfo.location ?? ""}'
+                android:textSize="@dimen/sp_body_large"
+                app:drawableStartCompat="@drawable/ic_profile_location"
+                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_company"
+                app:layout_goneMarginTop="@dimen/dp_double"
+                tools:text="Hangzhou" />
+
+            <TextView
+                android:id="@+id/tv_user_twitter"
+                gone="@{vm.userInfo.twitter_username == null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_single"
+                android:drawablePadding="@dimen/dp_half"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{"@" + vm.userInfo.twitter_username}'
+                android:textSize="@dimen/sp_body_large"
+                app:drawableStartCompat="@drawable/ic_profile_twitter"
+                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_location"
+                app:layout_goneMarginTop="@dimen/dp_double"
+                tools:text='\@ajiew42' />
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginTop="@dimen/dp_twelve"
+                android:background="@color/content_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_twitter" />
+
+            <LinearLayout
+                android:id="@+id/ll_pinned_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_divider">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_triple"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:drawablePadding="@dimen/dp_half"
+                    android:text="Pinned"
+                    android:textSize="@dimen/sp_heading"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_profile_pin" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

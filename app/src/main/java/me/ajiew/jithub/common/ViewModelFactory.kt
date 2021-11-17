@@ -5,6 +5,7 @@ import me.ajiew.core.base.viewmodel.BaseViewModelFactory
 import me.ajiew.jithub.data.repository.RepoResolver
 import me.ajiew.jithub.ui.explore.ExploreViewModel
 import me.ajiew.jithub.ui.home.HomeViewModel
+import me.ajiew.jithub.ui.profile.ProfileViewModel
 import me.ajiew.jithub.ui.viewmodel.MainViewModel
 
 
@@ -22,6 +23,9 @@ class ViewModelFactory : BaseViewModelFactory() {
                 }
                 isAssignableFrom(ExploreViewModel::class.java) -> {
                     ExploreViewModel(RepoResolver.exploreRepository) as T
+                }
+                isAssignableFrom(ProfileViewModel::class.java) -> {
+                    ProfileViewModel(RepoResolver.userRepository) as T
                 }
                 else -> throw IllegalArgumentException("Unknown ViewModel class: $name")
             }
