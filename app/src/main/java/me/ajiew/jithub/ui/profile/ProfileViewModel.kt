@@ -3,6 +3,7 @@ package me.ajiew.jithub.ui.profile
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.lifecycle.viewModelScope
+import com.hjq.toast.ToastUtils
 import kotlinx.coroutines.launch
 import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
@@ -13,13 +14,14 @@ import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.data.model.ContributionRecord
 import me.ajiew.jithub.data.model.GithubEvent
+import me.ajiew.jithub.data.model.ProfileOptionItem
 import me.ajiew.jithub.data.model.UserProfile
 import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.Commit
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.User
 import me.tatarka.bindingcollectionadapter2.ItemBinding
-import timber.log.Timber
+import java.time.DayOfWeek
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
@@ -45,12 +47,54 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
         ItemBinding.of<ContributionRecord>(BR.item, R.layout.item_contribution_brick)
             .bindExtra(BR.onClickItem, object : OnItemClickListener<ContributionRecord> {
                 override fun onItemClick(item: ContributionRecord) {
-                    ui.showContributionPopup.value = item
+                    if (item.date.isNotEmpty() && item.number != -1) {
+                        ui.showContributionPopup.value = item
+                    }
                 }
             })
 
+    val optionsList: ObservableList<ProfileOptionItem> = ObservableArrayList()
+    val optionsBinding = ItemBinding.of<ProfileOptionItem>(BR.item, R.layout.item_profile_option)
+
     var totalContributions = SingleLiveEvent<Int>()
+    private var contributionPlaceholderDays = 0
     private var contributionEventPage = 1
+
+    init {
+        optionsList.add(
+            ProfileOptionItem(
+                R.drawable.shape_option_repo,
+                "Repositories",
+                "",
+                object : OnItemClickListener<ProfileOptionItem> {
+                    override fun onItemClick(item: ProfileOptionItem) {
+                        ToastUtils.show("show repositories")
+                    }
+                })
+        )
+        optionsList.add(
+            ProfileOptionItem(
+                R.drawable.shape_option_starred,
+                "Starred",
+                "",
+                object : OnItemClickListener<ProfileOptionItem> {
+                    override fun onItemClick(item: ProfileOptionItem) {
+                        ToastUtils.show("show starred repos")
+                    }
+                })
+        )
+        optionsList.add(
+            ProfileOptionItem(
+                R.drawable.shape_option_settings,
+                "Settings",
+                "",
+                object : OnItemClickListener<ProfileOptionItem> {
+                    override fun onItemClick(item: ProfileOptionItem) {
+                        ToastUtils.show("show settings")
+                    }
+                })
+        )
+    }
 
     override fun initFetchData() {
         super.initFetchData()
@@ -70,10 +114,26 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
         val today = Instant.now().atZone(ZoneId.systemDefault()).toLocalDate()
         contributionList.clear()
 
+        contributionPlaceholderDays = when (today.dayOfWeek) {
+            DayOfWeek.MONDAY -> 0
+            DayOfWeek.TUESDAY -> 1
+            DayOfWeek.WEDNESDAY -> 2
+            DayOfWeek.THURSDAY -> 3
+            DayOfWeek.FRIDAY -> 4
+            DayOfWeek.SATURDAY -> 5
+            DayOfWeek.SUNDAY -> 6
+            else -> 0
+        }
+
+        if (contributionPlaceholderDays > 0) {
+            for (i in 0 until contributionPlaceholderDays) {
+                contributionList.add(ContributionRecord(i, "", -1))
+            }
+        }
         for (i in 0..89) {
             val date =
                 today.minusDays(i.toLong()).format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
-            contributionList.add(ContributionRecord(i, date, 0))
+            contributionList.add(ContributionRecord(i + contributionPlaceholderDays, date, 0))
         }
     }
 
@@ -95,10 +155,21 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
                 is Results.Success -> {
                     userInfo.value = results.data!!
 
+                    initRepoNumber(results.data)
+
                     UIState.Success(results.data, "Load Success")
                 }
                 is Results.Error -> UIState.Error(null, results.message)
             }
+        }
+    }
+
+    private fun initRepoNumber(userInfo: User) {
+        val total = (userInfo.total_private_repos ?: 0) + (userInfo.public_repos ?: 0)
+        if (total > 0) {
+            val repo = optionsList[0]
+            repo.endText = total.toString()
+            optionsList[0] = repo
         }
     }
 
@@ -123,16 +194,14 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
     }
 
     private fun filterPushEvent(data: List<EventTimeline>) {
-        Timber.d("filterPushEvent")
-
         val today = Instant.now().atZone(ZoneId.systemDefault()).toLocalDate()
 
         data.mapIndexed { index, item ->
             if (item.type == GithubEvent.PushEvent.type) {
                 val date =
                     Instant.parse(item.created_at).atZone(ZoneId.systemDefault()).toLocalDate()
-                val contributionIndex =
-                    Duration.between(date.atStartOfDay(), today.atStartOfDay()).toDays().toInt()
+                val contributionIndex = Duration.between(date.atStartOfDay(), today.atStartOfDay())
+                    .toDays().toInt() + contributionPlaceholderDays
                 val contribution = contributionList[contributionIndex]
 
                 // update contribution number

@@ -13,4 +13,8 @@
     <color name="color_contribution_well">#41C464</color>
     <color name="color_contribution">#9BE9A8</color>
     <color name="color_contribution_zero">#EBEDF0</color>
+
+    <color name="color_option_repo">#3E444D</color>
+    <color name="color_option_starred">#FFC600</color>
+    <color name="color_option_settings">#707070</color>
 </resources>

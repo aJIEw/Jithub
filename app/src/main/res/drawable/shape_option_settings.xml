@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_option_settings" />
+
+            <corners android:radius="@dimen/dp_six" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="@dimen/dp_single"
+        android:gravity="center"
+        android:left="@dimen/dp_single"
+        android:right="@dimen/dp_single"
+        android:top="@dimen/dp_single">
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_option_settings" />
+    </item>
+</layer-list>

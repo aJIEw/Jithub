@@ -12,7 +12,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="@dimen/contribution_brick_height"
         android:layout_marginTop="@dimen/dp_half"
         android:text="@{item}"
         android:textAlignment="textStart"

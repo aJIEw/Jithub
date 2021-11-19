@@ -1,6 +1,7 @@
 package me.ajiew.jithub.ui.profile
 
 import android.os.Bundle
+import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,8 +48,22 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()
         }
+
         binding.rvContribution.layoutManager =
             GridLayoutManager(requireContext(), 7, RecyclerView.HORIZONTAL, false)
+        // show today's contribution popup after first layout
+        binding.rvContribution.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewModel.ui.showContributionPopup.value = viewModel.contributionList.first {
+                    it.date.isNotEmpty() && it.number > -1
+                }
+
+                binding.rvContribution
+                    .viewTreeObserver
+                    .removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
     override fun initViewObservable() {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="me.ajiew.jithub.data.model.ProfileOptionItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{() -> item.onClickItem.onItemClick(item)}">
+
+        <ImageView
+            android:id="@+id/iv_option_icon"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginVertical="@dimen/dp_double"
+            android:layout_marginStart="@dimen/dp_triple"
+            app:imageResource="@{item.icon}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/shape_option_repo" />
+
+        <TextView
+            android:id="@+id/tv_option_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_double"
+            android:text="@{item.title}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_option_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Repositories" />
+
+        <TextView
+            android:id="@+id/tv_option_end_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_double"
+            android:drawablePadding="@dimen/dp_single"
+            android:text="@{item.endText}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:drawableEndCompat="@drawable/ic_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="42" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

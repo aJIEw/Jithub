@@ -7,6 +7,8 @@
 
     <data>
 
+        <import type="android.text.TextUtils" />
+
         <variable
             name="vm"
             type="me.ajiew.jithub.ui.profile.ProfileViewModel" />
@@ -15,221 +17,348 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
-            <ImageView
-                android:id="@+id/iv_user_avatar"
-                radius='@{40}'
-                radiusUrl='@{vm.userInfo.avatar_url ?? ""}'
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="@dimen/dp_triple"
-                android:layout_marginTop="@dimen/dp_triple"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dp_double"
-                android:text='@{vm.userInfo.login ?? ""}'
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                app:layout_constraintBottom_toTopOf="@+id/tv_user_email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_user_avatar"
-                app:layout_constraintTop_toTopOf="@id/iv_user_avatar"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="aJIEw" />
-
-            <TextView
-                android:id="@+id/tv_user_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_half"
-                android:text='@{vm.userInfo.email ?? ""}'
-                app:layout_constraintBottom_toBottomOf="@id/iv_user_avatar"
-                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
-                app:layout_constraintStart_toStartOf="@id/tv_user_name"
-                app:layout_constraintTop_toBottomOf="@id/tv_user_name"
-                tools:text="ajiew42@gmail.com" />
-
-            <TextView
-                android:id="@+id/tv_user_desc"
-                gone="@{vm.userInfo.bio == null}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_double"
-                android:text='@{vm.userInfo.bio ?? ""}'
-                android:textColor="@color/text_content"
-                android:textSize="@dimen/sp_subheading"
-                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
-                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
-                app:layout_constraintTop_toBottomOf="@id/iv_user_avatar"
-                tools:text='\"Do not go gentle into that good night.\" --Dylan Thomas'
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/tv_user_company"
-                gone="@{vm.userInfo.company == null}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_double"
-                android:drawablePadding="@dimen/dp_half"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text='@{vm.userInfo.company ?? ""}'
-                android:textSize="@dimen/sp_body_large"
-                app:drawableStartCompat="@drawable/ic_profile_company"
-                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
-                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
-                app:layout_constraintTop_toBottomOf="@id/tv_user_desc"
-                app:layout_goneMarginTop="@dimen/dp_double"
-                tools:text="Google" />
-
-            <TextView
-                android:id="@+id/tv_user_location"
-                gone="@{vm.userInfo.location == null}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_single"
-                android:drawablePadding="@dimen/dp_half"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text='@{vm.userInfo.location ?? ""}'
-                android:textSize="@dimen/sp_body_large"
-                app:drawableStartCompat="@drawable/ic_profile_location"
-                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
-                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
-                app:layout_constraintTop_toBottomOf="@id/tv_user_company"
-                app:layout_goneMarginTop="@dimen/dp_double"
-                tools:text="Hangzhou" />
-
-            <TextView
-                android:id="@+id/tv_user_twitter"
-                gone="@{vm.userInfo.twitter_username == null}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_single"
-                android:drawablePadding="@dimen/dp_half"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text='@{"@" + vm.userInfo.twitter_username}'
-                android:textSize="@dimen/sp_body_large"
-                app:drawableStartCompat="@drawable/ic_profile_twitter"
-                app:layout_constraintEnd_toEndOf="@id/tv_user_name"
-                app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
-                app:layout_constraintTop_toBottomOf="@id/tv_user_location"
-                app:layout_goneMarginTop="@dimen/dp_double"
-                tools:text='\@ajiew42' />
-
-            <View
-                android:id="@+id/view_divider"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginTop="@dimen/dp_twelve"
-                android:background="@color/content_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_user_twitter" />
-
-            <RelativeLayout
-                android:id="@+id/contribution_container"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_divider">
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_user_avatar"
+                    radius='@{40}'
+                    radiusUrl='@{vm.userInfo.avatar_url ?? ""}'
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="@dimen/dp_triple"
+                    android:layout_marginTop="@dimen/dp_triple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/tv_contribution_title"
-                    contributionTotal="@{vm.totalContributions}"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_triple"
-                    android:layout_marginTop="@dimen/dp_twelve"
-                    tools:text="32 contributions in the last 90 days" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_contribution_label"
-                    itemBinding="@{vm.contributionLabelsBinding}"
-                    items="@{vm.contributionLabels}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_contribution_title"
-                    android:layout_marginStart="@dimen/dp_single"
-                    android:layout_marginTop="@dimen/dp_single"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="7"
-                    tools:listitem="@layout/item_contribution_label" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_contribution"
-                    itemBinding="@{vm.contributionBinding}"
-                    items="@{vm.contributionList}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/rv_contribution_label"
-                    android:layout_marginStart="@dimen/dp_half"
-                    android:layout_toEndOf="@id/rv_contribution_label"
-                    android:overScrollMode="ifContentScrolls"
-                    tools:itemCount="7"
-                    tools:listitem="@layout/item_contribution_brick" />
-
-                <com.qmuiteam.qmui.widget.QMUILoadingView
-                    gone="@{!vm.ui.contributionFetching}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    tools:visibility="gone" />
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/view_divider_contribution"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginTop="@dimen/dp_twelve"
-                android:background="@color/content_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contribution_container" />
-
-            <LinearLayout
-                android:id="@+id/pinned_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_double"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view_divider_contribution">
+                    android:layout_marginHorizontal="@dimen/dp_double"
+                    android:text='@{vm.userInfo.name ?? vm.userInfo.login}'
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_user_login"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_user_avatar"
+                    app:layout_constraintTop_toTopOf="@id/iv_user_avatar"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="aJIEw" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_user_login"
+                    gone="@{TextUtils.isEmpty(vm.userInfo.name)}"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_triple"
+                    android:layout_marginTop="@dimen/dp_half"
+                    android:text='@{vm.userInfo.login ?? ""}'
+                    app:layout_constraintBottom_toBottomOf="@id/iv_user_avatar"
+                    app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                    app:layout_constraintStart_toStartOf="@id/tv_user_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_name"
+                    tools:text="ajiew" />
+
+                <TextView
+                    android:id="@+id/tv_user_desc"
+                    gone="@{TextUtils.isEmpty(vm.userInfo.bio)}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_double"
+                    android:text='@{vm.userInfo.bio ?? ""}'
+                    android:textColor="@color/text_content"
+                    android:textSize="@dimen/sp_subheading"
+                    app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                    app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                    app:layout_constraintTop_toBottomOf="@id/iv_user_avatar"
+                    tools:text='\"Do not go gentle into that good night.\" --Dylan Thomas'
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_user_company"
+                    gone="@{TextUtils.isEmpty(vm.userInfo.company)}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_double"
                     android:drawablePadding="@dimen/dp_half"
-                    android:text="Pinned"
-                    android:textSize="@dimen/sp_heading"
-                    android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_profile_pin" />
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text='@{vm.userInfo.company ?? ""}'
+                    android:textSize="@dimen/sp_body_large"
+                    app:drawableStartCompat="@drawable/ic_profile_company"
+                    app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                    app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_desc"
+                    app:layout_goneMarginTop="@dimen/dp_single"
+                    tools:text="aJIEw Inc."
+                    tools:visibility="visible" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <TextView
+                    android:id="@+id/tv_user_location"
+                    gone="@{TextUtils.isEmpty(vm.userInfo.location)}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:drawablePadding="@dimen/dp_half"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text='@{vm.userInfo.location ?? ""}'
+                    android:textSize="@dimen/sp_body_large"
+                    app:drawableStartCompat="@drawable/ic_profile_location"
+                    app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                    app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_company"
+                    app:layout_goneMarginTop="@dimen/dp_single"
+                    tools:text="Hangzhou" />
+
+                <TextView
+                    android:id="@+id/tv_user_blog"
+                    gone="@{TextUtils.isEmpty(vm.userInfo.blog)}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:drawablePadding="@dimen/dp_half"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text='@{vm.userInfo.blog}'
+                    android:textSize="@dimen/sp_body_large"
+                    app:drawableStartCompat="@drawable/ic_profile_link"
+                    app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                    app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_location"
+                    app:layout_goneMarginTop="@dimen/dp_single"
+                    tools:text='https://ajiew.me'
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_user_twitter"
+                    gone="@{TextUtils.isEmpty(vm.userInfo.twitter_username)}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:drawablePadding="@dimen/dp_half"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text='@{"@" + vm.userInfo.twitter_username}'
+                    android:textSize="@dimen/sp_body_large"
+                    app:drawableStartCompat="@drawable/ic_profile_twitter"
+                    app:layout_constraintEnd_toEndOf="@id/tv_user_name"
+                    app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_blog"
+                    app:layout_goneMarginTop="@dimen/dp_single"
+                    tools:text='\@ajiew42'
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tv_user_follower"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_single"
-                    android:orientation="horizontal"
+                    android:drawablePadding="@dimen/dp_half"
+                    android:maxLines="1"
+                    android:text='@{String.valueOf(vm.userInfo.followers ?? 0)}'
+                    android:textSize="@dimen/sp_body_large"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/ic_profile_follower"
+                    app:layout_constraintStart_toStartOf="@id/iv_user_avatar"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_twitter"
+                    app:layout_goneMarginTop="@dimen/dp_single"
+                    tools:text='42' />
+
+                <TextView
+                    android:id="@+id/tv_user_follower_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_half"
+                    android:text='@{vm.userInfo.followers > 1 ? "followers" : "follower"}'
+                    app:layout_constraintBottom_toBottomOf="@id/tv_user_follower"
+                    app:layout_constraintStart_toEndOf="@id/tv_user_follower"
+                    app:layout_constraintTop_toTopOf="@id/tv_user_follower"
+                    tools:text="followers" />
+
+                <View
+                    android:id="@+id/view_dot"
+                    drawable_radius="@{2}"
+                    drawable_solidColor="@{@color/black}"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginStart="@dimen/dp_twelve"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_user_follower_label"
+                    app:layout_constraintStart_toEndOf="@id/tv_user_follower_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_user_follower_label"
+                    tools:background="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_user_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_single"
+                    android:text="@{String.valueOf(vm.userInfo.following ?? 0)}"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/view_dot"
+                    app:layout_constraintStart_toEndOf="@id/view_dot"
+                    app:layout_constraintTop_toTopOf="@id/view_dot"
+                    tools:text="798" />
+
+                <TextView
+                    android:id="@+id/tv_user_following_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_half"
+                    android:text='following'
+                    app:layout_constraintBottom_toBottomOf="@id/tv_user_following"
+                    app:layout_constraintStart_toEndOf="@id/tv_user_following"
+                    app:layout_constraintTop_toTopOf="@id/tv_user_following"
+                    tools:text="followers" />
+
+                <View
+                    android:id="@+id/view_divider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="@dimen/dp_twelve"
+                    android:background="@color/content_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_follower" />
+
+                <RelativeLayout
+                    android:id="@+id/contribution_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_double"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_divider">
+
+                    <TextView
+                        android:id="@+id/tv_contribution_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_triple"
+                        android:drawablePadding="@dimen/dp_half"
+                        android:text="Contribution"
+                        android:textSize="@dimen/sp_heading"
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/ic_profile_contribution" />
+
+                    <TextView
+                        android:id="@+id/tv_contribution_text"
+                        contributionTotal="@{vm.totalContributions}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_contribution_title"
+                        android:layout_alignStart="@id/tv_contribution_title"
+                        android:layout_marginTop="@dimen/dp_single"
+                        tools:text="32 contributions in the last 90 days" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_contribution_label"
+                        itemBinding="@{vm.contributionLabelsBinding}"
+                        items="@{vm.contributionLabels}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_contribution_text"
+                        android:layout_marginStart="@dimen/dp_double"
+                        android:layout_marginTop="@dimen/dp_single"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="7"
+                        tools:listitem="@layout/item_contribution_label" />
+
+                    <View
+                        android:id="@+id/divider_contribution_label"
+                        android:layout_width="0.2dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/rv_contribution_label"
+                        android:layout_alignBottom="@id/rv_contribution_label"
+                        android:layout_marginStart="@dimen/dp_half"
+                        android:layout_toEndOf="@id/rv_contribution_label"
+                        android:background="@color/divider_line" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_contribution"
+                        itemBinding="@{vm.contributionBinding}"
+                        items="@{vm.contributionList}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/rv_contribution_label"
+                        android:layout_toEndOf="@id/divider_contribution_label"
+                        android:overScrollMode="never"
+                        tools:itemCount="7"
+                        tools:listitem="@layout/item_contribution_brick" />
+
+                    <com.qmuiteam.qmui.widget.QMUILoadingView
+                        gone="@{!vm.ui.contributionFetching}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        tools:visibility="gone" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_divider_contribution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="@dimen/dp_twelve"
+                    android:background="@color/content_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/contribution_container" />
+
+                <!--<LinearLayout
+                    android:id="@+id/pinned_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_double"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_divider_contribution">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_triple"
+                        android:drawablePadding="@dimen/dp_half"
+                        android:text="Pinned"
+                        android:textSize="@dimen/sp_heading"
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/ic_profile_pin" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_single"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="3"
+                        tools:listitem="" />
+                </LinearLayout>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    itemBinding="@{vm.optionsBinding}"
+                    items="@{vm.optionsList}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_divider_contribution"
                     tools:itemCount="3"
-                    tools:listitem="" />
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    tools:listitem="@layout/item_profile_option" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

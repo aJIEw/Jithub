@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="material_button_height">55dp</dimen>
+    <dimen name="contribution_brick_height">16dp</dimen>
 </resources>

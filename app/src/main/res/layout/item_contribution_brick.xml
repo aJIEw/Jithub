@@ -21,14 +21,13 @@
 
         <TextView
             drawable_radius="@{3}"
-            drawable_solidColor="@{item.number >= 7 ? @color/color_contribution_very_good : item.number >= 5 ? @color/color_contribution_good : item.number >= 3 ? @color/color_contribution_well : item.number > 0 ? @color/color_contribution : @color/color_contribution_zero}"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            drawable_solidColor="@{item.number == -1 ? @color/white : item.number >= 7 ? @color/color_contribution_very_good : item.number >= 5 ? @color/color_contribution_good : item.number >= 3 ? @color/color_contribution_well : item.number > 0 ? @color/color_contribution : @color/color_contribution_zero}"
+            android:layout_width="@dimen/contribution_brick_height"
+            android:layout_height="@dimen/contribution_brick_height"
             android:layout_marginHorizontal="@dimen/dp_half"
             android:layout_marginTop="@dimen/dp_half"
             android:gravity="center"
             android:onClick="@{() -> onClickItem.onItemClick(item)}"
-            android:text="@{String.valueOf(item.number)}"
             android:textSize="@dimen/sp_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
