@@ -26,11 +26,11 @@ open class BaseViewModel<in T : IRepository> : ViewModel(), IBaseViewModel {
 
     override fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?) {}
 
-    override fun onCreate() {}
-
-    override fun onStart() {
+    override fun onCreate() {
         initFetchData()
     }
+
+    override fun onStart() {}
 
     /**
      * 初始化时的加载数据
