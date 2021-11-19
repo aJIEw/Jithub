@@ -8,4 +8,9 @@
     <color name="secondary_color_dark">#4e7893</color>
 
     <color name="color_gold">#FFD300</color>
+    <color name="color_contribution_very_good">#216D39</color>
+    <color name="color_contribution_good">#31A14E</color>
+    <color name="color_contribution_well">#41C464</color>
+    <color name="color_contribution">#9BE9A8</color>
+    <color name="color_contribution_zero">#EBEDF0</color>
 </resources>

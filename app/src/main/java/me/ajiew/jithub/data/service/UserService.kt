@@ -29,6 +29,13 @@ interface UserService {
     @GET
     suspend fun getUserRepo(@Url url: String): UserRepo
 
+    @GET("/users/{name}/events")
+    suspend fun getUserEvent(
+        @Path("name") name: String,
+        @Query("per_page") perPage: Int = 100,
+        @Query("page") page: Int
+    ): List<EventTimeline>
+
     companion object {
         /**
          * User Timeline results, items per page.

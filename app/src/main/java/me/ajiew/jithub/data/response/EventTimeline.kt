@@ -1,9 +1,9 @@
 package me.ajiew.jithub.data.response
 
 /**
+ * Represent a GitHub Event
  *
- * @author aJIEw
- * Created on: 2021/11/4 15:46
+ * @link https://docs.github.com/en/developers/webhooks-and-events/events/github-event-types
  */
 data class EventTimeline(
     val actor: Actor,
@@ -12,7 +12,7 @@ data class EventTimeline(
     val payload: Payload,
     val `public`: Boolean,
     val repo: Repo,
-    val type: String
+    val type: String,
 )
 
 data class Actor(
@@ -24,10 +24,25 @@ data class Actor(
 )
 
 data class Payload(
-    val action: String?,
-    val forkee: UserRepo?,
-    val ref_type: String?,
-    val release: ReleaseRepo?,
+    val action: String?, // watch event
+    val forkee: UserRepo?, // fork event
+    val ref_type: String?, // create event
+    val release: ReleaseRepo?, // release event
+    val commits: List<Commit>?, // push event
+    val size: Int? // commits number
+)
+
+data class Commit(
+    val author: Author,
+    val distinct: Boolean,
+    val message: String,
+    val sha: String,
+    val url: String
+)
+
+data class Author(
+    val email: String,
+    val name: String
 )
 
 data class Repo(

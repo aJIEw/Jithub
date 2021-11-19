@@ -28,4 +28,6 @@ interface UserRepository : IRepository {
     suspend fun requestUserTimeline(name: String, page: Int = 1): Results<List<EventTimeline>>
 
     suspend fun requestUserRepo(url: String): Results<UserRepo>
+
+    suspend fun requestUserEvent(page: Int): Results<List<EventTimeline>>
 }

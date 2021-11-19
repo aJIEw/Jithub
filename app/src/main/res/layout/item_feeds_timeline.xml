@@ -162,17 +162,22 @@
                 tools:gravity="center"
                 tools:textColor="@color/black" />
 
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/loading_repo"
-                style="?android:progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/white"
                 app:gone="@{vm.repo != null}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone" />
+                tools:visibility="gone">
+
+                <com.qmuiteam.qmui.widget.QMUILoadingView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+            </FrameLayout>
         </com.qmuiteam.qmui.layout.QMUIConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

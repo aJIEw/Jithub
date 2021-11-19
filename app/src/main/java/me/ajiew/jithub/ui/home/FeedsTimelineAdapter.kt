@@ -9,6 +9,7 @@ import com.hjq.toast.ToastUtils
 import me.ajiew.core.base.viewmodel.OnItemClickListener
 import me.ajiew.core.util.spanny.Spanny
 import me.ajiew.jithub.R
+import me.ajiew.jithub.data.model.GithubEvent
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.databinding.ItemFeedsTimelineBinding
 import me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel
@@ -46,16 +47,16 @@ class FeedsTimelineAdapter :
 
         var repoName = event.repo.name
         when (event.type) {
-            "WatchEvent" -> {
+            GithubEvent.WatchEvent.type -> {
                 spanny.append("starred ")
                     .append(repoName, StyleSpan(Typeface.BOLD))
             }
-            "ForkEvent" -> {
+            GithubEvent.ForkEvent.type -> {
                 repoName = event.payload.forkee?.full_name ?: ""
                 spanny.append("forked ")
                     .append(repoName, StyleSpan(Typeface.BOLD))
             }
-            "ReleaseEvent" -> {
+            GithubEvent.ReleaseEvent.type -> {
                 spanny.append("released ")
                 if (event.payload.action == "published" && event.payload.release != null) {
                     spanny.append(" ")
@@ -64,13 +65,13 @@ class FeedsTimelineAdapter :
                         .append(repoName, StyleSpan(Typeface.BOLD))
                 }
             }
-            "CreateEvent" -> {
+            GithubEvent.CreateEvent.type -> {
                 if (event.payload.ref_type == "repository") {
                     spanny.append("created a repository ")
                         .append(repoName, StyleSpan(Typeface.BOLD))
                 }
             }
-            "PublicEvent" -> {
+            GithubEvent.PublicEvent.type -> {
                 spanny.append("made ")
                     .append(repoName, StyleSpan(Typeface.BOLD))
                     .append(" public")

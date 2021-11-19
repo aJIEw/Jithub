@@ -8,6 +8,7 @@ import me.ajiew.core.base.viewmodel.BaseViewModel
 import me.ajiew.core.data.Results
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
+import me.ajiew.jithub.data.model.GithubEvent
 import me.ajiew.jithub.data.model.UserProfile
 import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.EventTimeline
@@ -111,11 +112,13 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
     }
 
     companion object {
-        /**
-         * GitHub event types:
-         * @link https://docs.github.com/en/developers/webhooks-and-events/events/github-event-types
-         * */
         val TIMELINE_EVENTS: List<String> =
-            listOf("WatchEvent", "ForkEvent", "ReleaseEvent", "CreateEvent", "PublicEvent")
+            listOf(
+                GithubEvent.WatchEvent.type,
+                GithubEvent.ForkEvent.type,
+                GithubEvent.ReleaseEvent.type,
+                GithubEvent.CreateEvent.type,
+                GithubEvent.PublicEvent.type
+            )
     }
 }

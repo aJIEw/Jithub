@@ -2,11 +2,15 @@ package me.ajiew.jithub.ui.profile
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.lxj.xpopup.XPopup
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.common.ViewModelFactory
 import me.ajiew.jithub.databinding.FragmentProfileBinding
+import me.ajiew.jithub.widget.ContributionAttachBubblePopup
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,6 +47,24 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()
         }
+        binding.rvContribution.layoutManager =
+            GridLayoutManager(requireContext(), 7, RecyclerView.HORIZONTAL, false)
+    }
+
+    override fun initViewObservable() {
+        super.initViewObservable()
+
+        viewModel.ui.showContributionPopup.observe(this, { value ->
+            if (value != null) {
+                XPopup.Builder(requireContext())
+                    .atView(binding.rvContribution.findViewHolderForLayoutPosition(value.index)?.itemView)
+                    .hasShadowBg(false)
+                    .isViewMode(true)
+                    .isDestroyOnDismiss(true)
+                    .asCustom(ContributionAttachBubblePopup(requireContext(), value))
+                    .show()
+            }
+        })
     }
 
     override fun hideLoading() {

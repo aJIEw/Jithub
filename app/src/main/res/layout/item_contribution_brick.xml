@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="me.ajiew.jithub.data.model.ContributionRecord" />
+
+        <variable
+            name="onClickItem"
+            type="me.ajiew.core.base.viewmodel.OnItemClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            drawable_radius="@{3}"
+            drawable_solidColor="@{item.number >= 7 ? @color/color_contribution_very_good : item.number >= 5 ? @color/color_contribution_good : item.number >= 3 ? @color/color_contribution_well : item.number > 0 ? @color/color_contribution : @color/color_contribution_zero}"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginHorizontal="@dimen/dp_half"
+            android:layout_marginTop="@dimen/dp_half"
+            android:gravity="center"
+            android:onClick="@{() -> onClickItem.onItemClick(item)}"
+            android:text="@{String.valueOf(item.number)}"
+            android:textSize="@dimen/sp_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/grey_light"
+            tools:text="1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

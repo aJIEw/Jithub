@@ -109,6 +109,17 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun requestUserEvent(page: Int): Results<List<EventTimeline>> {
+        return try {
+            val userName = UserProfile.userName
+            val result = remoteDataSource.getUserEvent(userName, page)
+            Results.Success(result)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Results.Error(e)
+        }
+    }
+
     companion object :
         SingletonHolderDoubleArg<UserRepositoryImpl, UserRemoteDataSource, UserLocalDataSource>(::UserRepositoryImpl)
 }
@@ -134,12 +145,16 @@ class UserRemoteDataSource(
         return userService.getUserFeeds()
     }
 
-    suspend fun getUserTimeline(userName: String, page: Int): List<EventTimeline> {
-        return userService.getUserTimeline(userName, page)
+    suspend fun getUserTimeline(name: String, page: Int): List<EventTimeline> {
+        return userService.getUserTimeline(name, page)
     }
 
     suspend fun getUserRepoInfo(url: String) : UserRepo {
         return userService.getUserRepo(url)
+    }
+
+    suspend fun getUserEvent(name: String, page: Int): List<EventTimeline> {
+        return userService.getUserEvent(name, page = page)
     }
 
     companion object :
