@@ -10,19 +10,42 @@
             type="me.ajiew.jithub.ui.home.TestViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment">
+        android:orientation="vertical"
+        tools:context=".ui.home.TestFragment">
 
-        <ImageView
-            radius="@{25}"
-            radiusErrorDrawable="@{@drawable/ic_logo}"
-            radiusShowPlaceholder="@{true}"
-            radiusUrl='@{"https://avatar.githubusercontent.com/u/13328707?v=4"}'
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="@dimen/dp_double" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_double"
+            android:background="@color/grey"
+            android:drawableLeft="@{@drawable/ic_logo}"
+            android:text="Hello World" />
 
-    </FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_double"
+            android:background="@color/grey"
+            android:drawableTop="@{@drawable/ic_logo}"
+            android:text="Hello World" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_double"
+            android:background="@color/grey"
+            android:drawableRight="@{@drawable/ic_logo}"
+            android:text="Hello World" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_double"
+            android:background="@color/grey"
+            android:drawableBottom="@{@drawable/ic_logo}"
+            android:text="Hello World" />
+    </LinearLayout>
 </layout>

@@ -13,6 +13,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.blankj.utilcode.util.ConvertUtils.dp2px
 import com.blankj.utilcode.util.StringUtils
+import androidx.core.content.ContextCompat
 
 
 @BindingAdapter("isBold")
@@ -28,6 +29,34 @@ fun setEllipsize(textView: TextView, ellipsize: Int, ellipsizeText: String) {
     } else {
         textView.text = StringUtils.null2Length0(ellipsizeText)
     }
+}
+
+@BindingAdapter("android:drawableLeft")
+fun setDrawableLeft(textView: TextView, resourceId: Int) {
+    val drawable = ContextCompat.getDrawable(textView.context, resourceId)
+    setIntrinsicBounds(drawable)
+    setTextViewDrawables(textView, drawable, direction = 0)
+}
+
+@BindingAdapter("android:drawableTop")
+fun setDrawableTop(textView: TextView, resourceId: Int) {
+    val drawable = ContextCompat.getDrawable(textView.context, resourceId)
+    setIntrinsicBounds(drawable)
+    setTextViewDrawables(textView, drawable, direction = 1)
+}
+
+@BindingAdapter("android:drawableRight")
+fun setDrawableRight(textView: TextView, resourceId: Int) {
+    val drawable = ContextCompat.getDrawable(textView.context, resourceId)
+    setIntrinsicBounds(drawable)
+    setTextViewDrawables(textView, drawable, direction = 2)
+}
+
+@BindingAdapter("android:drawableBottom")
+fun setDrawableBottom(textView: TextView, resourceId: Int) {
+    val drawable = ContextCompat.getDrawable(textView.context, resourceId)
+    setIntrinsicBounds(drawable)
+    setTextViewDrawables(textView, drawable, direction = 3)
 }
 
 @BindingAdapter(
@@ -92,7 +121,7 @@ private fun loadImage(
 
 private fun setTextViewDrawables(
     textView: TextView, targetDrawable: Drawable?,
-    @ColorInt tintColor: Int, direction: Int
+    @ColorInt tintColor: Int = 0, direction: Int
 ) {
     if (targetDrawable == null) return
 
@@ -101,22 +130,26 @@ private fun setTextViewDrawables(
     }
     val drawables = textView.compoundDrawables
     when (direction) {
+        // left
         0 -> textView.setCompoundDrawables(
             targetDrawable, drawables[1], drawables[2], drawables[3]
         )
+        // top
         1 -> textView.setCompoundDrawables(
             drawables[0], targetDrawable, drawables[2], drawables[3]
         )
+        // right
         2 -> textView.setCompoundDrawables(
             drawables[0], drawables[1], targetDrawable, drawables[3]
         )
+        // bottom
         3 -> textView.setCompoundDrawables(
             drawables[0], drawables[1], drawables[2], targetDrawable
         )
     }
 }
 
-private fun setIntrinsicBounds(drawable: Drawable?, paddingTop: Int) {
+private fun setIntrinsicBounds(drawable: Drawable?, paddingTop: Int = 0) {
     drawable?.setBounds(
         0,
         dp2px(paddingTop.toFloat()),
