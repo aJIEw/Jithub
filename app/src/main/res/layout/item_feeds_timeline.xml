@@ -147,19 +147,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_single"
+                android:drawableLeft="@{vm.starred ? @drawable/ic_starred : @drawable/ic_trending_star}"
                 android:drawablePadding="@dimen/dp_six"
                 android:onClick="@{() -> vm.onClickStar.onItemClick(vm.entity.repo)}"
                 android:paddingHorizontal="@dimen/dp_twenty"
                 android:paddingVertical="@dimen/dp_single"
-                android:text="Star"
+                android:text='@{vm.starred ? "Unstar" : "Star"}'
                 android:textAllCaps="false"
                 app:cornerRadius="@dimen/dp_single"
-                app:drawableStartCompat="@drawable/ic_trending_star"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_repo_desc"
                 tools:background="@color/grey_light"
                 tools:gravity="center"
+                tools:text="Star"
                 tools:textColor="@color/black" />
 
             <FrameLayout

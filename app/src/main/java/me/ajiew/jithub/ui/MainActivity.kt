@@ -2,12 +2,10 @@ package me.ajiew.jithub.ui
 
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
@@ -24,8 +22,7 @@ import me.ajiew.jithub.ui.explore.ExploreFragment
 import me.ajiew.jithub.ui.home.HomeFragment
 import me.ajiew.jithub.ui.profile.ProfileFragment
 import me.ajiew.jithub.ui.viewmodel.MainViewModel
-import me.ajiew.jithub.widget.browser.CustomTabActivityHelper
-import me.ajiew.jithub.widget.browser.WebviewFallback
+import me.ajiew.jithub.util.AppUtil
 import java.util.*
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
@@ -145,13 +142,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         val loggedIn = hasLoggedIn
         if (!loggedIn) {
             val url: String = Constants.GITHUB_OAUTH_AUTHORIZE_URL
-            val customTabsIntent = CustomTabsIntent.Builder()
-                .setShowTitle(true)
-                .setShareState(CustomTabsIntent.SHARE_STATE_OFF)
-                .build()
-            CustomTabActivityHelper.openCustomTab(
-                this, customTabsIntent, Uri.parse(url), WebviewFallback()
-            )
+            AppUtil.openCustomTab(this, url, false)
         }
         return !loggedIn
     }

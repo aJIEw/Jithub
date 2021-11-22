@@ -22,7 +22,10 @@ class ViewModelFactory : BaseViewModelFactory() {
                     HomeViewModel(RepoResolver.userRepository) as T
                 }
                 isAssignableFrom(ExploreViewModel::class.java) -> {
-                    ExploreViewModel(RepoResolver.exploreRepository) as T
+                    ExploreViewModel(
+                        RepoResolver.exploreRepository,
+                        RepoResolver.userRepository
+                    ) as T
                 }
                 isAssignableFrom(ProfileViewModel::class.java) -> {
                     ProfileViewModel(RepoResolver.userRepository) as T

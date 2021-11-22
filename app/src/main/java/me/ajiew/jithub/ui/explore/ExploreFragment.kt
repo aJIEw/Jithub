@@ -1,16 +1,17 @@
 package me.ajiew.jithub.ui.explore
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.nukc.stateview.StateView
 import com.hjq.toast.ToastUtils
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
+import me.ajiew.jithub.common.Constants
 import me.ajiew.jithub.common.ViewModelFactory
 import me.ajiew.jithub.data.response.TrendingRepo
 import me.ajiew.jithub.databinding.FragmentExploreBinding
+import me.ajiew.jithub.util.AppUtil
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +40,17 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreViewModel>()
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+    }
+
+    override fun initViewObservable() {
+        super.initViewObservable()
+
+        viewModel.ui.showLoginPage.observe(this, { value ->
+            if (value == true) {
+                val url: String = Constants.GITHUB_OAUTH_AUTHORIZE_URL
+                AppUtil.openCustomTab(requireActivity(), url, false)
+            }
+        })
     }
 
     @Suppress("UNCHECKED_CAST")

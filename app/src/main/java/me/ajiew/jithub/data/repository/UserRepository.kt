@@ -3,6 +3,7 @@ package me.ajiew.jithub.data.repository
 import me.ajiew.core.base.repository.IRepository
 import me.ajiew.core.data.Results
 import me.ajiew.jithub.data.response.*
+import retrofit2.Response
 
 /**
  *
@@ -30,4 +31,10 @@ interface UserRepository : IRepository {
     suspend fun requestUserRepo(url: String): Results<UserRepo>
 
     suspend fun requestUserEvent(page: Int): Results<List<EventTimeline>>
+
+    suspend fun requestCheckUserStarredRepo(owner: String, repo: String): Response<Any>
+
+    suspend fun requestStarRepo(owner: String, repo: String): Response<Any>
+
+    suspend fun requestUnstarRepo(owner: String, repo: String): Response<Any>
 }

@@ -179,7 +179,7 @@
             android:layout_marginHorizontal="@dimen/dp_triple"
             android:layout_marginVertical="@dimen/dp_double"
             android:onClick="@{vm::onClickStar}"
-            android:text="Star"
+            android:text='@{vm.starred ? "Unstar" : "Star"}'
             android:textAllCaps="false"
             app:cornerRadius="@dimen/dp_half"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -187,6 +187,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_build_by_label"
             tools:gravity="center"
+            tools:text="Star"
             tools:textColor="@color/white" />
     </com.qmuiteam.qmui.layout.QMUIConstraintLayout>
 </layout>

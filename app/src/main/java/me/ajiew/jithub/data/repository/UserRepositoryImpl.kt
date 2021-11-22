@@ -14,6 +14,7 @@ import me.ajiew.jithub.data.model.UserProfile
 import me.ajiew.jithub.data.response.*
 import me.ajiew.jithub.data.service.LoginService
 import me.ajiew.jithub.data.service.UserService
+import retrofit2.Response
 import timber.log.Timber
 
 /**
@@ -120,6 +121,18 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun requestCheckUserStarredRepo(owner: String, repo: String): Response<Any> {
+        return remoteDataSource.checkUserStarredRepo(owner, repo)
+    }
+
+    override suspend fun requestStarRepo(owner: String, repo: String): Response<Any> {
+        return remoteDataSource.starRepo(owner, repo)
+    }
+
+    override suspend fun requestUnstarRepo(owner: String, repo: String): Response<Any> {
+        return remoteDataSource.unstarRepo(owner, repo)
+    }
+
     companion object :
         SingletonHolderDoubleArg<UserRepositoryImpl, UserRemoteDataSource, UserLocalDataSource>(::UserRepositoryImpl)
 }
@@ -155,6 +168,18 @@ class UserRemoteDataSource(
 
     suspend fun getUserEvent(name: String, page: Int): List<EventTimeline> {
         return userService.getUserEvent(name, page = page)
+    }
+
+    suspend fun checkUserStarredRepo(owner: String, repo: String): Response<Any> {
+        return userService.checkUserStarredRepo(owner, repo)
+    }
+
+    suspend fun starRepo(owner: String, repo: String): Response<Any> {
+        return userService.starRepo(owner, repo)
+    }
+
+    suspend fun unstarRepo(owner: String, repo: String): Response<Any> {
+        return userService.unstarRepo(owner, repo)
     }
 
     companion object :

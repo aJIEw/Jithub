@@ -1,5 +1,6 @@
 package me.ajiew.jithub.ui.profile
 
+import androidx.annotation.DrawableRes
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.lifecycle.viewModelScope
@@ -61,51 +62,15 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
     private var contributionEventPage = 1
 
     init {
-        optionsList.add(
-            ProfileOptionItem(
-                R.drawable.shape_option_repo,
-                "Repositories",
-                "",
-                object : OnItemClickListener<ProfileOptionItem> {
-                    override fun onItemClick(item: ProfileOptionItem) {
-                        ToastUtils.show("show repositories")
-                    }
-                })
-        )
-        optionsList.add(
-            ProfileOptionItem(
-                R.drawable.shape_option_starred,
-                "Starred",
-                "",
-                object : OnItemClickListener<ProfileOptionItem> {
-                    override fun onItemClick(item: ProfileOptionItem) {
-                        ToastUtils.show("show starred repos")
-                    }
-                })
-        )
-        optionsList.add(
-            ProfileOptionItem(
-                R.drawable.shape_option_settings,
-                "Settings",
-                "",
-                object : OnItemClickListener<ProfileOptionItem> {
-                    override fun onItemClick(item: ProfileOptionItem) {
-                        ToastUtils.show("show settings")
-                    }
-                })
-        )
+        initContributionData()
+
+        initOptions()
     }
 
     override fun initFetchData() {
         super.initFetchData()
 
         refresh()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        initContributionData()
     }
 
     private fun initContributionData() {
@@ -135,6 +100,37 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
                 today.minusDays(i.toLong()).format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
             contributionList.add(ContributionRecord(i + contributionPlaceholderDays, date, 0))
         }
+    }
+
+    private fun initOptions() {
+        fun addOption(
+            @DrawableRes icon: Int,
+            title: String,
+            endText: String = "",
+            onClick: () -> Unit
+        ) {
+            optionsList.add(
+                ProfileOptionItem(
+                    icon,
+                    title,
+                    endText,
+                    object : OnItemClickListener<ProfileOptionItem> {
+                        override fun onItemClick(item: ProfileOptionItem) {
+                            onClick()
+                        }
+                    })
+            )
+        }
+
+        addOption(R.drawable.shape_option_repo, "Repositories", onClick = {
+            ToastUtils.show("show repositories")
+        })
+        addOption(R.drawable.shape_option_starred, "Starred", onClick = {
+            ToastUtils.show("show starred repos")
+        })
+        addOption(R.drawable.shape_option_settings, "Settings", onClick = {
+            ToastUtils.show("show settings")
+        })
     }
 
     fun refresh() {
@@ -204,9 +200,8 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
                     .toDays().toInt() + contributionPlaceholderDays
                 val contribution = contributionList[contributionIndex]
 
-                // update contribution number
-                contribution.number =
-                    contribution.number + filterCurrentUserCommits(item.payload.commits)
+                contribution.number = filterCurrentUserCommits(item.payload.commits)
+                // update total contribution number
                 totalContributions.value = totalContributions.value!! + contribution.number
                 contributionList[contributionIndex] = contribution
             }

@@ -2,6 +2,7 @@ package me.ajiew.jithub.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.hjq.toast.ToastUtils
 import kotlinx.coroutines.launch
 import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
@@ -15,6 +16,7 @@ import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.service.UserService
 import me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel
 import me.tatarka.bindingcollectionadapter2.ItemBinding
+import timber.log.Timber
 
 /**
  *
@@ -76,8 +78,9 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
                         timelineFeeds.value = data
                         isRefreshing = false
                     } else {
+                        val addedNum = timelineAdapter.data.size
                         timelineAdapter.addData(data.mapIndexed { index, event ->
-                            ItemTimelineViewModel(this@HomeViewModel, index, event)
+                            ItemTimelineViewModel(this@HomeViewModel, addedNum + index, event)
                         })
                     }
 
@@ -107,6 +110,63 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
                 val data = results.data
                 timelineAdapter.getItem(index).repo.value = data
                 timelineAdapter.notifyItemChanged(index)
+            }
+        }
+    }
+
+    fun checkUserStarredRepo(index: Int, repo: String) {
+        if (!repo.contains("/")) return
+
+        viewModelScope.launch {
+            val parts = repo.split("/")
+
+            if (parts.size > 1) {
+                val results = repository.requestCheckUserStarredRepo(parts[0], parts[1])
+
+                if (results.isSuccessful && results.code() == 204) {
+                    timelineAdapter.getItem(index).starred.value = true
+                    timelineAdapter.notifyItemChanged(index)
+                }
+            }
+        }
+    }
+
+    fun requestStarRepo(index: Int, repo: String) {
+        if (!repo.contains("/")) return
+
+        viewModelScope.launch {
+            val parts = repo.split("/")
+
+            if (parts.size > 1) {
+                val results = repository.requestStarRepo(parts[0], parts[1])
+
+                if (results.isSuccessful && results.code() == 204) {
+                    timelineAdapter.getItem(index).starred.value = true
+                    timelineAdapter.notifyItemChanged(index)
+                } else {
+                    Timber.e("Something went wrong: ${results.errorBody()}")
+                    ToastUtils.show("Something went wrong!")
+                }
+            }
+        }
+    }
+
+    fun requestUnstarRepo(index: Int, repo: String) {
+        if (!repo.contains("/")) return
+
+        viewModelScope.launch {
+            val parts = repo.split("/")
+
+            if (parts.size > 1) {
+                val results = repository.requestUnstarRepo(parts[0], parts[1])
+
+                if (results.isSuccessful && results.code() == 204) {
+                    timelineAdapter.getItem(index).starred.value = false
+                    timelineAdapter.notifyItemChanged(index)
+                } else {
+                    Timber.e("Something went wrong: ${results.errorBody()}")
+                    ToastUtils.show("Something went wrong!")
+                }
             }
         }
     }
