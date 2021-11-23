@@ -1,9 +1,14 @@
 package me.ajiew.core.base
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -22,6 +27,8 @@ open class ContainerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
 
+        setLightStatusBar()
+
         val fm: FragmentManager = supportFragmentManager
         var fragment: Fragment? = null
         if (savedInstanceState != null) {
@@ -31,11 +38,19 @@ open class ContainerActivity : AppCompatActivity() {
             fragment = initFromIntent(intent)
         }
 
-        BaseApplication.instance
-
         val trans: FragmentTransaction = fm.beginTransaction()
         trans.replace(R.id.content, fragment)
         trans.commitAllowingStateLoss()
+    }
+
+    private fun setLightStatusBar() {
+        val root = findViewById<View>(android.R.id.content).rootView
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor = ContextCompat.getColor(this, android.R.color.background_dark)
+            window.statusBarColor = Color.TRANSPARENT
+        }
+        WindowInsetsControllerCompat(window, root).isAppearanceLightStatusBars = true
     }
 
     private fun initFromIntent(data: Intent?): Fragment {
