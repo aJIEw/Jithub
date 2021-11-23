@@ -12,6 +12,7 @@ import me.ajiew.jithub.common.ViewModelFactory
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.FeedsTemplate
 import me.ajiew.jithub.databinding.FragmentHomeBinding
+import me.ajiew.jithub.util.AppUtil
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +50,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()
         }
+    }
+
+    override fun initViewObservable() {
+        super.initViewObservable()
+
+        viewModel.ui.showWebpageUrl.observe(this, { value ->
+            if (value != null && value.isNotEmpty()) {
+                AppUtil.openCustomTab(requireActivity(), value, useBackIcon = true)
+            }
+        })
     }
 
     override fun onSuccess(data: Any, message: String) {

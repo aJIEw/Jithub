@@ -6,9 +6,12 @@ import com.hjq.toast.ToastUtils
 import kotlinx.coroutines.launch
 import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
+import me.ajiew.core.base.viewmodel.OnItemClickListener
 import me.ajiew.core.data.Results
+import me.ajiew.core.util.SingleLiveEvent
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
+import me.ajiew.jithub.common.Constants.BASE_GITHUB_URL
 import me.ajiew.jithub.data.model.GithubEvent
 import me.ajiew.jithub.data.model.UserProfile
 import me.ajiew.jithub.data.repository.UserRepository
@@ -25,9 +28,16 @@ import timber.log.Timber
  */
 class HomeViewModel(private val repository: UserRepository) : BaseViewModel<UserRepository>() {
 
+    val ui = UIChangeObservable()
+
     var timelineFeeds = MutableLiveData<List<EventTimeline>>(emptyList())
     var timelineBinding = ItemBinding.of<EventTimeline>(BR.vm, R.layout.item_feeds_timeline)
-    var timelineAdapter = FeedsTimelineAdapter().apply {
+    var timelineAdapter = FeedsTimelineAdapter(object : OnItemClickListener<EventTimeline> {
+        override fun onItemClick(item: EventTimeline) {
+            Timber.d("Clicked ${item.repo.name}")
+            ui.showWebpageUrl.value = BASE_GITHUB_URL + item.repo.name
+        }
+    }).apply {
         loadMoreModule.setOnLoadMoreListener {
             loadMore()
         }
@@ -169,6 +179,10 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
                 }
             }
         }
+    }
+
+    class UIChangeObservable {
+        val showWebpageUrl = SingleLiveEvent<String>()
     }
 
     companion object {

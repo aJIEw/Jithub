@@ -129,6 +129,8 @@ class ExploreViewModel(
 
     class UIChangeObservable {
         val showLoginPage = SingleLiveEvent<Boolean>()
+
+        val showWebpageUrl = SingleLiveEvent<String>()
     }
 }
 
@@ -158,7 +160,7 @@ class ItemTrendingRepoViewModel(
     }
 
     fun onClickItem(view: View) {
-        ToastUtils.show("Clicked ${entity.name} at ${index + 1}")
+        viewModel.ui.showWebpageUrl.value = entity.url
     }
 
     fun onClickStar(view: View) {

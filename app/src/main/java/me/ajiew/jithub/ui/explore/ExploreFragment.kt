@@ -51,6 +51,12 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreViewModel>()
                 AppUtil.openCustomTab(requireActivity(), url, false)
             }
         })
+
+        viewModel.ui.showWebpageUrl.observe(this, { value ->
+            if (value != null && value.isNotEmpty()) {
+                AppUtil.openCustomTab(requireActivity(), value, useBackIcon = true)
+            }
+        })
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -198,6 +198,19 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
                     Instant.parse(item.created_at).atZone(ZoneId.systemDefault()).toLocalDate()
                 val contributionIndex = Duration.between(date.atStartOfDay(), today.atStartOfDay())
                     .toDays().toInt() + contributionPlaceholderDays
+                // update the list size if not enough
+                if (contributionIndex >= contributionList.size) {
+                    val end = contributionList.size
+                    for (i in end..contributionIndex) {
+                        contributionList.add(
+                            ContributionRecord(
+                                i,
+                                date.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+                                -1
+                            )
+                        )
+                    }
+                }
                 val contribution = contributionList[contributionIndex]
 
                 contribution.number = filterCurrentUserCommits(item.payload.commits)

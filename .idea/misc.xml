@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../.gradle/caches/transforms-3/73dca6d3ae9184e26a3f4cd68407953d/transformed/jetified-qmui-2.0.1/res/layout/qmui_empty_view.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2421875" />
+        <entry key="app/src/main/res/drawable/ic_arrow_back.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_circle_filled.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_empty.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_explore_active.xml" value="0.228125" />
@@ -48,7 +49,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.45" />
-        <entry key="app/src/main/res/layout/fragment_test.xml" value="0.11145833333333334" />
+        <entry key="app/src/main/res/layout/fragment_test.xml" value="0.10416666666666667" />
         <entry key="app/src/main/res/layout/item_contribution_brick.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/item_contribution_label.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/item_event_timeline.xml" value="0.21197916666666666" />

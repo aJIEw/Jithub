@@ -1,6 +1,9 @@
 package me.ajiew.jithub.data.service
 
 import me.ajiew.jithub.BuildConfig
+import me.ajiew.jithub.common.Constants.BASE_API_URL
+import me.ajiew.jithub.common.Constants.BASE_GITHUB_URL
+import me.ajiew.jithub.common.Constants.BASE_TRENDING_URL
 import me.ajiew.jithub.data.repository.RepoResolver
 import me.ajiew.jithub.data.service.interceptor.AuthHeaderInterceptor
 import me.ajiew.jithub.data.service.interceptor.GithubExpiredInterceptor
@@ -14,13 +17,6 @@ import java.util.concurrent.TimeUnit
 
 
 object NetworkCreator {
-
-    private const val BASE_GITHUB_URL = "https://github.com/"
-
-    private const val BASE_API_URL = "https://api.github.com/"
-
-    private const val BASE_TRENDING_URL = "https://gtrend.yapie.me/"
-
 
     private const val DEFAULT_TIMEOUT: Long = 10
 

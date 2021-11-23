@@ -6,6 +6,10 @@ import me.ajiew.jithub.BuildConfig.GITHUB_CLIENT_ID
 
 object Constants {
 
+    const val BASE_GITHUB_URL = "https://github.com/"
+    const val BASE_API_URL = "https://api.github.com/"
+    const val BASE_TRENDING_URL = "https://gtrend.yapie.me/"
+
     const val SP_EULA_PASS = "SP_EULA_PASS"
     const val SP_USER_LOGGED_IN = "SP_USER_LOGGED_IN"
 

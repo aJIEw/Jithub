@@ -5,7 +5,6 @@ import android.text.style.StyleSpan
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
-import com.hjq.toast.ToastUtils
 import me.ajiew.core.base.viewmodel.OnItemClickListener
 import me.ajiew.core.util.spanny.Spanny
 import me.ajiew.jithub.R
@@ -19,7 +18,7 @@ import me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel
  * @author aJIEw
  * Created on: 2021/11/11 14:38
  */
-class FeedsTimelineAdapter :
+class FeedsTimelineAdapter(private val onClickRepo: OnItemClickListener<EventTimeline>) :
     BaseQuickAdapter<ItemTimelineViewModel, BaseDataBindingHolder<ItemFeedsTimelineBinding>>(R.layout.item_feeds_timeline),
     LoadMoreModule {
 
@@ -30,11 +29,7 @@ class FeedsTimelineAdapter :
         holder.dataBinding?.apply {
             vm = item
             this.item = item.entity
-            this.onClickRepo = object : OnItemClickListener<EventTimeline> {
-                override fun onItemClick(item: EventTimeline) {
-                    ToastUtils.show("Clicked ${item.repo.name}")
-                }
-            }
+            this.onClickRepo = this@FeedsTimelineAdapter.onClickRepo
             executePendingBindings()
         }
 
