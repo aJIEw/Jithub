@@ -65,6 +65,16 @@ interface UserService {
         @Path("repo") repo: String
     ): Response<Any>
 
+    /**
+     * https://docs.github.com/en/rest/reference/repos#list-repositories-for-the-authenticated-user
+     * */
+    @GET("/user/repos")
+    suspend fun getUserRepoList(
+        @Query("sort") sort: String = "updated",
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int
+    ) : List<UserRepo>
+
     companion object {
         /**
          * User Timeline results, items per page.

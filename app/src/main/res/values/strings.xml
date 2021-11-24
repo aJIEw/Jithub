@@ -9,4 +9,6 @@
         <item quantity="one">contribution</item>
         <item quantity="other">contributions</item>
     </plurals>
+
+    <string name="page_title_repo">Repositories</string>
 </resources>

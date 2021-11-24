@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="onBackPressed"
+            type="me.ajiew.core.util.messenger.BindingAction" />
+    </data>
+
+    <com.qmuiteam.qmui.layout.QMUILinearLayout
+        android:id="@+id/appbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:qmui_radius="0dp"
+        app:qmui_shadowAlpha="0.5"
+        app:qmui_shadowElevation="5dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/dp_twelve"
+            android:src="@drawable/ic_arrow_back"
+            app:onClick="@{onBackPressed}"
+            app:tint="@color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_double"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{title}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textSize="@dimen/sp_heading"
+            tools:text="Jithub" />
+    </com.qmuiteam.qmui.layout.QMUILinearLayout>
+</layout>

@@ -102,7 +102,7 @@ class HomeViewModel(private val repository: UserRepository) : BaseViewModel<User
 
                     timelinePage++
 
-                    UIState.Success(results.data, "Load Success")
+                    UIState.Success(data, "Load Success")
                 }
                 is Results.Error -> UIState.Error(null, results.message)
             }

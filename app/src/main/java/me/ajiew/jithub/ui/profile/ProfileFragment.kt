@@ -55,8 +55,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         binding.rvContribution.viewTreeObserver.addOnGlobalLayoutListener(object :
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                viewModel.ui.showContributionPopup.value = viewModel.contributionList.first {
-                    it.date.isNotEmpty() && it.number > -1
+                if (viewModel.contributionList.any { it.number > 0 }) {
+                    viewModel.ui.showContributionPopup.value = viewModel.contributionList.first {
+                        it.date.isNotEmpty() && it.number > -1
+                    }
                 }
 
                 binding.rvContribution

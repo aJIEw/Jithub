@@ -81,7 +81,9 @@ open class ContainerActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        supportFragmentManager.putFragment(outState, FRAGMENT_TAG, mFragment.get()!!)
+        if (mFragment.get() != null) {
+            supportFragmentManager.putFragment(outState, FRAGMENT_TAG, mFragment.get()!!)
+        }
     }
 
     override fun onBackPressed() {

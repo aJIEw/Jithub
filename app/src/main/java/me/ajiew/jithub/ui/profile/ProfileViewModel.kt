@@ -21,6 +21,7 @@ import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.Commit
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.User
+import me.ajiew.jithub.ui.repo.RepoListFragment
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import java.time.DayOfWeek
 import java.time.Duration
@@ -123,14 +124,14 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
         }
 
         addOption(R.drawable.shape_option_repo, "Repositories", onClick = {
-            ToastUtils.show("show repositories")
+            startContainerActivity(RepoListFragment::class.qualifiedName)
         })
         addOption(R.drawable.shape_option_starred, "Starred", onClick = {
             ToastUtils.show("show starred repos")
         })
-        addOption(R.drawable.shape_option_settings, "Settings", onClick = {
+        /*addOption(R.drawable.shape_option_settings, "Settings", onClick = {
             ToastUtils.show("show settings")
-        })
+        })*/
     }
 
     fun refresh() {
@@ -192,21 +193,23 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
     private fun filterPushEvent(data: List<EventTimeline>) {
         val today = Instant.now().atZone(ZoneId.systemDefault()).toLocalDate()
 
-        data.mapIndexed { index, item ->
+        data.map { item ->
             if (item.type == GithubEvent.PushEvent.type) {
                 val date =
                     Instant.parse(item.created_at).atZone(ZoneId.systemDefault()).toLocalDate()
                 val contributionIndex = Duration.between(date.atStartOfDay(), today.atStartOfDay())
                     .toDays().toInt() + contributionPlaceholderDays
-                // update the list size if not enough
+                // update the list when size not enough
                 if (contributionIndex >= contributionList.size) {
                     val end = contributionList.size
+                    val offset = contributionIndex - end
                     for (i in end..contributionIndex) {
                         contributionList.add(
                             ContributionRecord(
                                 i,
-                                date.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
-                                -1
+                                date.plusDays((offset - i).toLong())
+                                    .format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+                                0
                             )
                         )
                     }

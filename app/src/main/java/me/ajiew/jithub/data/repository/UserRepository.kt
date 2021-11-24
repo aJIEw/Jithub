@@ -37,4 +37,6 @@ interface UserRepository : IRepository {
     suspend fun requestStarRepo(owner: String, repo: String): Response<Any>
 
     suspend fun requestUnstarRepo(owner: String, repo: String): Response<Any>
+
+    suspend fun requestUserRepoList(page: Int): Results<List<UserRepo>>
 }

@@ -4,6 +4,7 @@ import com.blankj.utilcode.constant.TimeConstants
 import com.blankj.utilcode.util.TimeUtils
 import java.time.Instant
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 /**
  *
@@ -27,6 +28,11 @@ fun getFriendlyTime(time: String): String {
                     spanDay += 1
                 }
                 result.autoPluralWords("day", spanDay.toInt())
+
+                if (spanDay > 30) {
+                    result.clear()
+                    result.append(parsed.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")))
+                }
             }
         } else {
             result.autoPluralWords("hour", spanHour.toInt())

@@ -33,6 +33,7 @@
         <entry key="app/src/main/res/drawable/ic_tab_explore.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_tab_home.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_tab_profile.xml" value="0.228125" />
+        <entry key="app/src/main/res/drawable/ic_trending_circle_filled.xml" value="0.2421875" />
         <entry key="app/src/main/res/drawable/ic_trending_fork.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_trending_star.xml" value="0.228125" />
         <entry key="app/src/main/res/drawable/ic_trending_star_filled.xml" value="0.2421875" />
@@ -49,15 +50,18 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/fragment_repo_list.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.10416666666666667" />
         <entry key="app/src/main/res/layout/item_contribution_brick.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/item_contribution_label.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/item_event_timeline.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/item_feeds_timeline.xml" value="0.3087557603686636" />
         <entry key="app/src/main/res/layout/item_profile_option.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_repo_list.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_timeline_event.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/item_trending_built_by.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/item_trending_repo.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/layout_toolbar.xml" value="0.335" />
         <entry key="app/src/main/res/layout/view_contribution_popup.xml" value="0.45" />
         <entry key="app/src/main/res/layout/view_loading.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
