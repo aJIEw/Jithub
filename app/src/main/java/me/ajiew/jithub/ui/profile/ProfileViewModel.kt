@@ -1,10 +1,11 @@
 package me.ajiew.jithub.ui.profile
 
+import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.lifecycle.viewModelScope
-import com.hjq.toast.ToastUtils
+import com.blankj.utilcode.util.StringUtils
 import kotlinx.coroutines.launch
 import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
@@ -21,7 +22,9 @@ import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.Commit
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.User
+import me.ajiew.jithub.ui.repo.ARG_TITLE
 import me.ajiew.jithub.ui.repo.RepoListFragment
+import me.ajiew.jithub.ui.starred.StarredRepoListFragment
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import java.time.DayOfWeek
 import java.time.Duration
@@ -124,10 +127,14 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
         }
 
         addOption(R.drawable.shape_option_repo, "Repositories", onClick = {
-            startContainerActivity(RepoListFragment::class.qualifiedName)
+            val bundle = Bundle()
+            bundle.putString(ARG_TITLE, StringUtils.getString(R.string.page_title_repo))
+            startContainerActivity(RepoListFragment::class.qualifiedName, bundle)
         })
         addOption(R.drawable.shape_option_starred, "Starred", onClick = {
-            ToastUtils.show("show starred repos")
+            val bundle = Bundle()
+            bundle.putString(ARG_TITLE, StringUtils.getString(R.string.page_title_starred))
+            startContainerActivity(StarredRepoListFragment::class.qualifiedName, bundle)
         })
         /*addOption(R.drawable.shape_option_settings, "Settings", onClick = {
             ToastUtils.show("show settings")

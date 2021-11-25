@@ -6,14 +6,15 @@ import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import coil.imageLoader
 import coil.request.ImageRequest
+import coil.transform.RoundedCornersTransformation
 import com.blankj.utilcode.util.ConvertUtils.dp2px
 import com.blankj.utilcode.util.StringUtils
-import androidx.core.content.ContextCompat
 
 
 @BindingAdapter("isBold")
@@ -63,7 +64,7 @@ fun setDrawableBottom(textView: TextView, resourceId: Int) {
     value = [
         "drawableRightUrl", "drawableRightTint",
         "drawableRightWidth", "drawableRightHeight",
-        "drawablePadding", "drawablePaddingTop"
+        "drawableRadius", "drawablePadding", "drawablePaddingTop"
     ],
     requireAll = false
 )
@@ -72,15 +73,16 @@ fun drawableRightUrl(
     url: String,
     @ColorInt tintColor: Int,
     width: Int, height: Int,
-    padding: Int, paddingTop: Int
+    radius: Int, padding: Int, paddingTop: Int
 ) {
-    loadImage(textView, url, tintColor, width, height, padding, paddingTop, 2)
+    loadImage(textView, url, tintColor, width, height, direction = 2, radius, padding, paddingTop)
 }
 
 @BindingAdapter(
     value = ["drawableLeftUrl", "drawableLeftTint",
         "drawableLeftWidth", "drawableLeftHeight",
-        "drawablePadding", "drawablePaddingTop"],
+        "drawableRadius", "drawablePadding", "drawablePaddingTop"
+    ],
     requireAll = false
 )
 fun drawableLeftUrl(
@@ -88,9 +90,9 @@ fun drawableLeftUrl(
     url: String,
     @ColorInt tintColor: Int,
     width: Int, height: Int,
-    padding: Int, paddingTop: Int
+    radius: Int, padding: Int, paddingTop: Int
 ) {
-    loadImage(textView, url, tintColor, width, height, padding, paddingTop, 0)
+    loadImage(textView, url, tintColor, width, height, direction = 0, radius, padding, paddingTop)
 }
 
 private fun loadImage(
@@ -98,13 +100,14 @@ private fun loadImage(
     url: String,
     @ColorInt tintColor: Int,
     width: Int, height: Int,
-    padding: Int, paddingTop: Int,
-    direction: Int
+    direction: Int,
+    radius: Int = 0, padding: Int = 0, paddingTop: Int = 0,
 ) {
     if (!TextUtils.isEmpty(url) && width > 0 && height > 0) {
         val request = ImageRequest.Builder(textView.context)
             .data(url)
             .size(dp2px(width.toFloat()), dp2px(height.toFloat()))
+            .transformations(RoundedCornersTransformation(dp2px(radius.toFloat()).toFloat()))
             .target { drawable ->
                 setIntrinsicBounds(drawable, paddingTop.coerceAtLeast(0))
 

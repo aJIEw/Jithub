@@ -19,6 +19,12 @@ open class BaseViewModel<in T : IRepository> : ViewModel(), IBaseViewModel {
 
     var onBackPressed = BindingAction { onBackPressed() }
 
+    /**
+     * 页面标题，可在视图初始化时进行设置，比如从其它页面跳转传递过来的数据。
+     * 可在 xml 中直接绑定到组件上。
+     * */
+    val title = SingleLiveEvent<String>()
+
     internal val ui: UIChangeObservable = UIChangeObservable()
 
     protected val uiState = SingleLiveEvent<UIState>()

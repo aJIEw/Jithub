@@ -143,6 +143,17 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun requestUserStarredRepoList(page: Int): Results<List<UserRepo>> {
+        return try {
+            val userName = UserProfile.userName
+            val result = remoteDataSource.getUserStarredRepoList(userName, page)
+            Results.Success(result)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Results.Error(e)
+        }
+    }
+
     companion object :
         SingletonHolderDoubleArg<UserRepositoryImpl, UserRemoteDataSource, UserLocalDataSource>(::UserRepositoryImpl)
 }
@@ -194,6 +205,10 @@ class UserRemoteDataSource(
 
     suspend fun getUserRepoList(page: Int) : List<UserRepo> {
         return userService.getUserRepoList(page = page)
+    }
+
+    suspend fun getUserStarredRepoList(owner: String, page: Int): List<UserRepo> {
+        return userService.getUserStarredRepoList(owner, page = page)
     }
 
     companion object :

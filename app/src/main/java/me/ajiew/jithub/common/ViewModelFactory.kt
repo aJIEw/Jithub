@@ -7,6 +7,7 @@ import me.ajiew.jithub.ui.explore.ExploreViewModel
 import me.ajiew.jithub.ui.home.HomeViewModel
 import me.ajiew.jithub.ui.profile.ProfileViewModel
 import me.ajiew.jithub.ui.repo.RepoListViewModel
+import me.ajiew.jithub.ui.starred.StarredRepoListViewModel
 import me.ajiew.jithub.ui.viewmodel.MainViewModel
 
 
@@ -33,6 +34,9 @@ class ViewModelFactory : BaseViewModelFactory() {
                 }
                 isAssignableFrom(RepoListViewModel::class.java) -> {
                     RepoListViewModel(RepoResolver.userRepository) as T
+                }
+                isAssignableFrom(StarredRepoListViewModel::class.java) -> {
+                    StarredRepoListViewModel(RepoResolver.userRepository) as T
                 }
                 else -> throw IllegalArgumentException("Unknown ViewModel class: $name")
             }

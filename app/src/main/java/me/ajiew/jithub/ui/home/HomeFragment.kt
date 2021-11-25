@@ -45,7 +45,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override fun initView() {
         super.initView()
 
-        binding.rvTimeline.adapter = viewModel.timelineAdapter
+        binding.rvTimeline.adapter = viewModel.refreshLoadMoreAdapter
         binding.refreshLayout.isRefreshing = true
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()

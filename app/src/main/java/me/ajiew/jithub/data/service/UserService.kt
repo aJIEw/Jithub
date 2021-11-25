@@ -75,6 +75,13 @@ interface UserService {
         @Query("page") page: Int
     ) : List<UserRepo>
 
+    @GET("users/{owner}/starred")
+    suspend fun getUserStarredRepoList(
+        @Path("owner") owner: String,
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int
+    ): List<UserRepo>
+
     companion object {
         /**
          * User Timeline results, items per page.

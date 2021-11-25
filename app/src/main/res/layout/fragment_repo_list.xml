@@ -21,7 +21,7 @@
             android:id="@+id/toolbar"
             layout="@layout/layout_toolbar"
             app:onBackPressed="@{vm.onBackPressed}"
-            app:title="@{@string/page_title_repo}" />
+            app:title="@{vm.title}" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh_layout"

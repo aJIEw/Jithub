@@ -1,4 +1,4 @@
-package me.ajiew.jithub.ui.repo
+package me.ajiew.jithub.ui.starred
 
 import androidx.fragment.app.viewModels
 import me.ajiew.core.base.BaseFragment
@@ -6,20 +6,19 @@ import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.common.ViewModelFactory
 import me.ajiew.jithub.databinding.FragmentRepoListBinding
+import me.ajiew.jithub.ui.repo.ARG_TITLE
 import me.ajiew.jithub.util.AppUtil
-
-internal const val ARG_TITLE = "ARG_TITLE"
 
 /**
  *
  * @author aJIEw
- * Created on: 2021/11/23 12:14
+ * Created on: 2021/11/24 17:14
  */
-class RepoListFragment : BaseFragment<FragmentRepoListBinding, RepoListViewModel>() {
+class StarredRepoListFragment : BaseFragment<FragmentRepoListBinding, StarredRepoListViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_repo_list
     override val viewModelId: Int = BR.vm
-    override val viewModel: RepoListViewModel by viewModels {
+    override val viewModel: StarredRepoListViewModel by viewModels {
         ViewModelFactory.instance
     }
 

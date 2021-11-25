@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.text.TextUtils" />
+
         <import type="android.graphics.Color" />
 
         <import type="me.ajiew.jithub.util.TimeUtilKt" />
@@ -100,6 +102,7 @@
 
             <TextView
                 android:id="@+id/tv_repo_desc"
+                gone="@{TextUtils.isEmpty(vm.repo.description)}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_single"
@@ -107,7 +110,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
-                tools:text="This is a demo project to show you how to develop an android app with Jetpack Libraries." />
+                tools:text="This is a demo project to show you how to develop an android app with Jetpack Libraries."
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_repo_star"
@@ -158,6 +162,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_repo_desc"
+                app:layout_goneMarginTop="0dp"
                 tools:background="@color/grey_light"
                 tools:gravity="center"
                 tools:text="Star"

@@ -2,12 +2,11 @@ package me.ajiew.jithub.ui.home
 
 import android.graphics.Typeface
 import android.text.style.StyleSpan
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import me.ajiew.core.base.viewmodel.OnItemClickListener
 import me.ajiew.core.util.spanny.Spanny
 import me.ajiew.jithub.R
+import me.ajiew.jithub.base.ListRefreshLoadMoreAdapter
 import me.ajiew.jithub.data.model.GithubEvent
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.databinding.ItemFeedsTimelineBinding
@@ -19,8 +18,7 @@ import me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel
  * Created on: 2021/11/11 14:38
  */
 class FeedsTimelineAdapter(private val onClickRepo: OnItemClickListener<EventTimeline>) :
-    BaseQuickAdapter<ItemTimelineViewModel, BaseDataBindingHolder<ItemFeedsTimelineBinding>>(R.layout.item_feeds_timeline),
-    LoadMoreModule {
+    ListRefreshLoadMoreAdapter<ItemTimelineViewModel, ItemFeedsTimelineBinding>(R.layout.item_feeds_timeline) {
 
     override fun convert(
         holder: BaseDataBindingHolder<ItemFeedsTimelineBinding>,

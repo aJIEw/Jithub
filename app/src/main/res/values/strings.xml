@@ -11,4 +11,5 @@
     </plurals>
 
     <string name="page_title_repo">Repositories</string>
+    <string name="page_title_starred">Starred</string>
 </resources>
