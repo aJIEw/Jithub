@@ -43,7 +43,7 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
 
     val userInfo = SingleLiveEvent<User>()
 
-    val contributionLabels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+    val contributionLabels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun").reversed()
     val contributionLabelsBinding =
         ItemBinding.of<String>(BR.item, R.layout.item_contribution_label)
 
@@ -126,16 +126,22 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
             )
         }
 
-        addOption(R.drawable.shape_option_repo, "Repositories", onClick = {
-            val bundle = Bundle()
-            bundle.putString(ARG_TITLE, StringUtils.getString(R.string.page_title_repo))
-            startContainerActivity(RepoListFragment::class.qualifiedName, bundle)
-        })
-        addOption(R.drawable.shape_option_starred, "Starred", onClick = {
-            val bundle = Bundle()
-            bundle.putString(ARG_TITLE, StringUtils.getString(R.string.page_title_starred))
-            startContainerActivity(StarredRepoListFragment::class.qualifiedName, bundle)
-        })
+        addOption(
+            R.drawable.shape_option_repo,
+            StringUtils.getString(R.string.page_title_repo),
+            onClick = {
+                val bundle = Bundle()
+                bundle.putString(ARG_TITLE, StringUtils.getString(R.string.page_title_repo))
+                startContainerActivity(RepoListFragment::class.qualifiedName, bundle)
+            })
+        addOption(
+            R.drawable.shape_option_starred,
+            StringUtils.getString(R.string.page_title_repo),
+            onClick = {
+                val bundle = Bundle()
+                bundle.putString(ARG_TITLE, StringUtils.getString(R.string.page_title_starred))
+                startContainerActivity(StarredRepoListFragment::class.qualifiedName, bundle)
+            })
         /*addOption(R.drawable.shape_option_settings, "Settings", onClick = {
             ToastUtils.show("show settings")
         })*/
@@ -187,6 +193,7 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
 
                 filterPushEvent(data)
 
+                ui.contributionDataFetched.value = true
                 ui.contributionFetching.value = false
 
                 if (data.size > 99) {
@@ -242,6 +249,8 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
     }
 
     class UIChangeObservable {
+        val contributionDataFetched = SingleLiveEvent<Boolean>()
+
         val contributionFetching = SingleLiveEvent<Boolean>()
 
         val showContributionPopup = SingleLiveEvent<ContributionRecord>()

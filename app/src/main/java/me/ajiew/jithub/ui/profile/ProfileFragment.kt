@@ -50,26 +50,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         }
 
         binding.rvContribution.layoutManager =
-            GridLayoutManager(requireContext(), 7, RecyclerView.HORIZONTAL, false)
-        // show today's contribution popup after first layout
-        binding.rvContribution.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                if (viewModel.contributionList.any { it.number > 0 }) {
-                    viewModel.ui.showContributionPopup.value = viewModel.contributionList.first {
-                        it.date.isNotEmpty() && it.number > -1
-                    }
-                }
-
-                binding.rvContribution
-                    .viewTreeObserver
-                    .removeOnGlobalLayoutListener(this)
-            }
-        })
+            GridLayoutManager(requireContext(), 7, RecyclerView.HORIZONTAL, true)
     }
 
     override fun initViewObservable() {
         super.initViewObservable()
+
+        viewModel.ui.contributionDataFetched.observe(this, { value ->
+            // show today's contribution popup once data is available
+            if (value == true && isVisible) {
+                viewModel.ui.showContributionPopup.value = viewModel.contributionList.first {
+                    it.date.isNotEmpty() && it.number > -1
+                }
+            }
+        })
 
         viewModel.ui.showContributionPopup.observe(this, { value ->
             if (value != null) {
