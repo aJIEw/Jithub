@@ -33,14 +33,17 @@
                 <ImageView
                     android:id="@+id/iv_user_avatar"
                     radius='@{40}'
-                    radiusUrl='@{vm.userInfo.avatar_url ?? ""}'
+                    radiusErrorDrawable="@{@drawable/ic_avatar_default}"
+                    radiusShowPlaceholder="@{true}"
+                    radiusUrl='@{vm.userInfo.avatar_url ?? "https://g"}'
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginStart="@dimen/dp_triple"
                     android:layout_marginTop="@dimen/dp_triple"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@tools:sample/avatars" />
+                    tools:src="@tools:sample/avatars"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tv_user_name"
@@ -299,6 +302,7 @@
                         tools:listitem="@layout/item_contribution_brick" />
 
                     <com.qmuiteam.qmui.widget.QMUILoadingView
+                        android:id="@+id/loading_view_contribution"
                         gone="@{!vm.ui.contributionFetching}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

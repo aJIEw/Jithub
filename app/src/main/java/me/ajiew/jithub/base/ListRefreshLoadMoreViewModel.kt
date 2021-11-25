@@ -78,7 +78,7 @@ abstract class ListRefreshLoadMoreViewModel<T : IRepository, IT, M> :
 
                     UIState.Success(data, "Load Success")
                 }
-                is Results.Error -> UIState.Error(null, results.message)
+                is Results.Error -> UIState.Error(results.error, results.message)
             }
         }
     }

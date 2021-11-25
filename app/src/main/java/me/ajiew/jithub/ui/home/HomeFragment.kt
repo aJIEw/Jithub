@@ -2,17 +2,15 @@ package me.ajiew.jithub.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.ConvertUtils.dp2px
+import com.hjq.toast.ToastUtils
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.common.ViewModelFactory
-import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.data.response.FeedsTemplate
 import me.ajiew.jithub.databinding.FragmentHomeBinding
 import me.ajiew.jithub.util.AppUtil
+import java.net.UnknownHostException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,6 +65,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
         if (data is FeedsTemplate) {
 
+        }
+    }
+
+    override fun onFailed(errorData: Any?, message: String) {
+        super.onFailed(errorData, message)
+
+        if (errorData is UnknownHostException) {
+            ToastUtils.show("Please check your network~")
+            viewModel.refreshLoadMoreAdapter.setEmptyView(R.layout.base_empty)
         }
     }
 

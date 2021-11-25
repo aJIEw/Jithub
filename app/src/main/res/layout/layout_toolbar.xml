@@ -39,6 +39,7 @@
             visible="@{title != null}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_single"
             android:layout_marginEnd="@dimen/dp_double"
             android:ellipsize="end"
             android:maxLines="1"

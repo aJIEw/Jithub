@@ -136,7 +136,7 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
             })
         addOption(
             R.drawable.shape_option_starred,
-            StringUtils.getString(R.string.page_title_repo),
+            StringUtils.getString(R.string.page_title_starred),
             onClick = {
                 val bundle = Bundle()
                 bundle.putString(ARG_TITLE, StringUtils.getString(R.string.page_title_starred))
@@ -229,12 +229,14 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
                     }
                 }
                 val contribution = contributionList[contributionIndex]
-
-                contribution.number = filterCurrentUserCommits(item.payload.commits)
-                // update total contribution number
-                totalContributions.value = totalContributions.value!! + contribution.number
+                contribution.number += filterCurrentUserCommits(item.payload.commits)
                 contributionList[contributionIndex] = contribution
             }
+        }
+
+        // update total contribution number
+        totalContributions.value = contributionList.sumOf {
+            if (it.number > -1) it.number else 0
         }
     }
 

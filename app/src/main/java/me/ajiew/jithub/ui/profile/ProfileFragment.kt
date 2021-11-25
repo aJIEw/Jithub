@@ -1,7 +1,7 @@
 package me.ajiew.jithub.ui.profile
 
 import android.os.Bundle
-import android.view.ViewTreeObserver
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -82,6 +82,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         super.hideLoading()
 
         binding.refreshLayout.isRefreshing = false
+    }
+
+    override fun onFailed(errorData: Any?, message: String) {
+        super.onFailed(errorData, message)
+
+        binding.loadingViewContribution.visibility = View.GONE
     }
 
     companion object {

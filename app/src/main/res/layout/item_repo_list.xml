@@ -8,8 +8,6 @@
 
         <import type="android.text.TextUtils" />
 
-        <import type="me.ajiew.jithub.util.TimeUtilKt" />
-
         <import type="me.ajiew.core.base.viewmodel.OnItemClickListener" />
 
         <variable
@@ -113,13 +111,13 @@
             tools:visibility="visible" />
 
         <TextView
+            repoUpdatedAt='@{item.updated_at}'
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_twelve"
-            android:text='@{TimeUtilKt.getFriendlyTime(item.updated_at)}'
             app:layout_constraintBottom_toBottomOf="@id/tv_repo_star"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_repo_star"
-            tools:text="2 hours ago" />
+            tools:text="Updated 2 hours ago" />
     </com.qmuiteam.qmui.layout.QMUIConstraintLayout>
 </layout>
