@@ -12,4 +12,8 @@
 
     <string name="page_title_repo">Repositories</string>
     <string name="page_title_starred">Starred</string>
+
+    <string name="xpopup_cancel">Cancel</string>
+    <string name="xpopup_ok">OK</string>
+    <string name="dialog_contribution_explanation">Due to the API limitation, all commits pushed in the same day are considered contributions for that day.</string>
 </resources>

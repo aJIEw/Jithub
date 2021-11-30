@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.core.BasePopupView
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
@@ -32,6 +33,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var basePopupView: BasePopupView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +79,24 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
                     .show()
             }
         })
+
+        viewModel.ui.showContributionExplanation.observe(this) { value ->
+            if (value != null) {
+                basePopupView = XPopup.Builder(requireContext())
+                    .isDestroyOnDismiss(true)
+                    .asConfirm(
+                        getString(R.string.dialog_contribution_explanation),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        true,
+                        R.layout.dialog_confirm
+                    )
+                    .show()
+            }
+        }
     }
 
     override fun hideLoading() {

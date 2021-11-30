@@ -17,7 +17,7 @@
             type="me.ajiew.jithub.ui.explore.ItemTrendingRepoViewModel" />
     </data>
 
-    <com.qmuiteam.qmui.layout.QMUIConstraintLayout
+    <com.qmuiteam.qmui.layout.QMUIFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_double"
@@ -28,166 +28,172 @@
         app:qmui_shadowAlpha="0.5"
         app:qmui_shadowElevation="3dp">
 
-        <ImageView
-            android:id="@+id/iv_author"
-            radius="@{25}"
-            radiusShowPlaceholder="@{true}"
-            radiusUrl="@{vm.entity.avatar}"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/dp_twelve"
-            android:layout_marginTop="@dimen/dp_double"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/tv_repo_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_single"
-            android:layout_marginEnd="@dimen/dp_single"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@{vm.entity.name}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textSize="@dimen/sp_heading"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_repo_author"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_author"
-            app:layout_constraintTop_toTopOf="@id/iv_author"
-            tools:text="Jithub" />
-
-        <TextView
-            android:id="@+id/tv_repo_author"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{vm.entity.author}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            app:layout_constraintBottom_toBottomOf="@id/iv_author"
-            app:layout_constraintEnd_toEndOf="@id/tv_repo_name"
-            app:layout_constraintStart_toStartOf="@id/tv_repo_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
-            tools:text="aJIEw" />
-
-        <TextView
-            android:id="@+id/tv_description"
-            gone="@{TextUtils.isEmpty(vm.entity.description)}"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dp_double"
-            android:layout_marginTop="@dimen/dp_double"
-            android:ellipsize="end"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="3"
-            android:text='@{vm.entity.description}'
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_author"
-            tools:text="A new operating system kernel with Linux binary compatibility written in Rust."
-            tools:visibility="visible" />
+            android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/tv_period_stars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_double"
-            android:drawablePadding="@dimen/dp_half"
-            android:gravity="center"
-            android:text='@{vm.entity.currentPeriodStars + " Today"}'
-            app:drawableStartCompat="@drawable/ic_trending_star_filled"
-            app:layout_constraintStart_toStartOf="@id/iv_author"
-            app:layout_constraintTop_toBottomOf="@id/tv_description"
-            tools:text="99 Today" />
+            <ImageView
+                android:id="@+id/iv_author"
+                radius="@{25}"
+                radiusShowPlaceholder="@{true}"
+                radiusUrl="@{vm.entity.avatar}"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="@dimen/dp_twelve"
+                android:layout_marginTop="@dimen/dp_double"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/tv_language"
-            drawableTintLeft='@{Color.parseColor(vm.languageColor)}'
-            visible="@{vm.entity.language != null}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_twelve"
-            android:drawablePadding="@dimen/dp_half"
-            android:gravity="center"
-            android:text="@{vm.entity.language}"
-            app:drawableStartCompat="@drawable/ic_trending_circle_filled"
-            app:layout_constraintStart_toEndOf="@id/tv_period_stars"
-            app:layout_constraintTop_toTopOf="@id/tv_period_stars"
-            tools:text="JavaScript" />
+            <TextView
+                android:id="@+id/tv_repo_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_single"
+                android:layout_marginEnd="@dimen/dp_single"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{vm.entity.name}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textSize="@dimen/sp_heading"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_repo_author"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_author"
+                app:layout_constraintTop_toTopOf="@id/iv_author"
+                tools:text="Jithub" />
 
-        <TextView
-            android:id="@+id/tv_total_stars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_twelve"
-            android:drawablePadding="@dimen/dp_half"
-            android:gravity="center"
-            android:text='@{vm.entity.stars + " "}'
-            app:drawableStartCompat="@drawable/ic_trending_star"
-            app:layout_constraintStart_toStartOf="@id/tv_period_stars"
-            app:layout_constraintTop_toBottomOf="@id/tv_period_stars"
-            tools:text="200 " />
+            <TextView
+                android:id="@+id/tv_repo_author"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{vm.entity.author}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintBottom_toBottomOf="@id/iv_author"
+                app:layout_constraintEnd_toEndOf="@id/tv_repo_name"
+                app:layout_constraintStart_toStartOf="@id/tv_repo_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
+                tools:text="aJIEw" />
 
-        <TextView
-            android:id="@+id/tv_total_forks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_single"
-            android:drawablePadding="@dimen/dp_half"
-            android:text='@{vm.entity.forks + " "}'
-            app:drawableStartCompat="@drawable/ic_trending_fork"
-            app:layout_constraintBottom_toBottomOf="@id/tv_total_stars"
-            app:layout_constraintStart_toEndOf="@id/tv_total_stars"
-            app:layout_constraintTop_toTopOf="@id/tv_total_stars"
-            tools:text="12 " />
+            <TextView
+                android:id="@+id/tv_description"
+                gone="@{TextUtils.isEmpty(vm.entity.description)}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_double"
+                android:layout_marginTop="@dimen/dp_double"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="3"
+                android:text='@{vm.entity.description}'
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_author"
+                tools:text="A new operating system kernel with Linux binary compatibility written in Rust."
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tv_build_by_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_double"
-            android:drawablePadding="@dimen/dp_half"
-            android:text="Build By"
-            app:drawableStartCompat="@drawable/ic_trending_user"
-            app:layout_constraintStart_toStartOf="@id/tv_total_stars"
-            app:layout_constraintTop_toBottomOf="@id/tv_total_stars" />
+            <TextView
+                android:id="@+id/tv_period_stars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_double"
+                android:drawablePadding="@dimen/dp_half"
+                android:gravity="center"
+                android:text='@{vm.entity.currentPeriodStars + " Today"}'
+                app:drawableStartCompat="@drawable/ic_trending_star_filled"
+                app:layout_constraintStart_toStartOf="@id/iv_author"
+                app:layout_constraintTop_toBottomOf="@id/tv_description"
+                tools:text="99 Today" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_contributors"
-            itemBinding="@{vm.contributorsBinding}"
-            items="@{vm.contributors}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_half"
-            android:maxLength="3"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@id/tv_build_by_label"
-            app:layout_constraintStart_toEndOf="@id/tv_build_by_label"
-            app:layout_constraintTop_toTopOf="@id/tv_build_by_label"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_trending_built_by" />
+            <TextView
+                android:id="@+id/tv_language"
+                drawableTintLeft='@{Color.parseColor(vm.languageColor)}'
+                visible="@{vm.entity.language != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_twelve"
+                android:drawablePadding="@dimen/dp_half"
+                android:gravity="center"
+                android:text="@{vm.entity.language}"
+                app:drawableStartCompat="@drawable/ic_trending_circle_filled"
+                app:layout_constraintStart_toEndOf="@id/tv_period_stars"
+                app:layout_constraintTop_toTopOf="@id/tv_period_stars"
+                tools:text="JavaScript" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_star"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/material_button_height"
-            android:layout_marginHorizontal="@dimen/dp_triple"
-            android:layout_marginVertical="@dimen/dp_double"
-            android:onClick="@{vm::onClickStar}"
-            android:text='@{vm.starred ? "Unstar" : "Star"}'
-            android:textAllCaps="false"
-            app:cornerRadius="@dimen/dp_half"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_build_by_label"
-            tools:gravity="center"
-            tools:text="Star"
-            tools:textColor="@color/white" />
-    </com.qmuiteam.qmui.layout.QMUIConstraintLayout>
+            <TextView
+                android:id="@+id/tv_total_stars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_twelve"
+                android:drawablePadding="@dimen/dp_half"
+                android:gravity="center"
+                android:text='@{vm.entity.stars + " "}'
+                app:drawableStartCompat="@drawable/ic_trending_star"
+                app:layout_constraintStart_toStartOf="@id/tv_period_stars"
+                app:layout_constraintTop_toBottomOf="@id/tv_period_stars"
+                tools:text="200 " />
+
+            <TextView
+                android:id="@+id/tv_total_forks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_single"
+                android:drawablePadding="@dimen/dp_half"
+                android:text='@{vm.entity.forks + " "}'
+                app:drawableStartCompat="@drawable/ic_trending_fork"
+                app:layout_constraintBottom_toBottomOf="@id/tv_total_stars"
+                app:layout_constraintStart_toEndOf="@id/tv_total_stars"
+                app:layout_constraintTop_toTopOf="@id/tv_total_stars"
+                tools:text="12 " />
+
+            <TextView
+                android:id="@+id/tv_build_by_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_double"
+                android:drawablePadding="@dimen/dp_half"
+                android:text="Build By"
+                app:drawableStartCompat="@drawable/ic_trending_user"
+                app:layout_constraintStart_toStartOf="@id/tv_total_stars"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_stars" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_contributors"
+                itemBinding="@{vm.contributorsBinding}"
+                items="@{vm.contributors}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_half"
+                android:maxLength="3"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="@id/tv_build_by_label"
+                app:layout_constraintStart_toEndOf="@id/tv_build_by_label"
+                app:layout_constraintTop_toTopOf="@id/tv_build_by_label"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_trending_built_by" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_star"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/material_button_height"
+                android:layout_marginHorizontal="@dimen/dp_triple"
+                android:layout_marginVertical="@dimen/dp_double"
+                android:onClick="@{vm::onClickStar}"
+                android:text='@{vm.starred ? "Unstar" : "Star"}'
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/dp_half"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_build_by_label"
+                tools:gravity="center"
+                tools:text="Star"
+                tools:textColor="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.qmuiteam.qmui.layout.QMUIFrameLayout>
 </layout>

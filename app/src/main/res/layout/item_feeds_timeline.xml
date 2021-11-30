@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_event"
             tools:text="6 hours ago" />
 
-        <com.qmuiteam.qmui.layout.QMUIConstraintLayout
+        <com.qmuiteam.qmui.layout.QMUIFrameLayout
             android:id="@+id/content_event"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -81,7 +81,6 @@
             android:layout_marginBottom="@dimen/dp_twelve"
             android:background="@color/white"
             android:onClick="@{() -> onClickRepo.onItemClick(item)}"
-            android:padding="@dimen/dp_twelve"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tv_event"
             app:layout_constraintStart_toStartOf="@id/iv_user"
@@ -90,100 +89,107 @@
             app:qmui_shadowAlpha="0.5"
             app:qmui_shadowElevation="3dp">
 
-            <TextView
-                android:id="@+id/tv_repo_name"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{vm.repo.full_name}"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="aJIEw / Jithub" />
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/dp_twelve">
 
-            <TextView
-                android:id="@+id/tv_repo_desc"
-                gone="@{TextUtils.isEmpty(vm.repo.description)}"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_single"
-                android:text='@{vm.repo.description ?? ""}'
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
-                tools:text="This is a demo project to show you how to develop an android app with Jetpack Libraries."
-                tools:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tv_repo_star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_single"
-                android:drawablePadding="@dimen/dp_half"
-                android:text='@{String.valueOf(vm.repo.stargazers_count)}'
-                app:drawableStartCompat="@drawable/ic_trending_star_filled"
-                app:layout_constraintBottom_toBottomOf="@id/btn_star"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/btn_star"
-                tools:text="101" />
-
-            <TextView
-                android:id="@+id/tv_repo_language"
-                visible="@{vm.repo.language != null}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_twelve"
-                android:drawablePadding="@dimen/dp_half"
-                android:text='@{vm.repo.language}'
-                app:drawableStartCompat="@drawable/ic_trending_circle_filled"
-                app:layout_constraintBottom_toBottomOf="@id/tv_repo_star"
-                app:layout_constraintStart_toEndOf="@id/tv_repo_star"
-                app:layout_constraintTop_toTopOf="@id/tv_repo_star"
-                tools:text="Kotlin" />
-
-            <TextView
-                android:id="@+id/btn_star"
-                drawable_pressed_radius="@{8}"
-                drawable_pressed_solidColor='@{@color/grey_light}'
-                drawable_radius="@{8}"
-                drawable_solidColor='@{@color/white}'
-                drawable_strokeColor="@{@color/grey}"
-                drawable_strokeWidth="@{1}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_single"
-                android:drawableLeft="@{vm.starred ? @drawable/ic_starred : @drawable/ic_trending_star}"
-                android:drawablePadding="@dimen/dp_six"
-                android:onClick="@{() -> vm.onClickStar.onItemClick(vm.entity.repo)}"
-                android:paddingHorizontal="@dimen/dp_twenty"
-                android:paddingVertical="@dimen/dp_single"
-                android:text='@{vm.starred ? "Unstar" : "Star"}'
-                android:textAllCaps="false"
-                app:cornerRadius="@dimen/dp_single"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_repo_desc"
-                app:layout_goneMarginTop="0dp"
-                tools:background="@color/grey_light"
-                tools:gravity="center"
-                tools:text="Star"
-                tools:textColor="@color/black" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/white"
-                app:gone="@{vm.repo != null}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="gone">
-
-                <com.qmuiteam.qmui.widget.QMUILoadingView
+                <TextView
+                    android:id="@+id/tv_repo_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
-            </FrameLayout>
-        </com.qmuiteam.qmui.layout.QMUIConstraintLayout>
+                    android:text="@{vm.repo.full_name}"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="aJIEw / Jithub" />
+
+                <TextView
+                    android:id="@+id/tv_repo_desc"
+                    gone="@{TextUtils.isEmpty(vm.repo.description)}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:text='@{vm.repo.description ?? ""}'
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
+                    tools:text="This is a demo project to show you how to develop an android app with Jetpack Libraries."
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_repo_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:drawablePadding="@dimen/dp_half"
+                    android:text='@{String.valueOf(vm.repo.stargazers_count)}'
+                    app:drawableStartCompat="@drawable/ic_trending_star_filled"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_star"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/btn_star"
+                    tools:text="101" />
+
+                <TextView
+                    android:id="@+id/tv_repo_language"
+                    visible="@{vm.repo.language != null}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_twelve"
+                    android:drawablePadding="@dimen/dp_half"
+                    android:text='@{vm.repo.language}'
+                    app:drawableStartCompat="@drawable/ic_trending_circle_filled"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_repo_star"
+                    app:layout_constraintStart_toEndOf="@id/tv_repo_star"
+                    app:layout_constraintTop_toTopOf="@id/tv_repo_star"
+                    tools:text="Kotlin" />
+
+                <TextView
+                    android:id="@+id/btn_star"
+                    drawable_pressed_radius="@{8}"
+                    drawable_pressed_solidColor='@{@color/grey_light}'
+                    drawable_radius="@{8}"
+                    drawable_solidColor='@{@color/white}'
+                    drawable_strokeColor="@{@color/grey}"
+                    drawable_strokeWidth="@{1}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_single"
+                    android:drawableLeft="@{vm.starred ? @drawable/ic_starred : @drawable/ic_trending_star}"
+                    android:drawablePadding="@dimen/dp_six"
+                    android:onClick="@{() -> vm.onClickStar.onItemClick(vm.entity.repo)}"
+                    android:paddingHorizontal="@dimen/dp_twenty"
+                    android:paddingVertical="@dimen/dp_single"
+                    android:text='@{vm.starred ? "Unstar" : "Star"}'
+                    android:textAllCaps="false"
+                    app:cornerRadius="@dimen/dp_single"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_repo_desc"
+                    app:layout_goneMarginTop="0dp"
+                    tools:background="@color/grey_light"
+                    tools:gravity="center"
+                    tools:text="Star"
+                    tools:textColor="@color/black" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/white"
+                    app:gone="@{vm.repo != null}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone">
+
+                    <com.qmuiteam.qmui.widget.QMUILoadingView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+                </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.qmuiteam.qmui.layout.QMUIFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

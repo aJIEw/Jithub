@@ -1,6 +1,7 @@
 package me.ajiew.jithub.ui.profile
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
@@ -268,11 +269,17 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
         }
     }
 
+    fun onClickTotalContribution(view: View) {
+        ui.showContributionExplanation.value = true
+    }
+
     class UIChangeObservable {
         val contributionDataFetched = SingleLiveEvent<Boolean>()
 
         val contributionFetching = SingleLiveEvent<Boolean>()
 
         val showContributionPopup = SingleLiveEvent<ContributionRecord>()
+
+        val showContributionExplanation = SingleLiveEvent<Boolean>()
     }
 }

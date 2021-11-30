@@ -262,6 +262,10 @@
                         android:layout_below="@id/tv_contribution_title"
                         android:layout_alignStart="@id/tv_contribution_title"
                         android:layout_marginTop="@dimen/dp_single"
+                        android:drawableRight="@drawable/ic_question_mark_circle"
+                        android:drawablePadding="@dimen/dp_half"
+                        android:gravity="bottom"
+                        android:onClick="@{vm::onClickTotalContribution}"
                         tools:text="32 contributions in the last 90 days" />
 
                     <androidx.recyclerview.widget.RecyclerView
