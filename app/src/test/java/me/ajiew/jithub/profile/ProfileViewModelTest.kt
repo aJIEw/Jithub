@@ -16,11 +16,13 @@ import java.time.temporal.ChronoUnit
  */
 class ProfileViewModelTest {
 
-    private val today: ZonedDateTime = Instant.parse("2021-11-18T10:29:23Z").atZone(ZoneId.systemDefault())
+    private val today: ZonedDateTime =
+        Instant.parse("2021-11-18T10:29:23Z").atZone(ZoneId.systemDefault())
 
     @Test
     fun dateParseFormat_isCorrect() {
-        val date = Instant.parse("2021-11-12T10:29:23Z").atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val date =
+            Instant.parse("2021-11-12T10:29:23Z").atZone(ZoneId.systemDefault()).toLocalDateTime()
         val truncated = date.truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ")
         println(
             """
@@ -38,12 +40,16 @@ class ProfileViewModelTest {
     fun calculateDateDuration_isCorrect() {
         println("""today:   ${today.toLocalDateTime()}""")
 
-        val date0 =  Instant.parse("2021-11-17T10:29:23Z").atZone(ZoneId.systemDefault()).toLocalDate()
-        val daysBetween0 = Duration.between(date0.atStartOfDay(), today.toLocalDate().atStartOfDay()).toDays()
+        val date0 =
+            Instant.parse("2021-11-17T10:29:23Z").atZone(ZoneId.systemDefault()).toLocalDate()
+        val daysBetween0 =
+            Duration.between(date0.atStartOfDay(), today.toLocalDate().atStartOfDay()).toDays()
         assertEquals(1, daysBetween0)
 
-        val date1 = Instant.parse("2021-08-19T10:29:23Z").atZone(ZoneId.systemDefault()).toLocalDate()
-        val daysBetween1 = Duration.between(date1.atStartOfDay(), today.toLocalDate().atStartOfDay()).toDays()
+        val date1 =
+            Instant.parse("2021-08-19T10:29:23Z").atZone(ZoneId.systemDefault()).toLocalDate()
+        val daysBetween1 =
+            Duration.between(date1.atStartOfDay(), today.toLocalDate().atStartOfDay()).toDays()
         assertEquals(91, daysBetween1)
     }
 }

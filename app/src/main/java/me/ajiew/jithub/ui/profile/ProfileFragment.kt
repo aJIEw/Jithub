@@ -59,9 +59,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         viewModel.ui.contributionDataFetched.observe(this, { value ->
             // show today's contribution popup once data is available
             if (value == true && isVisible) {
-                viewModel.ui.showContributionPopup.value = viewModel.contributionList.first {
-                    it.date.isNotEmpty() && it.number > -1
-                }
+                val firstWeekDays = 7 - viewModel.contributionPlaceholderDays
+                viewModel.ui.showContributionPopup.value =
+                    viewModel.contributionList.subList(0, firstWeekDays).maxByOrNull { it.index }
             }
         })
 

@@ -31,6 +31,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.math.ceil
 
 /**
  *
@@ -43,7 +44,7 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
 
     val userInfo = SingleLiveEvent<User>()
 
-    val contributionLabels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun").reversed()
+    val contributionLabels = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
     val contributionLabelsBinding =
         ItemBinding.of<String>(BR.item, R.layout.item_contribution_label)
 
@@ -62,7 +63,7 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
     val optionsBinding = ItemBinding.of<ProfileOptionItem>(BR.item, R.layout.item_profile_option)
 
     var totalContributions = SingleLiveEvent<Int>()
-    private var contributionPlaceholderDays = 0
+    var contributionPlaceholderDays = 0
     private var contributionEventPage = 1
 
     init {
@@ -84,25 +85,45 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
         contributionList.clear()
 
         contributionPlaceholderDays = when (today.dayOfWeek) {
-            DayOfWeek.MONDAY -> 0
-            DayOfWeek.TUESDAY -> 1
-            DayOfWeek.WEDNESDAY -> 2
-            DayOfWeek.THURSDAY -> 3
-            DayOfWeek.FRIDAY -> 4
-            DayOfWeek.SATURDAY -> 5
             DayOfWeek.SUNDAY -> 6
+            DayOfWeek.MONDAY -> 5
+            DayOfWeek.TUESDAY -> 4
+            DayOfWeek.WEDNESDAY -> 3
+            DayOfWeek.THURSDAY -> 2
+            DayOfWeek.FRIDAY -> 1
+            DayOfWeek.SATURDAY -> 0
             else -> 0
         }
 
+        var startIndex = 7
+        val dateFormat = DateTimeFormatter.ofPattern("MMM dd, yyyy")
+        // For the latest week, if shorter than 7 day, add placeholder record (number = -1)
         if (contributionPlaceholderDays > 0) {
-            for (i in 0 until contributionPlaceholderDays) {
+            val totalOffset = 6 - contributionPlaceholderDays
+            for (i in 0..totalOffset) {
+                val offset = totalOffset - i
+                val date = today.minusDays(offset.toLong()).format(dateFormat)
+                contributionList.add(ContributionRecord(i, date, 0))
+            }
+
+            for (i in (7 - contributionPlaceholderDays) until 7) {
                 contributionList.add(ContributionRecord(i, "", -1))
             }
+        } else {
+            startIndex = 0
         }
-        for (i in 0..89) {
-            val date =
-                today.minusDays(i.toLong()).format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
-            contributionList.add(ContributionRecord(i + contributionPlaceholderDays, date, 0))
+
+        // 15 weeks at most
+        for (i in startIndex until 105 step 7) {
+            val weekEndIndex = i + 6
+            var weekStartIndex = i
+            for (offset in weekEndIndex downTo i) {
+                val date =
+                    today.minusDays((offset - contributionPlaceholderDays).toLong())
+                        .format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+                contributionList.add(ContributionRecord(weekStartIndex, date, 0))
+                weekStartIndex++
+            }
         }
     }
 
@@ -207,30 +228,27 @@ class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<U
     private fun filterPushEvent(data: List<EventTimeline>) {
         val today = Instant.now().atZone(ZoneId.systemDefault()).toLocalDate()
 
+        val firstWeekDays = 7 - contributionPlaceholderDays
+        fun updateContributionNumber(updateIndex: Int, commits: List<Commit>?) {
+            val contribution = contributionList[updateIndex]
+            contribution.number += filterCurrentUserCommits(commits)
+            contributionList[updateIndex] = contribution
+        }
         data.map { item ->
             if (item.type == GithubEvent.PushEvent.type) {
                 val date =
                     Instant.parse(item.created_at).atZone(ZoneId.systemDefault()).toLocalDate()
-                val contributionIndex = Duration.between(date.atStartOfDay(), today.atStartOfDay())
-                    .toDays().toInt() + contributionPlaceholderDays
-                // update the list when size not enough
-                if (contributionIndex >= contributionList.size) {
-                    val end = contributionList.size
-                    val offset = contributionIndex - end
-                    for (i in end..contributionIndex) {
-                        contributionList.add(
-                            ContributionRecord(
-                                i,
-                                date.plusDays((offset - i).toLong())
-                                    .format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
-                                0
-                            )
-                        )
-                    }
+                // days in between is the index of this date in the contribution list
+                val daysInBetween = Duration.between(date.atStartOfDay(), today.atStartOfDay())
+                    .toDays().toInt()
+                if (daysInBetween in 0 until firstWeekDays) {
+                    val updateIndex = firstWeekDays - 1 - daysInBetween
+                    updateContributionNumber(updateIndex, item.payload.commits)
+                } else if (daysInBetween >= firstWeekDays) {
+                    val total = daysInBetween + contributionPlaceholderDays
+                    val updateIndex = ceil(total / 7.0) * 7 - 1 - (total % 7)
+                    updateContributionNumber(updateIndex.toInt(), item.payload.commits)
                 }
-                val contribution = contributionList[contributionIndex]
-                contribution.number += filterCurrentUserCommits(item.payload.commits)
-                contributionList[contributionIndex] = contribution
             }
         }
 
