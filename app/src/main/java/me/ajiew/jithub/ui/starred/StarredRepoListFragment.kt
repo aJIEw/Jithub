@@ -1,6 +1,7 @@
 package me.ajiew.jithub.ui.starred
 
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
@@ -14,13 +15,12 @@ import me.ajiew.jithub.util.AppUtil
  * @author aJIEw
  * Created on: 2021/11/24 17:14
  */
+@AndroidEntryPoint
 class StarredRepoListFragment : BaseFragment<FragmentRepoListBinding, StarredRepoListViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_repo_list
     override val viewModelId: Int = BR.vm
-    override val viewModel: StarredRepoListViewModel by viewModels {
-        ViewModelFactory.instance
-    }
+    override val viewModel: StarredRepoListViewModel by viewModels()
 
     private var title: String? = null
 

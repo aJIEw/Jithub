@@ -5,6 +5,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hjq.toast.ToastUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
@@ -20,6 +21,7 @@ import me.ajiew.jithub.data.response.BuiltBy
 import me.ajiew.jithub.data.response.TrendingRepo
 import me.tatarka.bindingcollectionadapter2.ItemBinding
 import timber.log.Timber
+import javax.inject.Inject
 
 
 /**
@@ -27,7 +29,8 @@ import timber.log.Timber
  * @author aJIEw
  * Created on: 2021/10/28 18:19
  */
-class ExploreViewModel(
+@HiltViewModel
+class ExploreViewModel @Inject constructor(
     private val repository: ExploreRepository,
     private val userRepository: UserRepository
 ) :

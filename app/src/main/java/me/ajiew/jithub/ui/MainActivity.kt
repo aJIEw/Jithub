@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseActivity
 import me.ajiew.core.util.SPUtils
 import me.ajiew.jithub.BR
@@ -25,13 +26,12 @@ import me.ajiew.jithub.ui.viewmodel.MainViewModel
 import me.ajiew.jithub.util.AppUtil
 import java.util.*
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override val layoutId: Int = R.layout.activity_main
     override val viewModelId: Int = BR.vm
-    override val viewModel: MainViewModel by viewModels {
-        ViewModelFactory.instance
-    }
+    override val viewModel: MainViewModel by viewModels()
 
     private lateinit var mainFragments: MutableList<Fragment>
     private lateinit var navView: BottomNavigationView

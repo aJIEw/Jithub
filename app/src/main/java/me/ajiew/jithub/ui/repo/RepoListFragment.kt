@@ -1,6 +1,7 @@
 package me.ajiew.jithub.ui.repo
 
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
@@ -15,13 +16,12 @@ internal const val ARG_TITLE = "ARG_TITLE"
  * @author aJIEw
  * Created on: 2021/11/23 12:14
  */
+@AndroidEntryPoint
 class RepoListFragment : BaseFragment<FragmentRepoListBinding, RepoListViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_repo_list
     override val viewModelId: Int = BR.vm
-    override val viewModel: RepoListViewModel by viewModels {
-        ViewModelFactory.instance
-    }
+    override val viewModel: RepoListViewModel by viewModels()
 
     private var title: String? = null
 

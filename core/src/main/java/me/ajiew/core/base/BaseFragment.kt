@@ -17,6 +17,7 @@ import me.ajiew.core.base.viewmodel.BaseViewModel
 import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.BUNDLE
 import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.CANONICAL_NAME
 import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.CLASS
+import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.LIGHT_STATUS_BAR
 import me.ajiew.core.base.viewmodel.BaseViewModelFactory
 import me.ajiew.core.util.AppManager
 import me.ajiew.core.util.messenger.Messenger
@@ -106,7 +107,12 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel<*>> :
 
         viewModel.ui.startContainerActivityEvent.observe(this) { params ->
             val canonicalName = params[CANONICAL_NAME] as String?
-            val bundle = params[BUNDLE] as Bundle?
+            var bundle = params[BUNDLE] as Bundle?
+            val lightStatusBar = params[LIGHT_STATUS_BAR] as Boolean
+            if (bundle == null) {
+                bundle = Bundle()
+            }
+            bundle.putBoolean(LIGHT_STATUS_BAR, lightStatusBar)
             startContainerActivity(canonicalName, bundle)
         }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.github.nukc.stateview.StateView
 import com.hjq.toast.ToastUtils
+import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
@@ -21,15 +22,14 @@ private const val ARG_PARAM2 = "param2"
 /**
  * Explore tab
  */
+@AndroidEntryPoint
 class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_explore
 
     override val viewModelId: Int = BR.vm
 
-    override val viewModel: ExploreViewModel by viewModels {
-        ViewModelFactory.instance
-    }
+    override val viewModel: ExploreViewModel by viewModels()
 
     private var param1: String? = null
     private var param2: String? = null

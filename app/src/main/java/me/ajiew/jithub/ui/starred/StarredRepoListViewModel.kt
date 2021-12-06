@@ -1,18 +1,21 @@
 package me.ajiew.jithub.ui.starred
 
+import dagger.hilt.android.lifecycle.HiltViewModel
 import me.ajiew.core.base.viewmodel.OnItemClickListener
 import me.ajiew.core.data.Results
 import me.ajiew.jithub.base.ListRefreshLoadMoreAdapter
 import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.UserRepo
 import me.ajiew.jithub.ui.repo.RepoListViewModel
+import javax.inject.Inject
 
 /**
  *
  * @author aJIEw
  * Created on: 2021/11/24 16:32
  */
-class StarredRepoListViewModel(private val userRepository: UserRepository) :
+@HiltViewModel
+class StarredRepoListViewModel @Inject constructor(private val userRepository: UserRepository) :
     RepoListViewModel(userRepository) {
 
     override fun initAdapter(): ListRefreshLoadMoreAdapter<UserRepo, *> =

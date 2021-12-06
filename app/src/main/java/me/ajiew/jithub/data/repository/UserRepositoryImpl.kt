@@ -16,13 +16,14 @@ import me.ajiew.jithub.data.service.LoginService
 import me.ajiew.jithub.data.service.UserService
 import retrofit2.Response
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  *
  * @author aJIEw
  * Created on: 2021/11/2 17:14
  */
-class UserRepositoryImpl(
+class UserRepositoryImpl @Inject constructor(
     remoteDataSource: UserRemoteDataSource,
     localDataSource: UserLocalDataSource
 ) : UserRepository,
@@ -158,7 +159,7 @@ class UserRepositoryImpl(
         SingletonHolderDoubleArg<UserRepositoryImpl, UserRemoteDataSource, UserLocalDataSource>(::UserRepositoryImpl)
 }
 
-class UserRemoteDataSource(
+class UserRemoteDataSource @Inject constructor(
     private val loginService: LoginService,
     private val userService: UserService
 ) : IRemoteDataSource {
@@ -215,7 +216,7 @@ class UserRemoteDataSource(
         SingletonHolderDoubleArg<UserRemoteDataSource, LoginService, UserService>(::UserRemoteDataSource)
 }
 
-class UserLocalDataSource : ILocalDataSource {
+class UserLocalDataSource @Inject constructor() : ILocalDataSource {
 
     private val spUtils: SPUtils = SPUtils.getInstance(
         EncryptUtils.encryptMD5ToString("user")

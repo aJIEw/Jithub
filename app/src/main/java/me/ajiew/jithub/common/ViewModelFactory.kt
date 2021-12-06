@@ -10,11 +10,18 @@ import me.ajiew.jithub.ui.repo.RepoListViewModel
 import me.ajiew.jithub.ui.starred.StarredRepoListViewModel
 import me.ajiew.jithub.ui.viewmodel.MainViewModel
 
-
+/**
+ * Use ViewModelFactory to init ViewModel like this:
+ * ```kotlin
+ * val viewModel: MyViewModel by viewModels() {
+ *     ViewModelFactory.instance
+ * }
+ * ```
+ * */
 class ViewModelFactory : BaseViewModelFactory() {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T = with(modelClass) {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = with(modelClass) {
         try {
             return when {
                 isAssignableFrom(MainViewModel::class.java) -> {

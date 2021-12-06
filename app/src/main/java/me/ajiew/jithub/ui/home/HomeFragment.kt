@@ -3,6 +3,7 @@ package me.ajiew.jithub.ui.home
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import com.hjq.toast.ToastUtils
+import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
@@ -20,13 +21,12 @@ private const val ARG_PARAM2 = "param2"
 /**
  * Home tab: Recent Activities and Timeline
  */
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_home
     override val viewModelId: Int = BR.vm
-    override val viewModel: HomeViewModel by viewModels {
-        ViewModelFactory.instance
-    }
+    override val viewModel: HomeViewModel by viewModels()
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null

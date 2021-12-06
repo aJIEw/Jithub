@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
+import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
@@ -22,13 +23,12 @@ private const val ARG_PARAM2 = "param2"
 /**
  * Profile tab: User info
  */
+@AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_profile
     override val viewModelId: Int = BR.vm
-    override val viewModel: ProfileViewModel by viewModels {
-        ViewModelFactory.instance
-    }
+    override val viewModel: ProfileViewModel by viewModels()
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -70,19 +70,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
         viewModel.ui.showContributionPopup.observe(this, { value ->
             if (value != null) {
-                XPopup.Builder(requireContext())
+                XPopup.Builder(requireActivity())
                     .atView(binding.rvContribution.findViewHolderForLayoutPosition(value.index)?.itemView)
                     .hasShadowBg(false)
                     .isViewMode(true)
                     .isDestroyOnDismiss(true)
-                    .asCustom(ContributionAttachBubblePopup(requireContext(), value))
+                    .asCustom(ContributionAttachBubblePopup(requireActivity(), value))
                     .show()
             }
         })
 
         viewModel.ui.showContributionExplanation.observe(this) { value ->
             if (value != null) {
-                basePopupView = XPopup.Builder(requireContext())
+                basePopupView = XPopup.Builder(requireActivity())
                     .isDestroyOnDismiss(true)
                     .asConfirm(
                         getString(R.string.dialog_contribution_explanation),

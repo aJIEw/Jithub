@@ -7,6 +7,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.StringUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
@@ -32,6 +33,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 import kotlin.math.ceil
 
 /**
@@ -39,7 +41,9 @@ import kotlin.math.ceil
  * @author aJIEw
  * Created on: 2021/11/17 10:08
  */
-class ProfileViewModel(private val repository: UserRepository) : BaseViewModel<UserRepository>() {
+@HiltViewModel
+class ProfileViewModel @Inject constructor(private val repository: UserRepository) :
+    BaseViewModel<UserRepository>() {
 
     val ui = UIChangeObservable()
 

@@ -12,12 +12,15 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.R
+import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.LIGHT_STATUS_BAR
 import java.lang.ref.WeakReference
 
 /**
  * 一个容器 Activity，用于盛装 Fragment，这样就不需要每个界面都在 AndroidManifest 中注册一遍
  */
+@AndroidEntryPoint
 open class ContainerActivity : AppCompatActivity() {
 
     private var mFragment: WeakReference<Fragment?> = WeakReference(null)
@@ -26,8 +29,6 @@ open class ContainerActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
-
-        setLightStatusBar()
 
         val fm: FragmentManager = supportFragmentManager
         var fragment: Fragment? = null
@@ -67,6 +68,10 @@ open class ContainerActivity : AppCompatActivity() {
             val args = data.getBundleExtra(BUNDLE)
             if (args != null) {
                 fragment.arguments = args
+
+                if (args.getBoolean(LIGHT_STATUS_BAR)) {
+                    setLightStatusBar()
+                }
             }
             return fragment
         } catch (e: ClassNotFoundException) {

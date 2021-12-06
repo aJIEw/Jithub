@@ -2,6 +2,7 @@ package me.ajiew.jithub.ui.home
 
 import androidx.lifecycle.viewModelScope
 import com.hjq.toast.ToastUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import me.ajiew.core.base.viewmodel.OnItemClickListener
 import me.ajiew.core.data.Results
@@ -15,13 +16,15 @@ import me.ajiew.jithub.data.repository.UserRepository
 import me.ajiew.jithub.data.response.EventTimeline
 import me.ajiew.jithub.ui.home.timeline.ItemTimelineViewModel
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  *
  * @author aJIEw
  * Created on: 2021/11/4 15:51
  */
-class HomeViewModel(private val repository: UserRepository) :
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repository: UserRepository) :
     ListRefreshLoadMoreViewModel<UserRepository, ItemTimelineViewModel, EventTimeline>() {
 
     val ui = UIChangeObservable()

@@ -8,13 +8,15 @@ import me.ajiew.jithub.data.response.BuiltBy
 import me.ajiew.jithub.data.response.TrendingRepo
 import me.ajiew.jithub.data.service.TrendingService
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  *
  * @author aJIEw
  * Created on: 2021/6/11 11:17
  */
-class ExploreRepositoryImpl(remoteDataSource: ExploreRemoteDataSource) : ExploreRepository,
+class ExploreRepositoryImpl @Inject constructor(remoteDataSource: ExploreRemoteDataSource) :
+    ExploreRepository,
     BaseRepositoryRemote<ExploreRemoteDataSource>(remoteDataSource) {
 
     override suspend fun requestTrendingRepos(
@@ -34,7 +36,8 @@ class ExploreRepositoryImpl(remoteDataSource: ExploreRemoteDataSource) : Explore
         SingletonHolderSingleArg<ExploreRepositoryImpl, ExploreRemoteDataSource>(::ExploreRepositoryImpl)
 }
 
-class ExploreRemoteDataSource(private val trendingService: TrendingService) : IRemoteDataSource {
+class ExploreRemoteDataSource @Inject constructor(private val trendingService: TrendingService) :
+    IRemoteDataSource {
 
     suspend fun fetchRepos(language: String, spokenLanguageCode: String): List<TrendingRepo> {
         /*if (BuildConfig.DEBUG) {
