@@ -1,5 +1,7 @@
 ## Jithub
 
+[![Releases](https://img.shields.io/github/v/release/ajiew/Jithub?style=plastic)](https://github.com/aJIEw/Jithub/releases)
+
 Jithub is a Github app that has the same features as the github web page. You can view your followers' activities, explore trending repositories, and see your contribution graph in your profile page.
 
 |      Home        |      Explore      |       Profile      |
