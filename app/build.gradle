@@ -6,6 +6,11 @@ plugins {
 }
 
 android {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def storePsw = properties.getProperty('store.password')
+    def keyPsw = properties.getProperty('key.password')
+
     compileSdk 31
 
     defaultConfig {
@@ -23,8 +28,18 @@ android {
     buildFeatures {
         dataBinding true
     }
+    signingConfigs {
+        release {
+            storeFile file('../ajiew.keystore')
+            storePassword storePsw
+            keyAlias 'ajiew'
+            keyPassword keyPsw
+            v2SigningEnabled true
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
