@@ -9,6 +9,7 @@ import me.ajiew.core.base.viewmodel.BaseViewModel
 import me.ajiew.core.data.Results
 import me.ajiew.jithub.BuildConfig
 import me.ajiew.jithub.data.repository.UserRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -17,7 +18,8 @@ import javax.inject.Inject
  * Created on: 2021/11/3 15:22
  */
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repository: UserRepository) : BaseViewModel<UserRepository>() {
+class MainViewModel @Inject constructor(private val repository: UserRepository) :
+    BaseViewModel<UserRepository>() {
 
     private var accessToken = ""
 
@@ -40,8 +42,10 @@ class MainViewModel @Inject constructor(private val repository: UserRepository) 
                     repository.saveAccessToken(accessToken)
 
                     if (BuildConfig.DEBUG) {
-                        ToastUtils.show(accessToken)
+                        Timber.d(accessToken)
                     }
+
+                    getUserName()
 
                     UIState.Success(results.data, "Get Access Token Success")
                 }
@@ -50,33 +54,19 @@ class MainViewModel @Inject constructor(private val repository: UserRepository) 
         }
     }
 
-    fun getUserName() {
+    private suspend fun getUserName() {
         val userName = repository.getUserName()
         if (userName.isEmpty()) {
-            fetchUserFeeds()
-        }
-    }
-
-    private fun fetchUserFeeds() {
-        uiState.value = UIState.Loading
-
-        viewModelScope.launch {
             val results = repository.requestUserFeeds()
-            uiState.value = when (results) {
-                is Results.Success -> {
-                    val feedsTemplate = results.data
-                    val userUrl = feedsTemplate.current_user_public_url
-                    if (userUrl != null) {
-                        val name = userUrl.substring(userUrl.lastIndexOf("/") + 1)
-                        repository.saveUserName(name)
-                    }
-
-                    UIState.Success(results.data, "Load Success")
+            if (results is Results.Success) {
+                val feedsTemplate = results.data
+                val userUrl = feedsTemplate.current_user_public_url
+                if (userUrl != null) {
+                    val name = userUrl.substring(userUrl.lastIndexOf("/") + 1)
+                    repository.saveUserName(name)
                 }
-                is Results.Error -> UIState.Error(null, results.message)
             }
         }
     }
-
 
 }

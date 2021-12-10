@@ -2,8 +2,8 @@ package me.ajiew.jithub.data.service.interceptor
 
 import me.ajiew.jithub.data.model.UserProfile
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
+import java.net.SocketTimeoutException
 
 /**
  *
@@ -13,13 +13,18 @@ import okhttp3.Response
 class AuthHeaderInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val accessToken = UserProfile.accessToken
-        val request: Request = chain.request()
-            .newBuilder()
-            .addHeader("Authorization", "Bearer $accessToken")
-            .build()
+        try {
+            val accessToken = UserProfile.accessToken
+            val request = chain.request()
+                .newBuilder()
+                .addHeader("Authorization", "Bearer $accessToken")
+                .build()
+            return chain.proceed(request)
+        } catch (exception: SocketTimeoutException) {
+            exception.printStackTrace()
+        }
 
-        return chain.proceed(request)
+        return Response.Builder().build()
     }
 }
 

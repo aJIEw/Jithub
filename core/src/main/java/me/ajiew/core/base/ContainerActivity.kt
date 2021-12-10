@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.R
 import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.LIGHT_STATUS_BAR
+import me.ajiew.core.util.setLightStatusBar
 import java.lang.ref.WeakReference
 
 /**
@@ -44,16 +45,6 @@ open class ContainerActivity : AppCompatActivity() {
         trans.commitAllowingStateLoss()
     }
 
-    private fun setLightStatusBar() {
-        val root = findViewById<View>(android.R.id.content).rootView
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.navigationBarColor = ContextCompat.getColor(this, android.R.color.background_dark)
-            window.statusBarColor = Color.TRANSPARENT
-        }
-        WindowInsetsControllerCompat(window, root).isAppearanceLightStatusBars = true
-    }
-
     private fun initFromIntent(data: Intent?): Fragment {
         if (data == null) {
             throw RuntimeException(
@@ -70,7 +61,7 @@ open class ContainerActivity : AppCompatActivity() {
                 fragment.arguments = args
 
                 if (args.getBoolean(LIGHT_STATUS_BAR)) {
-                    setLightStatusBar()
+                    setLightStatusBar(this)
                 }
             }
             return fragment

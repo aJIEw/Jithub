@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseActivity
 import me.ajiew.core.util.SPUtils
+import me.ajiew.core.util.setLightStatusBar
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.common.Constants
@@ -42,27 +43,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         super.initData()
 
         currentIndex = if (hasLoggedIn) 0 else 1
-        if (currentIndex == 0) {
-            viewModel.getUserName()
-        }
     }
 
     override fun initView() {
         super.initView()
 
-        setLightStatusBar()
+        setLightStatusBar(this)
 
         initFragment()
 
         setupBottomNavigationBar()
-    }
-
-    private fun setLightStatusBar() {
-        val root = findViewById<View>(android.R.id.content).rootView
-
-        window.navigationBarColor = ContextCompat.getColor(this, android.R.color.background_dark)
-        window.statusBarColor = Color.TRANSPARENT
-        WindowInsetsControllerCompat(window, root).isAppearanceLightStatusBars = true
     }
 
     private fun initFragment() {
@@ -152,6 +142,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         intent?.data.apply {
             if (this?.toString()?.startsWith(Constants.GITHUB_OAUTH_REDIRECT_URL) == true) {
+                setLightStatusBar(this@MainActivity)
+
                 val code = getQueryParameter("code")
                 if (!TextUtils.isEmpty(code)) {
                     viewModel.getAccessToken(code!!)
