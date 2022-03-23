@@ -10,11 +10,11 @@ Jithub is a Github app that has the same features as the github web page. You ca
 
 
 
-### Working in progress
+### Todo
 
-- Recent activities (Issues and PRs)
-- Search repo/user/issue...
-- Repo detail (currently displayed with [Chrome Custom Tabs][custom-tabs])
+- [ ] Recent activities (Issues and PRs)
+- [ ] Search repo/user/issue...
+- [ ] Repo detail (currently displayed with [Chrome Custom Tabs][custom-tabs])
 
 
 

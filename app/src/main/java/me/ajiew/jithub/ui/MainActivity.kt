@@ -1,23 +1,18 @@
 package me.ajiew.jithub.ui
 
 import android.content.Intent
-import android.graphics.Color
 import android.text.TextUtils
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseActivity
 import me.ajiew.core.util.SPUtils
-import me.ajiew.core.util.setLightStatusBar
+import me.ajiew.core.util.setLightStatusAndNavBars
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.common.Constants
-import me.ajiew.jithub.common.ViewModelFactory
 import me.ajiew.jithub.data.response.AuthToken
 import me.ajiew.jithub.databinding.ActivityMainBinding
 import me.ajiew.jithub.ui.explore.ExploreFragment
@@ -48,7 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun initView() {
         super.initView()
 
-        setLightStatusBar(this)
+        setLightStatusAndNavBars(this)
 
         initFragment()
 
@@ -142,7 +137,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         intent?.data.apply {
             if (this?.toString()?.startsWith(Constants.GITHUB_OAUTH_REDIRECT_URL) == true) {
-                setLightStatusBar(this@MainActivity)
+                setLightStatusAndNavBars(this@MainActivity)
 
                 val code = getQueryParameter("code")
                 if (!TextUtils.isEmpty(code)) {

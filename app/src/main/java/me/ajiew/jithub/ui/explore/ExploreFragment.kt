@@ -45,18 +45,18 @@ class ExploreFragment : BaseFragment<FragmentExploreBinding, ExploreViewModel>()
     override fun initViewObservable() {
         super.initViewObservable()
 
-        viewModel.ui.showLoginPage.observe(this, { value ->
+        viewModel.ui.showLoginPage.observe(this) { value ->
             if (value == true) {
                 val url: String = Constants.GITHUB_OAUTH_AUTHORIZE_URL
                 AppUtil.openCustomTab(requireActivity(), url, false)
             }
-        })
+        }
 
-        viewModel.ui.showWebpageUrl.observe(this, { value ->
+        viewModel.ui.showWebpageUrl.observe(this) { value ->
             if (value != null && value.isNotEmpty()) {
                 AppUtil.openCustomTab(requireActivity(), value, useBackIcon = true)
             }
-        })
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

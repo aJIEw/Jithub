@@ -48,11 +48,11 @@ class StarredRepoListFragment : BaseFragment<FragmentRepoListBinding, StarredRep
     override fun initViewObservable() {
         super.initViewObservable()
 
-        viewModel.ui.showWebpageUrl.observe(this, { value ->
+        viewModel.ui.showWebpageUrl.observe(this) { value ->
             if (value != null && value.isNotEmpty()) {
                 AppUtil.openCustomTab(requireActivity(), value, useBackIcon = true)
             }
-        })
+        }
     }
 
     override fun hideLoading() {

@@ -1,21 +1,16 @@
 package me.ajiew.core.base
 
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.R
-import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.LIGHT_STATUS_BAR
-import me.ajiew.core.util.setLightStatusBar
+import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.LIGHT_BARS
+import me.ajiew.core.util.setLightStatusAndNavBars
 import java.lang.ref.WeakReference
 
 /**
@@ -60,8 +55,8 @@ open class ContainerActivity : AppCompatActivity() {
             if (args != null) {
                 fragment.arguments = args
 
-                if (args.getBoolean(LIGHT_STATUS_BAR)) {
-                    setLightStatusBar(this)
+                if (args.getBoolean(LIGHT_BARS)) {
+                    setLightStatusAndNavBars(this)
                 }
             }
             return fragment

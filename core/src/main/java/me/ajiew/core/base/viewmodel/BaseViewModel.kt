@@ -78,13 +78,13 @@ open class BaseViewModel<in T : IRepository> : ViewModel(), IBaseViewModel {
      *
      * @param canonicalName 规范名 : Fragment.class.getCanonicalName()
      * @param bundle        跳转所携带的信息
-     * @param lightStatusBar 状态栏浅色主题，5.0 以上系统状态栏背景白色、图标黑色，默认 true
+     * @param lightStatusAndNavBars 状态栏和导航栏浅色主题，5.0 以上系统状态栏背景白色、图标黑色，白色导航栏，默认为 true
      */
     @JvmOverloads
     fun startContainerActivity(
         canonicalName: String?,
         bundle: Bundle? = null,
-        lightStatusBar: Boolean = true
+        lightStatusAndNavBars: Boolean = true
     ) {
         if (canonicalName == null) {
             throw ClassNotFoundException("Class name must not be null!")
@@ -94,7 +94,7 @@ open class BaseViewModel<in T : IRepository> : ViewModel(), IBaseViewModel {
         params[CANONICAL_NAME] = canonicalName
         if (bundle != null) {
             params[BUNDLE] = bundle
-            params[LIGHT_STATUS_BAR] = lightStatusBar
+            params[LIGHT_BARS] = lightStatusAndNavBars
         }
         ui.startContainerActivityEvent.postValue(params)
     }
@@ -123,7 +123,7 @@ open class BaseViewModel<in T : IRepository> : ViewModel(), IBaseViewModel {
         var CLASS = "CLASS"
         var CANONICAL_NAME = "CANONICAL_NAME"
         var BUNDLE = "BUNDLE"
-        var LIGHT_STATUS_BAR = "LIGHT_STATUS_BAR"
+        var LIGHT_BARS = "LIGHT_STATUS_BAR"
     }
 
     class UIChangeObservable {

@@ -9,16 +9,13 @@ import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import me.ajiew.core.base.repository.IRepository
 import me.ajiew.core.base.viewmodel.BaseViewModel
 import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.BUNDLE
 import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.CANONICAL_NAME
 import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.CLASS
-import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.LIGHT_STATUS_BAR
-import me.ajiew.core.base.viewmodel.BaseViewModelFactory
+import me.ajiew.core.base.viewmodel.BaseViewModel.Companion.LIGHT_BARS
 import me.ajiew.core.util.AppManager
 import me.ajiew.core.util.messenger.Messenger
 
@@ -108,11 +105,11 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel<*>> :
         viewModel.ui.startContainerActivityEvent.observe(this) { params ->
             val canonicalName = params[CANONICAL_NAME] as String?
             var bundle = params[BUNDLE] as Bundle?
-            val lightStatusBar = params[LIGHT_STATUS_BAR] as Boolean
+            val lightStatusBar = params[LIGHT_BARS] as Boolean
             if (bundle == null) {
                 bundle = Bundle()
             }
-            bundle.putBoolean(LIGHT_STATUS_BAR, lightStatusBar)
+            bundle.putBoolean(LIGHT_BARS, lightStatusBar)
             startContainerActivity(canonicalName, bundle)
         }
 

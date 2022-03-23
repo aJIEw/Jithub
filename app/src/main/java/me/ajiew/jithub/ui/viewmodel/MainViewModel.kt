@@ -8,6 +8,7 @@ import me.ajiew.core.base.UIState
 import me.ajiew.core.base.viewmodel.BaseViewModel
 import me.ajiew.core.data.Results
 import me.ajiew.jithub.BuildConfig
+import me.ajiew.jithub.data.model.UserProfile
 import me.ajiew.jithub.data.repository.UserRepository
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,6 +28,11 @@ class MainViewModel @Inject constructor(private val repository: UserRepository) 
         super.onCreate()
 
         accessToken = repository.getAccessToken()
+
+        // Initiate username if has logged in before
+        if (UserProfile.userName.isEmpty()) {
+            repository.getUserName()
+        }
     }
 
     fun getAccessToken(code: String) {

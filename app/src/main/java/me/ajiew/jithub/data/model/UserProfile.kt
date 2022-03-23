@@ -15,6 +15,7 @@ object UserProfile {
     var accessToken: String = ""
 
     fun clearAll() {
+        Timber.d("clearAll: ")
         userName = ""
         accessToken = ""
     }

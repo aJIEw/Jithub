@@ -53,11 +53,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override fun initViewObservable() {
         super.initViewObservable()
 
-        viewModel.ui.showWebpageUrl.observe(this, { value ->
+        viewModel.ui.showWebpageUrl.observe(this) { value ->
             if (value != null && value.isNotEmpty()) {
                 AppUtil.openCustomTab(requireActivity(), value, useBackIcon = true)
             }
-        })
+        }
     }
 
     override fun onSuccess(data: Any, message: String) {

@@ -59,16 +59,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     override fun initViewObservable() {
         super.initViewObservable()
 
-        viewModel.ui.contributionDataFetched.observe(this, { value ->
+        viewModel.ui.contributionDataFetched.observe(this) { value ->
             // show today's contribution popup once data is available
             if (value == true && isVisible) {
                 val firstWeekDays = 7 - viewModel.contributionPlaceholderDays
                 viewModel.ui.showContributionPopup.value =
                     viewModel.contributionList.subList(0, firstWeekDays).maxByOrNull { it.index }
             }
-        })
+        }
 
-        viewModel.ui.showContributionPopup.observe(this, { value ->
+        viewModel.ui.showContributionPopup.observe(this) { value ->
             if (value != null) {
                 XPopup.Builder(requireActivity())
                     .atView(binding.rvContribution.findViewHolderForLayoutPosition(value.index)?.itemView)
@@ -78,7 +78,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
                     .asCustom(ContributionAttachBubblePopup(requireActivity(), value))
                     .show()
             }
-        })
+        }
 
         viewModel.ui.showContributionExplanation.observe(this) { value ->
             if (value != null) {

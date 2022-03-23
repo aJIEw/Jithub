@@ -174,6 +174,8 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
     }
 
     fun refresh() {
+        contributionEventPage = 1
+
         fetchUserInfo()
 
         initContributionData()
@@ -220,13 +222,13 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
                 filterPushEvent(data)
 
                 ui.contributionDataFetched.value = true
-                ui.contributionFetching.value = false
 
                 if (data.size > 99) {
                     contributionEventPage++
                     fetchUserContributionData()
                 }
             }
+            ui.contributionFetching.value = false
         }
     }
 
