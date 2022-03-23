@@ -16,15 +16,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_explore"
+        <com.qmuiteam.qmui.widget.pullLayout.QMUIPullLayout
+            android:id="@+id/pull_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:itemBinding="@{vm.reposBinding}"
-            app:items="@{vm.repos}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_trending_repo" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_explore"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:scrollbarSize="@dimen/dp_six"
+                app:itemBinding="@{vm.reposBinding}"
+                app:items="@{vm.repos}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:qmui_is_target="true"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_trending_repo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trending_today_bottom_text"
+                android:textSize="@dimen/sp_subheading"
+                android:textColor="@color/text_grey"
+                app:qmui_action_view_init_offset="-20dp"
+                app:qmui_pull_edge="bottom"
+                app:qmui_target_view_trigger_offset="wrap"
+                app:qmui_pull_rate="0.45"
+                app:qmui_can_over_pull="false"
+                app:qmui_need_receive_fling_from_target_view="true" />
+        </com.qmuiteam.qmui.widget.pullLayout.QMUIPullLayout>
 
         <com.github.nukc.stateview.StateView
             android:id="@+id/state_view"

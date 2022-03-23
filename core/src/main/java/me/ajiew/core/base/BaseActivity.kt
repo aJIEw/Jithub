@@ -39,6 +39,9 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel<*>> :
 
         // 视图初始化方法
         initView()
+
+        // 初始化对消息事件的监听
+        initBusEventObserver()
     }
 
     /**

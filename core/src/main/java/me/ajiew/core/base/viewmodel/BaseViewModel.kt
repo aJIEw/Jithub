@@ -34,6 +34,8 @@ open class BaseViewModel<in T : IRepository> : ViewModel(), IBaseViewModel {
 
     override fun onCreate() {
         initFetchData()
+
+        initBusEventObserver()
     }
 
     override fun onStart() {}
@@ -44,6 +46,11 @@ open class BaseViewModel<in T : IRepository> : ViewModel(), IBaseViewModel {
      * 调用发生于 onCreate() 之后，确保在页面事件监听器初始化之后才被调用
      * */
     protected open fun initFetchData() {}
+
+    /**
+     * 初始化对消息事件的监听，比如 [Messenger]
+     * */
+    protected open fun initBusEventObserver() {}
 
     override fun onResume() {}
 

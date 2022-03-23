@@ -23,7 +23,15 @@ abstract class ListRefreshLoadMoreViewModel<T : IRepository, IT, M> :
         }
     }
 
+    /**
+     * Items loaded per page.
+     * */
     open val perPage = 30
+
+    /**
+     * Threshold of which the end reached.
+     * */
+    open val loadEndThreshold = 20
 
     private var page = 1
     private var isRefreshing = false
@@ -68,7 +76,7 @@ abstract class ListRefreshLoadMoreViewModel<T : IRepository, IT, M> :
                         refreshLoadMoreAdapter.addData(convertToTargetList(false, data))
                     }
 
-                    if (data.size < perPage) {
+                    if (data.size < loadEndThreshold) {
                         refreshLoadMoreAdapter.loadMoreModule.loadMoreEnd()
                     } else {
                         refreshLoadMoreAdapter.loadMoreModule.loadMoreComplete()

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.2359375" />
         <entry key="../../../../.gradle/caches/transforms-3/73dca6d3ae9184e26a3f4cd68407953d/transformed/jetified-qmui-2.0.1/res/drawable/qmui_icon_quick_action_more_arrow_left.xml" value="0.228125" />
         <entry key="../../../../.gradle/caches/transforms-3/73dca6d3ae9184e26a3f4cd68407953d/transformed/jetified-qmui-2.0.1/res/drawable/qmui_icon_quick_action_more_arrow_right.xml" value="0.228125" />
         <entry key="../../../../.gradle/caches/transforms-3/73dca6d3ae9184e26a3f4cd68407953d/transformed/jetified-qmui-2.0.1/res/layout/qmui_empty_view.xml" value="0.21197916666666666" />

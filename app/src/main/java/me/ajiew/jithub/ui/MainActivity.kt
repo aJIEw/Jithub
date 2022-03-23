@@ -9,10 +9,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseActivity
 import me.ajiew.core.util.SPUtils
+import me.ajiew.core.util.messenger.Messenger
 import me.ajiew.core.util.setLightStatusAndNavBars
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
 import me.ajiew.jithub.common.Constants
+import me.ajiew.jithub.data.MessengerEvent.EVENT_TAB_DOUBLE_CLICK_EXPLORE
+import me.ajiew.jithub.data.MessengerEvent.EVENT_TAB_DOUBLE_CLICK_HOME
 import me.ajiew.jithub.data.response.AuthToken
 import me.ajiew.jithub.databinding.ActivityMainBinding
 import me.ajiew.jithub.ui.explore.ExploreFragment
@@ -111,6 +114,20 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 }
             }
             false
+        }
+
+        navView.setOnItemReselectedListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    Messenger.getDefault().sendNoMsg(EVENT_TAB_DOUBLE_CLICK_HOME)
+                }
+                R.id.nav_explore -> {
+                    Messenger.getDefault().sendNoMsg(EVENT_TAB_DOUBLE_CLICK_EXPLORE)
+                }
+                R.id.nav_mine -> {
+
+                }
+            }
         }
 
         // If not logged in, go to the explore tab

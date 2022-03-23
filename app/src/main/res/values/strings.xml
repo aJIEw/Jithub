@@ -5,6 +5,8 @@
     <string name="tab_explore">Explore</string>
     <string name="tab_profile">Profile</string>
 
+    <string name="trending_today_bottom_text">That\'s all for today\'s trending repos</string>
+
     <plurals name="contribution">
         <item quantity="one">contribution</item>
         <item quantity="other">contributions</item>

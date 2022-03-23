@@ -43,6 +43,11 @@ interface IBaseView<VM : BaseViewModel<*>> : LifecycleOwner {
     fun initView() {}
 
     /**
+     * 初始化对消息事件的监听
+     * */
+    fun initBusEventObserver() {}
+
+    /**
      * 初始化界面 UI 状态的监听
      */
     fun initViewObservable() {

@@ -1,6 +1,5 @@
 package me.ajiew.jithub.ui.profile
 
-import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,14 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
-import me.ajiew.jithub.common.ViewModelFactory
 import me.ajiew.jithub.databinding.FragmentProfileBinding
 import me.ajiew.jithub.widget.ContributionAttachBubblePopup
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * Profile tab: User info
@@ -30,19 +23,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     override val viewModelId: Int = BR.vm
     override val viewModel: ProfileViewModel by viewModels()
 
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    private var basePopupView: BasePopupView? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var explainPopup: BasePopupView? = null
+    private var contributionPopup: BasePopupView? = null
 
     override fun initView() {
         super.initView()
@@ -69,8 +51,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         }
 
         viewModel.ui.showContributionPopup.observe(this) { value ->
-            if (value != null) {
-                XPopup.Builder(requireActivity())
+            if (value != null && (contributionPopup == null || !contributionPopup!!.isShow)) {
+                contributionPopup = XPopup.Builder(requireActivity())
                     .atView(binding.rvContribution.findViewHolderForLayoutPosition(value.index)?.itemView)
                     .hasShadowBg(false)
                     .isViewMode(true)
@@ -82,7 +64,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
 
         viewModel.ui.showContributionExplanation.observe(this) { value ->
             if (value != null) {
-                basePopupView = XPopup.Builder(requireActivity())
+                explainPopup = XPopup.Builder(requireActivity())
                     .isDestroyOnDismiss(true)
                     .asConfirm(
                         getString(R.string.dialog_contribution_explanation),
@@ -109,25 +91,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         super.onFailed(errorData, message)
 
         binding.loadingViewContribution.visibility = View.GONE
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
