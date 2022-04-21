@@ -1,6 +1,7 @@
 package me.ajiew.jithub.ui.home
 
 import androidx.fragment.app.viewModels
+import com.blankj.utilcode.util.ConvertUtils
 import com.hjq.toast.ToastUtils
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
@@ -26,6 +27,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         super.initView()
 
         binding.rvTimeline.adapter = viewModel.refreshLoadMoreAdapter
+        binding.refreshLayout.setProgressViewOffset(false,
+                -ConvertUtils.dp2px(5f), ConvertUtils.dp2px(20f))
         binding.refreshLayout.isRefreshing = true
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()

@@ -1,11 +1,11 @@
 package me.ajiew.jithub.ui.repo
 
 import androidx.fragment.app.viewModels
+import com.blankj.utilcode.util.ConvertUtils
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
 import me.ajiew.jithub.R
-import me.ajiew.jithub.common.ViewModelFactory
 import me.ajiew.jithub.databinding.FragmentRepoListBinding
 import me.ajiew.jithub.util.AppUtil
 
@@ -39,6 +39,8 @@ class RepoListFragment : BaseFragment<FragmentRepoListBinding, RepoListViewModel
         title?.let {
             viewModel.title.value = it
         }
+        binding.refreshLayout.setProgressViewOffset(false,
+                -ConvertUtils.dp2px(5f), ConvertUtils.dp2px(20f))
         binding.refreshLayout.isRefreshing = true
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()

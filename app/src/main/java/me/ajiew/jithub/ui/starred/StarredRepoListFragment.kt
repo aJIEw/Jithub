@@ -1,6 +1,7 @@
 package me.ajiew.jithub.ui.starred
 
 import androidx.fragment.app.viewModels
+import com.blankj.utilcode.util.ConvertUtils
 import dagger.hilt.android.AndroidEntryPoint
 import me.ajiew.core.base.BaseFragment
 import me.ajiew.jithub.BR
@@ -38,6 +39,8 @@ class StarredRepoListFragment : BaseFragment<FragmentRepoListBinding, StarredRep
         title?.let {
             viewModel.title.value = it
         }
+        binding.refreshLayout.setProgressViewOffset(false,
+                -ConvertUtils.dp2px(5f), ConvertUtils.dp2px(20f))
         binding.refreshLayout.isRefreshing = true
         binding.refreshLayout.setOnRefreshListener {
             viewModel.refresh()
