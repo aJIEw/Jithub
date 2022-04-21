@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_double"
                 android:drawablePadding="@dimen/dp_half"
-                android:text="Build By"
+                android:text="Built By"
                 app:drawableStartCompat="@drawable/ic_trending_user"
                 app:layout_constraintStart_toStartOf="@id/tv_total_stars"
                 app:layout_constraintTop_toBottomOf="@id/tv_total_stars" />

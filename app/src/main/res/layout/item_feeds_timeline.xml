@@ -116,7 +116,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_repo_name"
                     tools:text="This is a demo project to show you how to develop an android app with Jetpack Libraries."
-                    tools:visibility="gone" />
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tv_repo_star"

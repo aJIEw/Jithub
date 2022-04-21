@@ -34,7 +34,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
-import kotlin.math.ceil
+import kotlin.math.floor
 
 /**
  *
@@ -53,16 +53,10 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
     val contributionLabelsBinding =
         ItemBinding.of<String>(BR.item, R.layout.item_contribution_label)
 
-    val contributionList: ObservableList<ContributionRecord> = ObservableArrayList()
+    val contributionList: ObservableList<ItemContributionBrick> = ObservableArrayList()
+    val _contributionList = mutableListOf<ContributionRecord>()
     val contributionBinding =
-        ItemBinding.of<ContributionRecord>(BR.item, R.layout.item_contribution_brick)
-            .bindExtra(BR.onClickItem, object : OnItemClickListener<ContributionRecord> {
-                override fun onItemClick(item: ContributionRecord) {
-                    if (item.date.isNotEmpty() && item.number != -1) {
-                        ui.showContributionPopup.value = item
-                    }
-                }
-            })
+        ItemBinding.of<ItemContributionBrick>(BR.item, R.layout.item_contribution_brick)
 
     val optionsList: ObservableList<ProfileOptionItem> = ObservableArrayList()
     val optionsBinding = ItemBinding.of<ProfileOptionItem>(BR.item, R.layout.item_profile_option)
@@ -72,8 +66,6 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
     private var contributionEventPage = 1
 
     init {
-        initContributionData()
-
         initOptions()
     }
 
@@ -85,8 +77,11 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
 
     private fun initContributionData() {
         totalContributions.value = 0
+        contributionPlaceholderDays = 0
+        contributionEventPage = 1
 
         val today = Instant.now().atZone(ZoneId.systemDefault()).toLocalDate()
+        _contributionList.clear()
         contributionList.clear()
 
         contributionPlaceholderDays = when (today.dayOfWeek) {
@@ -108,11 +103,11 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
             for (i in 0..totalOffset) {
                 val offset = totalOffset - i
                 val date = today.minusDays(offset.toLong()).format(dateFormat)
-                contributionList.add(ContributionRecord(i, date, 0))
+                _contributionList.add(ContributionRecord(i, date, 0))
             }
 
             for (i in (7 - contributionPlaceholderDays) until 7) {
-                contributionList.add(ContributionRecord(i, "", -1))
+                _contributionList.add(ContributionRecord(i, "", -1))
             }
         } else {
             startIndex = 0
@@ -126,7 +121,7 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
                 val date =
                     today.minusDays((offset - contributionPlaceholderDays).toLong())
                         .format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
-                contributionList.add(ContributionRecord(weekStartIndex, date, 0))
+                _contributionList.add(ContributionRecord(weekStartIndex, date, 0))
                 weekStartIndex++
             }
         }
@@ -215,21 +210,46 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
         ui.contributionFetching.value = true
 
         viewModelScope.launch {
-            val results = repository.requestUserEvent(contributionEventPage)
-            if (results is Results.Success && results.data.isNotEmpty()) {
-                val data = results.data
-
-                filterPushEvent(data)
-
-                ui.contributionDataFetched.value = true
-
-                if (data.size > 99) {
-                    contributionEventPage++
-                    fetchUserContributionData()
-                }
-            }
-            ui.contributionFetching.value = false
+            getUserContributionRequest()
         }
+    }
+
+    private suspend fun getUserContributionRequest() {
+        val results = repository.requestUserEvent(contributionEventPage)
+        if (results is Results.Success && results.data.isNotEmpty()) {
+            val data = results.data
+
+            filterPushEvent(data)
+
+            if (data.size > 99) {
+                contributionEventPage++
+                getUserContributionRequest()
+            } else {
+                var total = 0
+                var max = 0
+                var min = 0
+                _contributionList.forEach {
+                    total += if (it.number > -1) it.number else 0
+
+                    if (it.number > max) {
+                        max = it.number
+                    }
+
+                    min = if (min == 0 && it.number > 0) it.number else min
+                    if (it.number in 1 until min) {
+                        min = it.number
+                    }
+                }
+
+                _contributionList.forEach {
+                    contributionList.add(ItemContributionBrick(this, it, max, min))
+                }
+
+                totalContributions.value = total
+                ui.contributionDataFetched.value = true
+            }
+        }
+        ui.contributionFetching.value = false
     }
 
     private fun filterPushEvent(data: List<EventTimeline>) {
@@ -237,9 +257,9 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
 
         val firstWeekDays = 7 - contributionPlaceholderDays
         fun updateContributionNumber(updateIndex: Int, commits: List<Commit>?) {
-            val contribution = contributionList[updateIndex]
+            val contribution = _contributionList[updateIndex]
             contribution.number += filterCurrentUserCommits(commits)
-            contributionList[updateIndex] = contribution
+            _contributionList[updateIndex] = contribution
         }
         data.map { item ->
             if (item.type == GithubEvent.PushEvent.type) {
@@ -252,16 +272,18 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
                     val updateIndex = firstWeekDays - 1 - daysInBetween
                     updateContributionNumber(updateIndex, item.payload.commits)
                 } else if (daysInBetween >= firstWeekDays) {
+                    // reverse column index
                     val total = daysInBetween + contributionPlaceholderDays
-                    val updateIndex = ceil(total / 7.0) * 7 - 1 - (total % 7)
+                    val mid = floor(total / 7.0) * 7 + 3;
+                    var updateIndex = mid;
+                    if (total > mid) {
+                        updateIndex = mid - (total - mid);
+                    } else if (total < mid) {
+                        updateIndex = mid + (mid - total);
+                    }
                     updateContributionNumber(updateIndex.toInt(), item.payload.commits)
                 }
             }
-        }
-
-        // update total contribution number
-        totalContributions.value = contributionList.sumOf {
-            if (it.number > -1) it.number else 0
         }
     }
 

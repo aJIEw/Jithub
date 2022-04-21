@@ -8,11 +8,7 @@
 
         <variable
             name="item"
-            type="me.ajiew.jithub.data.model.ContributionRecord" />
-
-        <variable
-            name="onClickItem"
-            type="me.ajiew.core.base.viewmodel.OnItemClickListener" />
+            type="me.ajiew.jithub.ui.profile.ItemContributionBrick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,14 +16,15 @@
         android:layout_height="wrap_content">
 
         <TextView
-            drawable_radius="@{3}"
-            drawable_solidColor="@{item.number == -1 ? @color/white : item.number >= 7 ? @color/color_contribution_very_good : item.number >= 5 ? @color/color_contribution_good : item.number >= 3 ? @color/color_contribution_well : item.number > 0 ? @color/color_contribution : @color/color_contribution_zero}"
+            contribution="@{item.entity.number}"
+            maxDailyContribution="@{item.maxDailyContribution}"
+            minDailyContribution="@{item.minDailyContribution}"
             android:layout_width="@dimen/contribution_brick_height"
             android:layout_height="@dimen/contribution_brick_height"
             android:layout_marginHorizontal="@dimen/dp_half"
             android:layout_marginTop="@dimen/dp_half"
             android:gravity="center"
-            android:onClick="@{() -> onClickItem.onItemClick(item)}"
+            android:onClick="@{() -> item.onClickItem.onItemClick(item.entity)}"
             android:textSize="@dimen/sp_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
